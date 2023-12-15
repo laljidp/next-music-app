@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply disabled:opacity-50 disabled:select-none disabled:cursor-not-allowed flex text-sm
+  }
+  .btn-primary {
+    @apply py-2 px-4 bg-violet-500 text-white rounded-full
+    font-semibold shadow-md hover:bg-violet-600 focus:outline-none
+    focus:ring-2 focus:ring-violet-500 focus:ring-opacity-75  
+   }
+   .btn-secondary {
+    @apply py-2 px-4 bg-slate-500 text-white rounded-full 
+    font-semibold shadow-md hover:bg-slate-600 focus:outline-none
+    focus:ring-2 focus:ring-violet-500 focus:ring-opacity-75
+   }
+   .btn-outline {
+    @apply py-2 px-4 bg-transparent ring-1 ring-violet-500 rounded-full text-violet-500
+    font-semibold shadow-md hover:bg-violet-600 focus:outline-none hover:text-white
+    focus:ring-2 focus:ring-violet-500 focus:ring-opacity-75
+   }   
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
