@@ -17,7 +17,7 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
       <div className="flex text-black">
         <div className="place-content-center grid">
           <div
-            className="border-1 border-solid h-[500px] w-[250px] rounded-xl
+            className="border-1 border-solid h-[480px] w-[250px] rounded-xl
            bg-white flex flex-col ring-1 ring-violet-500"
             id="left-sidebar"
           >
@@ -30,7 +30,7 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
                 height={60}
               />
             </div>
-            <hr className="my-4 border-violet-500" />
+            <hr className="mb-4 border-violet-500" />
             <div className="flex justify-center">
               <Image
                 src={data?.user?.image || "/"}
@@ -60,7 +60,7 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
               </ul>
             </div>
             <div className="flex justify-center">
-              <TWButton className="h-7 mt-5 w-fit px-3" variant="outline">
+              <TWButton className="h-7 mt-8 w-fit px-3" variant="outline">
                 Logout
               </TWButton>
             </div>
