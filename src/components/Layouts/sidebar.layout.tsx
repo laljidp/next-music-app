@@ -1,18 +1,22 @@
+"use client";
 import { useContext } from "react";
-import { TWButton } from "../UI/Button";
+import { TWButton } from "@/components/UI/Button";
 import { UserContext } from "@/context/user.context";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { LEFT_MENUS } from "@/constants";
+import { useRouter } from "next/navigation";
 
-export default function LeftMenus() {
+const SidebarAdminLayout: React.FC = () => {
   const { data } = useSession();
+  const { logout } = useContext(UserContext);
+  const router = useRouter();
+
   return (
-    <div className="h-full w-full place-content-center grid">
+    <div className="place-content-center grid">
       <div
-        className="border-1 border-solid h-[500px] w-[250px] 
-        rounded-xl bg-white
-        flex flex-col ring-1 ring-violet-500"
+        className="border-1 border-solid h-[480px] w-[250px] rounded-xl
+           bg-white flex flex-col ring-1 ring-violet-500 shadow-md"
         id="left-sidebar"
       >
         <div className="flex align-center my-3 mx-2 justify-center">
@@ -24,7 +28,7 @@ export default function LeftMenus() {
             height={60}
           />
         </div>
-        <hr className="my-4 border-violet-500" />
+        <hr className="mb-4 border-violet-500" />
         <div className="flex justify-center">
           <Image
             src={data?.user?.image || "/"}
@@ -45,7 +49,11 @@ export default function LeftMenus() {
             {LEFT_MENUS.map((menu) => (
               <li
                 role="button"
-                className="hover:bg-violet-100 border-b-0 mx-7 border-violet-500 py-3 cursor-pointer rounded-full"
+                onClick={() => router.push(menu.url)}
+                className="hover:bg-violet-100 border-b-0 mx-7
+                     border-violet-500 py-3 cursor-pointer rounded-full
+                      aria-[active=true]:bg-violet-400 aria-[active=true]:text-white
+                       mb-2"
                 key={menu.name}
               >
                 {menu.title}
@@ -53,12 +61,18 @@ export default function LeftMenus() {
             ))}
           </ul>
         </div>
-      </div>
-      <div className="flex justify-center">
-        <TWButton className="h-7 mt-2 w-fit px-3" variant="outline">
-          Logout
-        </TWButton>
+        <div className="flex justify-center">
+          <TWButton
+            className="h-7 mt-8 w-fit px-3 hover:scale-105"
+            variant="outline"
+            onClick={logout}
+          >
+            Logout
+          </TWButton>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default SidebarAdminLayout;

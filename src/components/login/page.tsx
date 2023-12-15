@@ -45,8 +45,6 @@ export default function LoginPage() {
     logout();
   };
 
-  console.log({ status });
-
   const isLoading = status === "loading";
 
   const userNotAdmin = !isUserAdmin && loginStatus === "done";

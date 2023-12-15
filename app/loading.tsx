@@ -2,15 +2,14 @@ import React from "react";
 
 export default function SongsPageLoading() {
   return (
-    <div className="flex justify-center items-center h-full w-full">
+    <div className="flex justify-center items-center vh-full w-full">
       <div className="text-sky-400">
         <svg
-          className="animate-pulse"
-          width="135"
-          height="140"
+          className="animate-pulse fill-violet-400"
+          width="80"
+          height="80"
           viewBox="0 0 135 140"
           xmlns="http://www.w3.org/2000/svg"
-          fill="#fff"
         >
           <rect y="10" width="15" height="120" rx="6">
             <animate
