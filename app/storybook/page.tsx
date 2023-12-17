@@ -4,7 +4,7 @@ import Spinner from "@/components/UI/Spinner";
 
 export default function ButtonContainer() {
   return (
-    <div className="flex flex-wrap gap-10 border-1 border-solid">
+    <div className="border-1 flex flex-wrap gap-10 border-solid">
       <div className="flex flex-col gap-5">
         <div className="border-1 border-solid">
           <TWButton>Primary</TWButton> <br />

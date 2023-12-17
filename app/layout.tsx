@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NextAuthProvider from "@/components/NextAuthProvider";
-import "./globals.css";
 import UserProvider from "@/context/user.context";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,8 +29,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <main
-          className="flex min-h-screen max-h-100 p-5 
-          bg-gradient-to-tr to-sky-200 from-gray-100 backdrop-blur-md"
+          className="max-h-100 flex min-h-screen bg-gradient-to-tr 
+          from-gray-100 to-sky-200 p-5 backdrop-blur-md"
         >
           <NextAuthProvider>
             <UserProvider>{children}</UserProvider>

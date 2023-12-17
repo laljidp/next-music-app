@@ -19,7 +19,7 @@ export const USER_PREFERENCES: UserPreferencesT = {
   profileUpdate: true,
 };
 
-const UserSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -54,8 +54,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.models?.[COLLECTION.USERS] ||
-  mongoose.model(COLLECTION.USERS, UserSchema);
+const Users =
+  mongoose.models?.[COLLECTION.USERS] ||
+  mongoose.model(COLLECTION.USERS, userSchema);
+
+export default Users;

@@ -1,29 +1,37 @@
 "use client";
-import { useContext } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { TWButton } from "@/components/UI/Button";
 import { UserContext } from "@/context/user.context";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { LEFT_MENUS } from "@/constants";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const SidebarAdminLayout: React.FC = () => {
   const { data } = useSession();
   const { logout } = useContext(UserContext);
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isMenuActive = useCallback(
+    (url: string) => {
+      return pathname.includes(url);
+    },
+    [pathname],
+  );
 
   return (
-    <div className="place-content-center grid">
+    <div className="grid place-content-center">
       <div
-        className="border-1 border-solid h-[480px] w-[250px] rounded-xl
-           bg-white flex flex-col ring-1 ring-violet-500 shadow-md"
+        className="border-1 flex h-[480px] w-[250px] flex-col
+           rounded-xl border-solid bg-white shadow-md ring-1 ring-violet-500"
         id="left-sidebar"
       >
-        <div className="flex align-center my-3 mx-2 justify-center">
+        <div className="align-center mx-2 my-3 flex justify-center">
           <Image
             src={"/next-streaming-512x512.png"}
             alt="logo"
-            className="ring-1 rounded-lg text-center"
+            className="rounded-lg text-center ring-1"
             width={60}
             height={60}
           />
@@ -35,7 +43,7 @@ const SidebarAdminLayout: React.FC = () => {
             alt="user-pic"
             loading="lazy"
             height={40}
-            className="ring-1 h-12 w-12 rounded-full mr-3"
+            className="mr-3 h-12 w-12 rounded-full ring-1"
             width={40}
           />
           <div className="flex flex-col place-content-center">
@@ -49,11 +57,12 @@ const SidebarAdminLayout: React.FC = () => {
             {LEFT_MENUS.map((menu) => (
               <li
                 role="button"
+                aria-active={isMenuActive(menu.url)}
                 onClick={() => router.push(menu.url)}
-                className="hover:bg-violet-100 border-b-0 mx-7
-                     border-violet-500 py-3 cursor-pointer rounded-full
-                      aria-[active=true]:bg-violet-400 aria-[active=true]:text-white
-                       mb-2"
+                className="mx-7 mb-2 cursor-pointer
+                     rounded-full border-b-0 border-violet-500 py-3
+                      hover:bg-violet-100 aria-[active=true]:bg-violet-400
+                       aria-[active=true]:text-white"
                 key={menu.name}
               >
                 {menu.title}
@@ -63,7 +72,7 @@ const SidebarAdminLayout: React.FC = () => {
         </div>
         <div className="flex justify-center">
           <TWButton
-            className="h-7 mt-8 w-fit px-3 hover:scale-105"
+            className="mt-8 h-7 w-fit px-3 hover:scale-105"
             variant="outline"
             onClick={logout}
           >

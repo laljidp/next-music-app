@@ -4,4 +4,5 @@ export const COLLECTION = {
   SONGS: "Songs",
   PLAYLIST: "Playlist",
   SETTINGS: "Settings",
+  ARTISTS: "Artists",
 };

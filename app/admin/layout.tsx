@@ -1,25 +1,21 @@
 "use client";
 import SidebarAdminLayout from "@/components/Layouts/sidebar.layout";
-import { useContext } from "react";
-import { UserContext } from "@/context/user.context";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 interface SharedAdminLayoutI {
   children: React.ReactNode;
 }
 
 const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
-  const { data } = useSession();
-  const { logout } = useContext(UserContext);
-  const router = useRouter();
-
   return (
     <>
       <div className="flex text-black" id="left-sidebar">
         <SidebarAdminLayout />
       </div>
-      <div id="main" className="w-[calc(100%-250px)] p-6 rounded-md m-8">
+      <div
+        id="main"
+        className="m-8 w-[calc(100%-250px)] rounded-xl bg-white
+         p-6 shadow-md ring-1 ring-violet-400"
+      >
         {children}
       </div>
     </>

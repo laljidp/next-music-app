@@ -3,6 +3,7 @@ export const apiUrls = Object.freeze({
   albums: "/api/albums",
   songs: "/api/songs",
   playlists: "api/playlist",
+  artists: "/api/artists",
 });
 
 export const PAGES = Object.freeze({

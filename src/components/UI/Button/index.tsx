@@ -29,7 +29,7 @@ export const TWButton: React.FC<TWButtonI> = ({
 }): React.ReactElement => {
   return (
     <button
-      className={`btn ${variants[variant]} flex items-center gap-2 ${className}`}
+      className={`btn ${variants[variant]} justify-center flex items-center gap-2 ${className}`}
       disabled={loading}
       onClick={onClick}
     >

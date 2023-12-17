@@ -13,7 +13,7 @@ export const connectDB = async () => {
   try {
     const mongoURI = config.mongoUri || "";
     const options: ConnectOptions = {
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 25000,
     };
 
     const db = await mongoose.connect(mongoURI, options);
