@@ -45,7 +45,7 @@ export const POST = async (request: NextRequest) => {
   } catch (err) {
     return nextResponseError(
       "Service is under Maintenance, Please try later",
-      503,
+      503
     );
   }
 };

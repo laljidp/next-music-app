@@ -3,6 +3,7 @@ import Image from "next/image";
 
 interface IArtistsListProps {
   artists: ArtistsDto[];
+  onSelectArtist: (artist: ArtistsDto) => void;
 }
 
 export default function ArtistsList(props: IArtistsListProps) {
@@ -13,7 +14,10 @@ export default function ArtistsList(props: IArtistsListProps) {
         {artists.map((artist) => (
           <div
             key={artist._id}
-            className="mb-2 p-2 border-b-1 border-slate-400 border-1 border-solid flex items-center"
+            role="button"
+            onClick={() => props.onSelectArtist(artist)}
+            className="mb-2 p-2 border-b-1 border-slate-400 border-1 border-solid
+            flex items-center hover:bg-slate-100 rounded-lg cursor-pointer"
           >
             <Image
               alt="artist-pic"

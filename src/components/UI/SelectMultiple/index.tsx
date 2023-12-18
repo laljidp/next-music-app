@@ -7,6 +7,7 @@ interface SelectMultipleProps {
   onSelect: (selected: string[]) => void;
   name?: string;
   placeholder?: string;
+  label?: string;
 }
 
 export default function SelectMultiple(props: SelectMultipleProps) {
@@ -15,8 +16,11 @@ export default function SelectMultiple(props: SelectMultipleProps) {
 
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    setSelectedOption(props.selected);
+  }, [props.selected]);
+
   const handleClickOutside = (e: any) => {
-    console.log("Calling..");
     if (sectionRef?.current && !sectionRef?.current?.contains(e.target)) {
       setShowOption(false);
     }
@@ -32,7 +36,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
       const index = selectedOption.findIndex((opt) => opt === name);
       newOptions.splice(index, 1);
     }
-    setSelectedOption(newOptions);
+    props.onSelect(newOptions);
   };
 
   useEffect(() => {
@@ -44,60 +48,76 @@ export default function SelectMultiple(props: SelectMultipleProps) {
   }, []);
 
   return (
-    <div
-      ref={sectionRef}
-      onClick={() => setShowOption(true)}
-      className="border-1 relative rounded-lg border-solid px-1 py-1 ring-1 ring-slate-300 hover:ring-violet-400"
-    >
-      <div className="flex items-center justify-start gap-2 flex-wrap cursor-pointer">
-        {selectedOption.length > 0 ? (
-          <>
-            {selectedOption.map((opt, index) => (
-              <div
-                key={opt + index}
-                className="px-3 py-1 ring-1 bg-violet-400 text-white rounded-lg"
-              >
-                <span className="rounded-xl text-sm font-medium">{opt}</span>
-              </div>
-            ))}
-          </>
-        ) : (
-          <div className="flex justify-between items-center w-[98%]">
-            <span className="text-slate-500 pl-2 text-sm p-1">
-              {props.placeholder || "Select"}
-            </span>
-            <CaretDownFilled className="fill-violet-400" />
-          </div>
-        )}
-
-        <i></i>
-      </div>
-
+    <div>
+      {props.label && (
+        <label htmlFor={"label-multiple"} className="text-medium text-sm">
+          {props.label}
+        </label>
+      )}
       <div
-        className={`absolute left-0 top-11 z-10 w-full rounded-lg
+        ref={sectionRef}
+        onClick={() => setShowOption(true)}
+        className="border-1 relative rounded-lg border-solid px-1 py-1.5 ring-1 ring-slate-300 hover:ring-violet-400 mt-1"
+      >
+        <div className="flex items-center justify-start gap-2 flex-wrap cursor-pointer">
+          {selectedOption.length > 0 ? (
+            <>
+              {selectedOption.map((opt, index) => (
+                <div
+                  key={opt + index}
+                  className="px-3 py-1 ring-1 bg-violet-400 text-white rounded-lg"
+                >
+                  <span className="rounded-xl text-sm font-medium">{opt}</span>
+                </div>
+              ))}
+            </>
+          ) : (
+            <div className="flex justify-between items-center w-[98%]">
+              <span className="text-slate-500 pl-2 text-sm p-1">
+                {props.placeholder || "Select"}
+              </span>
+              <CaretDownFilled
+                className={`[&>svg]:fill-violet-500 ${
+                  showOption && "rotate-180"
+                }`}
+              />
+            </div>
+          )}
+
+          <i></i>
+        </div>
+
+        <div
+          className={`absolute left-0 top-11 z-10 w-full rounded-lg
          bg-white p-2 px-5 py-4 shadow-lg ring-1 ring-violet-400
          ${
            !showOption && "hidden"
          } anim-scale-down anim-scale-down-reverse max-h-[220px] overflow-auto
          `}
-      >
-        {props.options.map(({ name, value }) => (
-          <div
-            key={value}
-            className="flex items-center border-b-1 last:border-b-0 p-2"
-          >
-            <input
-              type="checkbox"
-              id={name}
-              name={name}
-              onChange={handleChange}
-              className="mr-4 h-5 w-5 cursor-pointer"
-            />
-            <label className="cursor-pointer" htmlFor={name}>
-              {name}
-            </label>
-          </div>
-        ))}
+        >
+          {props.options.map(({ name, value }) => (
+            <div
+              key={value}
+              className="flex items-center border-b-1 last:border-b-0 p-2
+             hover:bg-violet-200 rounded-lg"
+            >
+              <input
+                type="checkbox"
+                id={name}
+                name={name}
+                checked={props.selected.includes(value)}
+                onChange={handleChange}
+                className="mr-4 h-5 w-5 cursor-pointer"
+              />
+              <label
+                className="cursor-pointer w-full select-none"
+                htmlFor={name}
+              >
+                {name}
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

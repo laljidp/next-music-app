@@ -1,5 +1,4 @@
 import Artists from "@/services/db/schemas/artists.schema";
-import { connectDB } from "../connect.db";
 
 export type ArtistPayloadT = {
   name: string;
@@ -36,10 +35,11 @@ export type GetArtistsPayloadT = {
 
 export const getArtists = async (payload: GetArtistsPayloadT) => {
   const { batch, page } = payload;
-  const db = await connectDB();
   console.log("processing..");
 
-  const data = await Artists.find({}).skip(0).limit(batch);
+  const data = await Artists.find({})
+    .skip(Number(page) * Number(batch))
+    .limit(batch);
 
   return data;
 };
