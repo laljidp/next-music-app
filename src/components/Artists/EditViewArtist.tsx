@@ -4,6 +4,7 @@ import ImageUpload from "@/components/UI/ImageUpload";
 import TWInput from "@/components/UI/Input";
 import TWTextArea from "@/components/UI/Input/textrea.input";
 import SelectMultiple from "@/components/UI/SelectMultiple";
+import { GENRES } from "@/services/types/artists.types";
 
 interface EditViewArtistProps {}
 
@@ -30,10 +31,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
         label={"Bio"}
       />
       <SelectMultiple
-        options={[
-          { name: "Rock", value: "Rock" },
-          { name: "Jazz", value: "Jazz" },
-        ]}
+        options={GENRES.map((genre) => ({ name: genre, value: genre }))}
         placeholder="Select Genre"
         selected={["Rock"]}
         onSelect={console.log}
