@@ -1,15 +1,12 @@
-import { config } from "@/constants";
-import { NextApiRequest, NextApiResponse } from "next";
 import { connectDB } from "@/services/db/connect.db";
 import { fetchAllUsers } from "@/services/db/functions/users.functions";
+import { NextRequest } from "next/server";
+import {
+  nextResponseError,
+  nextResponseSuccess,
+} from "@/utils/nextResponse.util";
 
-export default async function AlbumRouteHandler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    res.status(405).json({ message: "Method not allowed!" });
-  }
+export default async function GET(req: NextRequest) {
   const cookies = req.cookies;
   try {
     const db = await connectDB();
@@ -17,13 +14,9 @@ export default async function AlbumRouteHandler(
     console.log({ data });
 
     console.log({ cookies, source: "from album/add :POST method" });
-    res.status(200).json({
-      success: true,
-      message: "Request is processing..",
-      data: data,
-    });
+    nextResponseSuccess("Request is processing.");
   } catch (err) {
     console.log("err:", err);
-    res.status(503).json({ message: "Service unavailable." });
+    nextResponseError("Service unavailable.", 503);
   }
 }
