@@ -1,15 +1,13 @@
-import {
-  CloseCircleFilled,
-  CloseCircleOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
+import { CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import PageSpinner from "../Spinner/PageSpinner";
 
 interface ImageUploadProps {
   file?: File;
   name: string;
-  onChange: (file: File | null) => void;
+  onChange: (url: string | null) => void;
   text?: string;
 }
 
@@ -21,14 +19,19 @@ export default function ImageUpload({
 }: ImageUploadProps) {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [image, setImage] = useState<string | null>(null);
+  const [imgUploading, setImgUploading] = useState(false);
 
-  const handleFileChange = (event: any) => {
-    console.log(event, "event..");
+  const handleFileChange = async (event: any) => {
     if (event?.target?.files?.length > 0) {
+      // TODO upload file to firebase storage
+      setImgUploading(true);
       const file = event.target.files?.[0];
       const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
-      onChange(file);
+      const uploadedUrl = await uploadFileToFireStorage(file, "/artists");
+      console.log("uploadedUrl", uploadedUrl);
+      setImage(uploadedUrl);
+      onChange(uploadedUrl);
+      setImgUploading(false);
     }
   };
 
@@ -50,6 +53,11 @@ export default function ImageUpload({
           : "h-20 w-[150px] ring-1 ring-slate-300"
       }`}
     >
+      {imgUploading && (
+        <div className="opacity-60">
+          <PageSpinner />
+        </div>
+      )}
       {isPreviewing && (
         <div className="relative">
           <img src={image} className="h-20 object-cover" alt="me-img" />
@@ -63,7 +71,7 @@ export default function ImageUpload({
           </span>
         </div>
       )}
-      {!isPreviewing && (
+      {!isPreviewing && !imgUploading && (
         <div
           onClick={handleClick}
           role="button"

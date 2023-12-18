@@ -17,7 +17,7 @@ const SidebarAdminLayout: React.FC = () => {
     (url: string) => {
       return pathname.includes(url);
     },
-    [pathname],
+    [pathname]
   );
 
   return (

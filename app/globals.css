@@ -35,7 +35,7 @@
   }
 
   .anim-scale-down {
-    animation: myAnim .2s ease-in 0s 1 reverse both;
+    animation: myAnim .3s ease-in 0s 1 reverse both;
    }
 
    /* Animation classes */

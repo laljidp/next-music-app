@@ -1,3 +1,4 @@
+import { connectDB } from "@/services/db/connect.db";
 import {
   ArtistPayloadT,
   getArtists,
@@ -12,6 +13,7 @@ import { NextRequest } from "next/server";
 export const GET = async (request: Request, context: any) => {
   const { batch = 20, page = 0 } = {};
   console.log({ context });
+  await connectDB();
   try {
     const data = await getArtists({ batch, page });
     return nextResponseSuccess({ data });

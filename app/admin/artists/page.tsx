@@ -28,7 +28,7 @@ const ArtistsAdminPage = () => {
   return (
     <div className="flex items-start justify-between gap-5">
       <div className="w-[40%] flex-col gap-2">
-        <div className="flex rounded-md text-center justify-center items-center gap-3">
+        <div className="rounded-md text-center gap-3">
           <TWInput
             placeholder="Search artists"
             name="search"
