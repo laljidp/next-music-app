@@ -1,14 +1,12 @@
 import React from "react";
 
 export interface TWInputType extends React.HTMLProps<HTMLInputElement> {
-  onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
   placeholder?: string;
   label?: string;
   icon?: React.ReactElement;
 }
 
 export default function TWInput({
-  onChange = () => {},
   name,
   label,
   className,
@@ -26,6 +24,7 @@ export default function TWInput({
       )}
       <input
         id={elemID}
+        name={name}
         {...respProps}
         className={`tw-input ${className} ${iconClass}`}
       />

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import NextAuthProvider from "@/components/NextAuthProvider";
 import UserProvider from "@/context/user.context";
 import "./globals.css";
+import { SnackContextProvider } from "@/context/snack.context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +34,9 @@ export default function RootLayout({
           from-gray-100 to-sky-200 p-5 backdrop-blur-md"
         >
           <NextAuthProvider>
-            <UserProvider>{children}</UserProvider>
+            <SnackContextProvider>
+              <UserProvider>{children}</UserProvider>
+            </SnackContextProvider>
           </NextAuthProvider>
         </main>
       </body>

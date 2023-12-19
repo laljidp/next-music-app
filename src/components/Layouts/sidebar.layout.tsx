@@ -15,9 +15,9 @@ const SidebarAdminLayout: React.FC = () => {
 
   const isMenuActive = useCallback(
     (url: string) => {
-      return pathname.includes(url);
+      return pathname.includes(url) ? "active" : "non-active";
     },
-    [pathname],
+    [pathname]
   );
 
   return (
@@ -56,13 +56,12 @@ const SidebarAdminLayout: React.FC = () => {
           <ul className="">
             {LEFT_MENUS.map((menu) => (
               <li
-                role="button"
-                aria-active={isMenuActive(menu.url)}
+                aria-description={isMenuActive(menu.url)}
                 onClick={() => router.push(menu.url)}
                 className="mx-7 mb-2 cursor-pointer
                      rounded-full border-b-0 border-violet-500 py-3
-                      hover:bg-violet-100 aria-[active=true]:bg-violet-400
-                       aria-[active=true]:text-white"
+                      hover:bg-violet-100 aria-[description=active]:bg-violet-400
+                       aria-[description=active]:text-white"
                 key={menu.name}
               >
                 {menu.title}

@@ -108,3 +108,21 @@ export const pageLoaderSvg = (
     </rect>
   </svg>
 );
+
+export const SvgIcon = ({
+  Icon,
+  height = 15,
+  width = 15,
+}: {
+  Icon: any;
+  height: number;
+  width: number;
+}) => {
+  return (
+    <i
+      className={`[&>svg]:fill-violet-500 [&>svg]:h-[${height}px] [&>svg]:w-[${width}px]`}
+    >
+      {<Icon />}
+    </i>
+  );
+};

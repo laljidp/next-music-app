@@ -1,34 +1,36 @@
-import {
-  CloseCircleFilled,
-  CloseCircleOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
+import { CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import PageSpinner from "../Spinner/PageSpinner";
 
 interface ImageUploadProps {
   file?: File;
   name: string;
-  onChange: (file: File | null) => void;
+  onChange: (url: string | null) => void;
   text?: string;
+  src?: string;
 }
 
 export default function ImageUpload({
-  file,
+  src,
   name,
   text = "Upload file",
   onChange,
 }: ImageUploadProps) {
   const fileRef = useRef<HTMLInputElement | null>(null);
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string | null>(src || "");
+  const [imgUploading, setImgUploading] = useState(false);
 
-  const handleFileChange = (event: any) => {
-    console.log(event, "event..");
+  const handleFileChange = async (event: any) => {
     if (event?.target?.files?.length > 0) {
+      // TODO upload file to firebase storage
+      setImgUploading(true);
       const file = event.target.files?.[0];
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
-      onChange(file);
+      const uploadedUrl = await uploadFileToFireStorage(file, "/artists");
+      onChange(uploadedUrl);
+      setImage(uploadedUrl);
+      setImgUploading(false);
     }
   };
 
@@ -40,17 +42,26 @@ export default function ImageUpload({
     setImage(null);
   };
 
-  const isPreviewing = !!image;
+  useEffect(() => {
+    if (src) {
+      setImage(src);
+    } else {
+      setImage(null);
+    }
+  }, [src]);
 
   return (
     <div
       className={`flex items-center justify-center rounded-lg hover:ring-violet-400 ${
-        isPreviewing
-          ? "h-[100px] w-[100px]"
-          : "h-20 w-[150px] ring-1 ring-slate-300"
+        image ? "h-[100px] w-[100px]" : "h-20 w-[150px] ring-1 ring-slate-300"
       }`}
     >
-      {isPreviewing && (
+      {imgUploading && (
+        <div className="opacity-60">
+          <PageSpinner />
+        </div>
+      )}
+      {image && (
         <div className="relative">
           <img src={image} className="h-20 object-cover" alt="me-img" />
           <span
@@ -63,7 +74,7 @@ export default function ImageUpload({
           </span>
         </div>
       )}
-      {!isPreviewing && (
+      {!image && !imgUploading && (
         <div
           onClick={handleClick}
           role="button"
@@ -74,6 +85,7 @@ export default function ImageUpload({
           <input
             ref={fileRef}
             type="file"
+            accept="image/*"
             name={name}
             className="hidden"
             onChange={handleFileChange}
