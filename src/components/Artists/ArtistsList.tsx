@@ -5,12 +5,13 @@ interface IArtistsListProps {
   artists: ArtistsDto[];
   artistSelectedID?: string | null;
   onSelectArtist: (artist: ArtistsDto) => void;
+  className?: string;
 }
 
 export default function ArtistsList(props: IArtistsListProps) {
-  const { artists } = props;
+  const { artists, className } = props;
   return (
-    <div className="mt-3 h-full">
+    <div className={`mt-3 h-full ${className}`}>
       {artists.map((artist) => (
         <div
           key={artist._id}
@@ -25,7 +26,7 @@ export default function ArtistsList(props: IArtistsListProps) {
             src={artist.image || "/no-profile-image.png"}
             height={40}
             width={40}
-            className="rounded-lg mr-3"
+            className="rounded-lg mr-3 h-12 w-12 object-cover"
           />
           <div className="flex flex-col">
             <span>{artist.name}</span>

@@ -18,7 +18,6 @@ export default function SelectMultiple(props: SelectMultipleProps) {
     selected,
     isReadOnly = false,
     label,
-    name,
     placeholder,
   } = props;
   const [showOption, setShowOption] = useState(false);
@@ -66,7 +65,6 @@ export default function SelectMultiple(props: SelectMultipleProps) {
       )}
       <div
         ref={sectionRef}
-        aria-name={name}
         onClick={() => setShowOption(true)}
         className={`border-1 relative rounded-lg border-solid px-1 py-1.5
          ring-1 ring-slate-300 hover:ring-violet-400 mt-1 ${

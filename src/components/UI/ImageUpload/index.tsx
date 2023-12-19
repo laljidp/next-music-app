@@ -1,7 +1,7 @@
 import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
 import { CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import PageSpinner from "../Spinner/PageSpinner";
 
 interface ImageUploadProps {
@@ -45,17 +45,15 @@ export default function ImageUpload({
   useEffect(() => {
     if (src) {
       setImage(src);
+    } else {
+      setImage(null);
     }
   }, [src]);
-
-  const isPreviewing = !!image;
 
   return (
     <div
       className={`flex items-center justify-center rounded-lg hover:ring-violet-400 ${
-        isPreviewing
-          ? "h-[100px] w-[100px]"
-          : "h-20 w-[150px] ring-1 ring-slate-300"
+        image ? "h-[100px] w-[100px]" : "h-20 w-[150px] ring-1 ring-slate-300"
       }`}
     >
       {imgUploading && (
@@ -63,7 +61,7 @@ export default function ImageUpload({
           <PageSpinner />
         </div>
       )}
-      {isPreviewing && src && (
+      {image && (
         <div className="relative">
           <img src={image} className="h-20 object-cover" alt="me-img" />
           <span
@@ -76,7 +74,7 @@ export default function ImageUpload({
           </span>
         </div>
       )}
-      {!isPreviewing && !imgUploading && (
+      {!image && !imgUploading && (
         <div
           onClick={handleClick}
           role="button"
@@ -87,6 +85,7 @@ export default function ImageUpload({
           <input
             ref={fileRef}
             type="file"
+            accept="image/*"
             name={name}
             className="hidden"
             onChange={handleFileChange}

@@ -11,6 +11,7 @@ interface TWButtonI {
   variant?: BtnVariants;
   loading?: boolean;
   className?: string;
+  type?: "button" | "submit";
   // size?: ButtonSize;
 }
 
@@ -25,6 +26,7 @@ export const TWButton: React.FC<TWButtonI> = ({
   onClick = () => {},
   variant = "primary",
   loading = false,
+  type = "button",
   className = "",
 }): React.ReactElement => {
   return (

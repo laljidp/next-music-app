@@ -26,7 +26,7 @@ const initialState: InitialStateI = {
     show: false,
     type: "success",
     text: "Hello there users",
-    timing: 2000,
+    timing: 3000,
   },
   showSnack: () => {},
 };

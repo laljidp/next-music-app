@@ -31,7 +31,9 @@ export default function TWSwitch(props: TWSwitchProps) {
       >
         <span
           className={`h-3 w-3 rounded-full ${
-            checked ? "ring-2 ring-white bg-white" : "ring-2 ring-violet-500"
+            checked
+              ? "ring-2 ring-white bg-white"
+              : "ring-2 ring-violet-400 bg-violet-400"
           }`}
         />
       </label>

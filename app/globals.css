@@ -29,12 +29,52 @@
   .tw-input {
     @apply rounded-xl bg-white px-4 py-2 text-black 
       outline-violet-400 ring-1 ring-slate-300 placeholder:text-slate-500
-       active:ring-1 active:ring-violet-200 hover:ring-violet-400;
+       active:ring-1 active:ring-violet-200
+      hover:ring-violet-400;
   }
 }
 
 .anim-scale-down {
   animation: myAnim 0.3s ease-in 0s 1 reverse both;
+}
+
+.animation-scale-up-tl {
+  -webkit-animation: scale-up-tl 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: scale-up-tl 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+/* ---------------------------------------------
+ * ----------------------------------------
+ * animation scale-up-tl
+ * ----------------------------------------
+ */
+@-webkit-keyframes scale-up-tl {
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: 0% 0%;
+    transform-origin: 0% 0%;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 0% 0%;
+    transform-origin: 0% 0%;
+  }
+}
+@keyframes scale-up-tl {
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: 0% 0%;
+    transform-origin: 0% 0%;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 0% 0%;
+    transform-origin: 0% 0%;
+  }
 }
 
 /* Animation classes */

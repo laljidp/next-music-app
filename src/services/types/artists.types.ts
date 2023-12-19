@@ -13,8 +13,8 @@ export type ArtistsDto = {
   albums?: string[];
   dob?: Date;
   socialMedia?: Record<SocialMediaPlatform, string>;
-  followers: number;
-  monthlyListeners: number;
+  followers?: number;
+  monthlyListeners?: number;
 };
 
 export type GenreT = typeof GENRES;

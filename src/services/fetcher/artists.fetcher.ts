@@ -1,12 +1,18 @@
 import { Fetcher } from "swr";
 import { ArtistsDto } from "../types/artists.types";
 import { apiUrls } from "@/constants";
-import Artists from "../db/schemas/artists.schema";
 
-export const fetchArtists: Fetcher<ArtistsDto[], string> = async (
-  path: string
-) => {
-  const resp = await fetch(apiUrls.artists, {
+export const fetchArtists: Fetcher<
+  ArtistsDto[],
+  { path: string; search: string }
+> = async ({ search }) => {
+  let requestUrl = apiUrls.artists.toString() + "?";
+  if (search?.trim()?.length > 0) {
+    const params = new URLSearchParams();
+    params.set("search", search);
+    requestUrl = requestUrl.concat(params.toString());
+  }
+  const resp = await fetch(requestUrl, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -23,7 +29,7 @@ export interface saveArtistsPayloadI {
   genre: string[];
 }
 
-export const saveArtists = async (payload: saveArtistsPayloadI) => {
+export const saveArtistsRequest = async (payload: saveArtistsPayloadI) => {
   try {
     const resp = await fetch(apiUrls.artists, {
       method: "POST",
@@ -43,4 +49,17 @@ export const saveArtists = async (payload: saveArtistsPayloadI) => {
   } catch (err) {
     console.log("error saving artists::", err);
   }
+};
+
+export const updateArtistRequest = async (payload: ArtistsDto) => {
+  const resp = await fetch(apiUrls.artists, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await resp.json();
+  const artist = data?.artist as ArtistsDto;
+  return artist;
 };
