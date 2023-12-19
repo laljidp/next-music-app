@@ -6,17 +6,16 @@ import {
   nextResponseSuccess,
 } from "@/utils/nextResponse.util";
 
-export default async function GET(req: NextRequest) {
-  const cookies = req.cookies;
+export async function GET(req: NextRequest) {
   try {
     const db = await connectDB();
     const data = await fetchAllUsers();
     console.log({ data });
 
-    console.log({ cookies, source: "from album/add :POST method" });
-    nextResponseSuccess("Request is processing.");
+    console.log({ source: "from album/add :POST method" });
+    return nextResponseSuccess("Request is processing.");
   } catch (err) {
     console.log("err:", err);
-    nextResponseError("Service unavailable.", 503);
+    return nextResponseError("Service unavailable.", 503);
   }
 }
