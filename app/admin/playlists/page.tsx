@@ -1,7 +1,7 @@
 const PlaylistsAdminPage = () => {
   return (
     <div>
-      <div>Hello playlists</div>
+      <div>Coming soon</div>
     </div>
   );
 };

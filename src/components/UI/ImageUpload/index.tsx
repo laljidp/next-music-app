@@ -40,6 +40,7 @@ export default function ImageUpload({
 
   const handleClear = () => {
     setImage(null);
+    onChange(null);
   };
 
   useEffect(() => {
