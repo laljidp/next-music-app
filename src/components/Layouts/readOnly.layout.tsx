@@ -9,7 +9,7 @@ export default function ReadOnlyLayout({ label, value }: ReadOnlyLayoutProps) {
   return (
     <div className="flex flex-col gap-1">
       <div className="text-sm">{label}</div>
-      <div className="font-medium text-slate-400">{value}</div>
+      <div className="text-sm text-slate-500">{value}</div>
     </div>
   );
 }

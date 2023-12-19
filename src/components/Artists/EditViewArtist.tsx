@@ -120,7 +120,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
         image: artistPayload.image,
       });
       if (updatedArtist.name) {
-        showSnack(`Artist data updated.`, "success");
+        showSnack(`Data saved.`, "success");
         setIsReadOnly(true);
         onArtistAdded();
       }
