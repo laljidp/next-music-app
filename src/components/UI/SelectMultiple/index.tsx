@@ -8,17 +8,27 @@ interface SelectMultipleProps {
   name?: string;
   placeholder?: string;
   label?: string;
+  isReadOnly?: boolean;
 }
 
 export default function SelectMultiple(props: SelectMultipleProps) {
+  const {
+    onSelect,
+    options,
+    selected,
+    isReadOnly = false,
+    label,
+    name,
+    placeholder,
+  } = props;
   const [showOption, setShowOption] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
 
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setSelectedOption(props.selected);
-  }, [props.selected]);
+    setSelectedOption(selected);
+  }, [selected]);
 
   const handleClickOutside = (e: any) => {
     if (sectionRef?.current && !sectionRef?.current?.contains(e.target)) {
@@ -36,7 +46,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
       const index = selectedOption.findIndex((opt) => opt === name);
       newOptions.splice(index, 1);
     }
-    props.onSelect(newOptions);
+    onSelect(newOptions);
   };
 
   useEffect(() => {
@@ -49,15 +59,19 @@ export default function SelectMultiple(props: SelectMultipleProps) {
 
   return (
     <div>
-      {props.label && (
+      {label && (
         <label htmlFor={"label-multiple"} className="text-medium text-sm">
-          {props.label}
+          {label}
         </label>
       )}
       <div
         ref={sectionRef}
+        aria-name={name}
         onClick={() => setShowOption(true)}
-        className="border-1 relative rounded-lg border-solid px-1 py-1.5 ring-1 ring-slate-300 hover:ring-violet-400 mt-1"
+        className={`border-1 relative rounded-lg border-solid px-1 py-1.5
+         ring-1 ring-slate-300 hover:ring-violet-400 mt-1 ${
+           isReadOnly && "border-none ring-0 pointer-events-none"
+         }`}
       >
         <div className="flex items-center justify-start gap-2 flex-wrap cursor-pointer">
           {selectedOption.length > 0 ? (
@@ -74,13 +88,15 @@ export default function SelectMultiple(props: SelectMultipleProps) {
           ) : (
             <div className="flex justify-between items-center w-[98%]">
               <span className="text-slate-500 pl-2 text-sm p-1">
-                {props.placeholder || "Select"}
+                {(!isReadOnly && placeholder) || "N/A"}
               </span>
-              <CaretDownFilled
-                className={`[&>svg]:fill-violet-500 ${
-                  showOption && "rotate-180"
-                }`}
-              />
+              {!isReadOnly && (
+                <CaretDownFilled
+                  className={`[&>svg]:fill-violet-500 ${
+                    showOption && "rotate-180"
+                  }`}
+                />
+              )}
             </div>
           )}
 
@@ -95,7 +111,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
          } anim-scale-down anim-scale-down-reverse max-h-[220px] overflow-auto
          `}
         >
-          {props.options.map(({ name, value }) => (
+          {options.map(({ name, value }) => (
             <div
               key={value}
               className="flex items-center border-b-1 last:border-b-0 p-2
@@ -105,7 +121,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
                 type="checkbox"
                 id={name}
                 name={name}
-                checked={props.selected.includes(value)}
+                checked={selected.includes(value)}
                 onChange={handleChange}
                 className="mr-4 h-5 w-5 cursor-pointer"
               />

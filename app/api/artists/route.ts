@@ -38,7 +38,7 @@ export const POST = async (request: NextRequest) => {
   try {
     const data = await saveArtists(payload);
     if (data) {
-      return nextResponseSuccess({ data });
+      return nextResponseSuccess({ artist: data });
     }
     return nextResponseSuccess({
       msg: "POST: /api/artists ERROR",

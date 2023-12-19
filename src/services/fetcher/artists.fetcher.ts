@@ -33,6 +33,12 @@ export const saveArtists = async (payload: saveArtistsPayloadI) => {
       },
     });
     const data = await resp.json();
+    console.log("saved artist data", data);
+    if (data) {
+      return data?.artist;
+    }
+    return null;
+
     return data;
   } catch (err) {
     console.log("error saving artists::", err);

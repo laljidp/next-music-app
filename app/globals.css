@@ -3,55 +3,75 @@
 @tailwind utilities;
 
 @layer components {
+  /* Button Components */
 
-/* Button Components */
-  
   .btn {
-    @apply disabled:opacity-50 disabled:select-none disabled:cursor-not-allowed flex text-sm
+    @apply disabled:opacity-50 disabled:select-none disabled:cursor-not-allowed flex text-sm;
   }
   .btn-primary {
     @apply py-2 px-4 bg-violet-500 text-white rounded-full
     font-semibold shadow-md hover:bg-violet-600 focus:outline-none
-    focus:ring-2 focus:ring-violet-500 focus:ring-opacity-75  
-   }
-   .btn-secondary {
+    focus:ring-2 focus:ring-violet-500 focus:ring-opacity-75;
+  }
+  .btn-secondary {
     @apply py-2 px-4 bg-slate-500 text-white rounded-full 
     font-semibold shadow-md hover:bg-slate-600 focus:outline-none
-    focus:ring-2 focus:ring-violet-500 focus:ring-opacity-75
-   }
-   .btn-outline {
+    focus:ring-2 focus:ring-violet-500 focus:ring-opacity-75;
+  }
+  .btn-outline {
     @apply py-2 px-4 bg-transparent ring-1 ring-violet-500 rounded-full text-violet-500
     font-semibold shadow-md hover:bg-violet-600 focus:outline-none hover:text-white
-    focus:ring-2 focus:ring-violet-500 focus:ring-opacity-75
-   }   
+    focus:ring-2 focus:ring-violet-500 focus:ring-opacity-75;
+  }
 
-   /* Input Compoents */
+  /* Input Compoents */
 
-   .tw-input {
+  .tw-input {
     @apply rounded-xl bg-white px-4 py-2 text-black 
       outline-violet-400 ring-1 ring-slate-300 placeholder:text-slate-500
        active:ring-1 active:ring-violet-200 hover:ring-violet-400;
-   }
+  }
+}
+
+.anim-scale-down {
+  animation: myAnim 0.3s ease-in 0s 1 reverse both;
+}
+
+/* Animation classes */
+
+@keyframes myAnim {
+  0% {
+    transform: scale(1);
+    transform-origin: 50% 0%;
   }
 
-  .anim-scale-down {
-    animation: myAnim .3s ease-in 0s 1 reverse both;
-   }
-
-   /* Animation classes */
-
-   @keyframes myAnim {   
-    0% {
-      
-      transform: scale(1);
-      transform-origin: 50% 0%;
-    }
-  
-    100% {
-      transform: scale(0);
-      transform-origin: 50% 0%;
-    }
+  100% {
+    transform: scale(0);
+    transform-origin: 50% 0%;
   }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  .scrollbar-thin:hover::-webkit-scrollbar {
+    visibility: visible;
+    width: 1px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #a0aec0;
+    border-radius: 3px;
+  }
+
+  /* You can add more styles as needed */
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;

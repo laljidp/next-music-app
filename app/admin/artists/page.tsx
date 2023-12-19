@@ -1,8 +1,7 @@
 "use client";
 import ArtistsList from "@/components/Artists/ArtistsList";
 import EditViewArtist from "@/components/Artists/EditViewArtist";
-import NoSelectionLayout from "@/components/Layouts/no-selection.layout";
-import { TWButton } from "@/components/UI/Button";
+import NoSelectionLayout from "@/components/Layouts/noSelection.layout";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import { fetchArtists } from "@/services/fetcher/artists.fetcher";
@@ -20,46 +19,57 @@ const ArtistsAdminPage = () => {
     fallback: [],
   });
   const [artist, setArtist] = useState<ArtistsDto | null>(null);
+  const [artistSelectedID, setArtistSelectedID] = useState<string | null>(null);
 
   const handleSelectArtist = (artist: ArtistsDto) => {
     setArtist(artist);
+    setArtistSelectedID(artist._id);
   };
 
   return (
     <div className="flex items-start justify-between gap-5">
-      <div className="w-[40%] flex-col gap-2">
+      <div className="w-[40%] flex flex-col gap-2 h-full">
         <div className="rounded-md text-center gap-3">
           <TWInput
             placeholder="Search artists"
             name="search"
-            className="min-w-[380px]"
+            className=""
             id="art-input"
             icon={
               <SearchOutlined className="[&>svg]:fill-slate-400 hover:[&>svg]:fill-violet-400" />
             }
           />
         </div>
-        <div className="w-full max-h-[550px]">
+        <div className="overflow-auto scrollbar-hide h-[calc(100vh-200px)] shadow-lg rounded-xl">
           {isLoading ? (
-            <PageSpinner />
+            <div className="flex items-center justify-center">
+              <PageSpinner />
+            </div>
           ) : (
             <ArtistsList
+              artistSelectedID={artistSelectedID}
               onSelectArtist={handleSelectArtist}
               artists={data || []}
             />
           )}
         </div>
       </div>
-      <div className="w-0.5 min-h-[550px] bg-violet-300 relative flex-grow rounded-full">
+      <div className="w-0.5 bg-violet-300 relative rounded-full h-[calc(100vh-200px)]">
         <span className="absolute top-[50%] -left-2 bg-white flex items-center">
           <RightCircleOutlined className="[&>svg]:fill-violet-400 z-20" />
         </span>
       </div>
-      <div className="w-[60%] min-h-[450px] flex items-center justify-center px-8">
+      <div className="w-[60%] flex items-center justify-center px-8">
         {!artist?.name ? (
           <NoSelectionLayout text="Choose an artist or click the 'Add' button to save a new artist." />
         ) : (
-          <EditViewArtist artist={artist} />
+          <EditViewArtist
+            onAddNewSelection={() => {
+              setArtistSelectedID(null);
+            }}
+            onArtistAdded={refetchArtists}
+            artist={artist}
+          />
         )}
       </div>
     </div>
