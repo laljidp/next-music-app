@@ -1,9 +1,8 @@
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
 
-interface ImagePreviewLayoutProps extends React.HTMLProps<HTMLImageElement> {
+interface ImagePreviewLayoutProps extends ImageProps {
   src: string;
   name?: string;
-  alt?: string;
   wrapperClassName?: string;
   className?: string;
 }
@@ -25,6 +24,7 @@ export default function ImagePreviewLayout(props: ImagePreviewLayoutProps) {
         className={`${className} h-[${height}px] w-[${width}px]`}
         src={src || "/no-profile-image.png"}
         height={100}
+        loading="lazy"
         alt={alt}
         width={100}
         {...rest}
