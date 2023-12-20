@@ -4,7 +4,7 @@ import EditViewArtist from "@/components/Artists/EditViewArtist";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
-import { fetchArtists } from "@/services/fetcher/artists.fetcher";
+import artistRequest from "@/services/request/artists.request";
 import { ArtistsDto } from "@/services/types/artists.types";
 import useDebounce from "@/utils/useDebouce";
 import { SearchOutlined } from "@ant-design/icons";
@@ -23,9 +23,10 @@ const ArtistsAdminPage = () => {
     mutate: refetchArtists,
   } = useSWR<ArtistsDto[], { search: string; path: string }>(
     { path: `/admin/artists`, search: debouncedSearch },
-    fetchArtists,
+    artistRequest.fetchArtists,
     {
       fallback: [],
+      revalidateOnFocus: false,
     }
   );
 

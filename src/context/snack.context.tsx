@@ -23,9 +23,9 @@ interface InitialStateI {
 
 const initialState: InitialStateI = {
   snack: {
-    show: false,
+    show: true,
     type: "success",
-    text: "Hello there users",
+    text: "",
     timing: 3000,
   },
   showSnack: () => {},
@@ -38,7 +38,7 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [snack, setSnack] = useState(initialState.snack);
 
-  const showSnack = (text: string, type: SnackSType, timing: number = 3000) => {
+  const showSnack = (text: string, type: SnackSType, timing: number = 4000) => {
     setSnack({
       ...snack,
       show: true,
@@ -51,7 +51,10 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }, timing);
   };
 
-  const hideSnackbar = () => setSnack(initialState.snack);
+  const hideSnackbar = () => {
+    console.log("Calling hide snackbar");
+    setSnack({ ...initialState.snack, show: false });
+  };
 
   const getSnackTypeColor = (type: SnackSType) => {
     switch (type) {
@@ -66,12 +69,16 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const closeSnackbar = () => {
+    setSnack(initialState.snack);
+  };
+
   return (
     <SnackContext.Provider value={{ snack, showSnack }}>
       {children}
       {snack.show && snack.text && (
         <div
-          className={`fixed top-2 left-[50%] border-1 border-solid rounded-2xl px-4 py-2
+          className={`fixed top-2 left-[45%] translate-X-[-50%] border-1 border-solid rounded-2xl px-4 py-2
            anim-scale-down ${getSnackTypeColor(snack.type)}`}
         >
           <div className="text-white text-sm flex justify-evenly items-center gap-3">

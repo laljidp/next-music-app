@@ -7,14 +7,10 @@ import SelectMultiple from "@/components/UI/SelectMultiple";
 import { ArtistsDto, GENRES } from "@/services/types/artists.types";
 import { PlusOutlined } from "@ant-design/icons";
 import TWSwitch from "../UI/Switch";
-import {
-  saveArtistsRequest,
-  updateArtistRequest,
-} from "@/services/fetcher/artists.fetcher";
+import artistRequest from "@/services/request/artists.request";
 import { SnackContext } from "@/context/snack.context";
 import ReadOnlyLayout from "../Layouts/readOnly.layout";
 import ImagePreviewLayout from "../Layouts/imagePreview.layout";
-import NoSelectionLayout from "../Layouts/noSelection.layout";
 
 interface EditViewArtistProps {
   artist: ArtistsDto | null;
@@ -93,7 +89,9 @@ export default function EditViewArtist(props: EditViewArtistProps) {
         genre: artistPayload.genre,
         image: artistPayload.image || null,
       };
-      const newArtist = (await saveArtistsRequest(payload)) as ArtistsDto;
+      const newArtist = (await artistRequest.saveArtistsRequest(
+        payload
+      )) as ArtistsDto;
       if (newArtist) {
         // show notification and refetch artists
         showSnack("Artist saved.", "info");
@@ -112,7 +110,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
     } else {
       // manage update artist data
       setProcessing(true);
-      const updatedArtist = await updateArtistRequest({
+      const updatedArtist = await artistRequest.updateArtistRequest({
         _id: artist?._id || "",
         name: artistPayload.name,
         bio: artistPayload.bio,
@@ -165,7 +163,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
 
           <TWSwitch
             name="isReadOnly"
-            label="ReadOnly"
+            label="Read Only"
             isDisabled={isNew}
             checked={isReadOnly}
             onChange={setIsReadOnly}

@@ -1,7 +1,6 @@
 "use client";
 import { useCallback, useContext, useEffect } from "react";
 import { TWButton } from "@/components/UI/Button";
-import { UserContext } from "@/context/user.context";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { LEFT_MENUS } from "@/constants";
@@ -9,9 +8,12 @@ import { usePathname, useRouter } from "next/navigation";
 
 const SidebarAdminLayout: React.FC = () => {
   const { data } = useSession();
-  const { logout } = useContext(UserContext);
   const router = useRouter();
   const pathname = usePathname();
+
+  const logout = () => {
+    router.push("/logout");
+  };
 
   const isMenuActive = useCallback(
     (url: string) => {

@@ -7,7 +7,7 @@ let cachedDb: Mongoose | null = null;
 
 export const connectDB = async () => {
   if (cachedDb) {
-    return Promise.resolve(cachedDb);
+    return Promise.resolve("DB connection revived::");
   }
 
   try {

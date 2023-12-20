@@ -1,18 +1,21 @@
 import { config } from "@/constants";
 import * as jose from "jose";
 
-const getEncodedSecret = () => {
-  return new TextEncoder().encode(config.jwtSecretKey);
-};
+const alg = "dir";
 
 export const signJWT = async (payload: any) => {
-  const alg = "HS256";
-
-  const jwt = await new jose.SignJWT(payload)
-    .setProtectedHeader({ alg })
+  const secret = jose.base64url.decode(config.jwtSecretKey);
+  const jwt = await new jose.EncryptJWT(payload)
+    .setProtectedHeader({ alg, enc: "A128CBC-HS256" })
     .setIssuedAt()
     .setExpirationTime("7d")
-    .sign(getEncodedSecret());
+    .encrypt(secret);
 
   return jwt;
+};
+
+export const decryptJWT = async (jwt: string) => {
+  const secret = jose.base64url.decode(config.jwtSecretKey);
+  const { payload } = await jose.jwtDecrypt(jwt, secret);
+  return payload;
 };

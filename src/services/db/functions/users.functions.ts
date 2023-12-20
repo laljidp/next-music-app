@@ -1,4 +1,3 @@
-import { connectDB } from "../connect.db";
 import Users from "../schemas/user.schema";
 
 export type UserPayloadT = {
@@ -50,7 +49,6 @@ export const createUserIfNotExists = async (
   payload: UserPayloadT
 ): Promise<UserProcessStat> => {
   try {
-    const db = await connectDB();
     const user = await getUserByEmail(payload.email);
     if (user?.[0]) {
       console.log(`User already exits:: ${payload.email}`);
