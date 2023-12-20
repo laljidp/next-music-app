@@ -9,20 +9,18 @@ interface SharedAdminLayoutI {
 }
 
 const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
-  const { data } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
-  console.log({ user: data?.user });
-
   const handleAuthFlow = () => {
-    if (!data?.user?.email) {
+    if (status === "unauthenticated") {
       router.replace("/");
     }
   };
 
   useEffect(() => {
     handleAuthFlow();
-  }, [data]);
+  }, [status]);
 
   return (
     <>
