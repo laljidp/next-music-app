@@ -4,12 +4,12 @@ import Image from "next/image";
 interface IArtistsListProps {
   artists: ArtistsDto[];
   artistSelectedID?: string | null;
-  onSelectArtist: (artist: ArtistsDto) => void;
+  onSelectArtist?: (artist: ArtistsDto) => void;
   className?: string;
 }
 
 export default function ArtistsList(props: IArtistsListProps) {
-  const { artists, className } = props;
+  const { artists, className, onSelectArtist = () => {} } = props;
   return (
     <div className={`mt-3 h-full ${className}`}>
       {artists.map((artist) => (
@@ -17,8 +17,8 @@ export default function ArtistsList(props: IArtistsListProps) {
           key={artist._id}
           role="button"
           aria-selected={artist._id === props.artistSelectedID}
-          onClick={() => props.onSelectArtist(artist)}
-          className="mb-2 p-2 border-b-1 border-slate-400 border-1 border-solid
+          onClick={() => onSelectArtist(artist)}
+          className="p-2 border-b-1 border-slate-400 border-1 border-solid
             flex items-center hover:bg-slate-100 rounded-lg cursor-pointer aria-[selected=true]:bg-violet-200"
         >
           <Image
