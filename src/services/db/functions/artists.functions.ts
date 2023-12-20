@@ -1,5 +1,4 @@
 import Artists from "@/services/db/schemas/artists.schema";
-import { connectDB } from "../connect.db";
 
 export type ArtistPayloadT = {
   name: string;
@@ -37,8 +36,6 @@ export type GetArtistsPayloadT = {
 
 export const getArtists = async (payload: GetArtistsPayloadT) => {
   const { batch, page, searchTerm } = payload;
-  const db = await connectDB();
-  console.log("processing..");
   const regex = new RegExp(searchTerm, "i");
   let conditions = [
     { bio: regex }, // Matches titles containing 'JavaScript' (case insensitive)

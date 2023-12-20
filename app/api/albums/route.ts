@@ -1,4 +1,3 @@
-import { connectDB } from "@/services/db/connect.db";
 import { fetchAllUsers } from "@/services/db/functions/users.functions";
 import { NextRequest } from "next/server";
 import {
@@ -8,7 +7,6 @@ import {
 
 export async function GET(req: NextRequest) {
   try {
-    const db = await connectDB();
     const data = await fetchAllUsers();
     console.log({ data });
 

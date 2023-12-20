@@ -14,12 +14,15 @@ const albumSchema = new mongoose.Schema(
     totalDuration: { type: Number, default: 0 }, // Duration in seconds
     totalLikes: { type: Number, default: 0 },
     setting: {
-      colors: [{ type: String }],
+      gradientColors: {
+        type: [{ type: String }],
+        default: ["rgba(98, 59, 235, 1)", "rgba(138, 53, 250, 1)", "#5e46fc"],
+      },
     },
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 const Albums =

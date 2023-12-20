@@ -70,9 +70,9 @@ export default function UserProvider({
   };
 
   const logout = async () => {
+    setUser(null);
     localStorage.removeItem(USER_TOKEN);
     await signOut();
-    router.push("/login");
   };
 
   return (

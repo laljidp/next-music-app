@@ -1,13 +1,13 @@
 "use client";
 import ArtistsList from "@/components/Artists/ArtistsList";
 import EditViewArtist from "@/components/Artists/EditViewArtist";
-import NoSelectionLayout from "@/components/Layouts/noSelection.layout";
+import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
-import { fetchArtists } from "@/services/fetcher/artists.fetcher";
+import artistRequest from "@/services/request/artists.request";
 import { ArtistsDto } from "@/services/types/artists.types";
 import useDebounce from "@/utils/useDebouce";
-import { RightCircleOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import useSWR from "swr";
 
@@ -23,9 +23,10 @@ const ArtistsAdminPage = () => {
     mutate: refetchArtists,
   } = useSWR<ArtistsDto[], { search: string; path: string }>(
     { path: `/admin/artists`, search: debouncedSearch },
-    fetchArtists,
+    artistRequest.fetchArtists,
     {
       fallback: [],
+      revalidateOnFocus: false,
     }
   );
 
@@ -40,13 +41,12 @@ const ArtistsAdminPage = () => {
   };
 
   return (
-    <div className="flex items-start justify-between gap-5">
-      <div className="w-[40%] flex flex-col gap-2 h-full">
+    <MainRightLayout>
+      <MainRightLayout.Left>
         <div className="rounded-md text-center gap-3">
           <TWInput
             placeholder="Search artists"
             name="search"
-            className=""
             onChange={handleSearchTextChange}
             value={searchText}
             id="art-input"
@@ -56,8 +56,8 @@ const ArtistsAdminPage = () => {
           />
         </div>
         <div
-          className="overflow-auto scrollbar-hide h-[calc(100vh-200px)]
-           shadow-lg rounded-xl animation-scale-up-tl"
+          className="overflow-auto scrollbar-hide
+           shadow-lg rounded-xl animation-scale-up-tl h-[calc(100vh-200px)]"
         >
           {isLoading ? (
             <div className="flex items-center justify-center h-full">
@@ -68,17 +68,12 @@ const ArtistsAdminPage = () => {
               artistSelectedID={artistSelectedID}
               onSelectArtist={handleSelectArtist}
               artists={data || []}
-              className="pb-8"
             />
           )}
         </div>
-      </div>
-      <div className="w-0.5 bg-violet-300 relative rounded-full h-[calc(100vh-150px)]">
-        <span className="absolute top-[50%] -left-2 bg-white flex items-center">
-          <RightCircleOutlined className="[&>svg]:fill-violet-400 z-20" />
-        </span>
-      </div>
-      <div className="w-[60%] flex items-center justify-center px-8">
+      </MainRightLayout.Left>
+      <MainRightLayout.Separator />
+      <MainRightLayout.Right>
         <EditViewArtist
           handleSelectArtist={handleSelectArtist}
           onAddNewSelection={() => {
@@ -87,8 +82,8 @@ const ArtistsAdminPage = () => {
           onArtistAdded={refetchArtists}
           artist={artist}
         />
-      </div>
-    </div>
+      </MainRightLayout.Right>
+    </MainRightLayout>
   );
 };
 

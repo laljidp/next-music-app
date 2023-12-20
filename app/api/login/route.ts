@@ -1,5 +1,3 @@
-import { SignJWT } from "jose";
-import { connectDB } from "@/services/db/connect.db";
 import { getUserByEmail } from "@/services/db/functions/users.functions";
 import {
   nextResponseError,
@@ -9,10 +7,8 @@ import { NextRequest } from "next/server";
 import { signJWT } from "@/utils/jwt.util";
 
 export const POST = async (request: NextRequest) => {
-  console.log("Calling login API");
-  // TODO: Login /POST for checking if users has admin right or not.
+  //:: checking if users has admin right or not.
   try {
-    await connectDB();
     const { email } = await request.json();
     if (!email) {
       return nextResponseError("Bad request!", 403);
@@ -35,9 +31,8 @@ export const POST = async (request: NextRequest) => {
       console.log({
         payload,
       });
-      // TODO: generate token and send back to client
+      // INFO:: generate token and send back to client.
       const token = await signJWT(payload);
-
       return nextResponseSuccess({ data: user, isAdmin: true, token });
     }
 

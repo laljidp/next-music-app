@@ -7,7 +7,7 @@ const songSchema = new mongoose.Schema(
     duration: { type: Number, required: true }, // Duration in seconds
     artist: { type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.ARTISTS },
     source: { type: String, required: true },
-    album: { type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.ALBUMS },
+    albums: [{ type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.ALBUMS }],
     genre: [{ type: String }],
     lyrics: { type: String },
     // Statistics
@@ -23,7 +23,7 @@ const songSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 const Songs =

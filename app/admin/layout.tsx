@@ -1,11 +1,29 @@
 "use client";
 import SidebarAdminLayout from "@/components/Layouts/sidebar.layout";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 interface SharedAdminLayoutI {
   children: React.ReactNode;
 }
 
 const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
+  const { data } = useSession();
+  const router = useRouter();
+
+  console.log({ user: data?.user });
+
+  const handleAuthFlow = () => {
+    if (!data?.user?.email) {
+      router.replace("/");
+    }
+  };
+
+  useEffect(() => {
+    handleAuthFlow();
+  }, [data]);
+
   return (
     <>
       <div
