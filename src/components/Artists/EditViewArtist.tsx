@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { TWButton } from "@/components/UI/Button";
 import ImageUpload from "@/components/UI/ImageUpload";
 import TWInput from "@/components/UI/Input";
-import TWTextArea from "@/components/UI/Input/textrea.input";
+import TWTextArea from "@/components/UI/Input/Textarea.input";
 import SelectMultiple from "@/components/UI/SelectMultiple";
 import { ArtistsDto, GENRES } from "@/services/types/artists.types";
 import { PlusOutlined } from "@ant-design/icons";

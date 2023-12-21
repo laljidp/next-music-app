@@ -7,7 +7,7 @@ const albumSchema = new mongoose.Schema(
     description: { type: String, required: true },
     releaseDate: { type: Date },
     genre: [{ type: String }],
-    artist: { type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.ARTISTS },
+    artist: [{ type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.ARTISTS }],
     coverImage: { type: String },
     songs: [{ type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.SONGS }],
     // Statistics

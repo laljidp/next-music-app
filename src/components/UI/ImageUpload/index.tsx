@@ -7,15 +7,17 @@ import PageSpinner from "../Spinner/PageSpinner";
 interface ImageUploadProps {
   file?: File;
   name: string;
-  onChange: (url: string | null) => void;
+  onChange: (url: string) => void;
   text?: string;
   src?: string;
+  className?: string;
 }
 
 export default function ImageUpload({
   src,
   name,
   text = "Upload file",
+  className = "",
   onChange,
 }: ImageUploadProps) {
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -40,7 +42,7 @@ export default function ImageUpload({
 
   const handleClear = () => {
     setImage(null);
-    onChange(null);
+    onChange("");
   };
 
   useEffect(() => {
@@ -53,9 +55,10 @@ export default function ImageUpload({
 
   return (
     <div
-      className={`flex items-center justify-center rounded-lg hover:ring-violet-400 ${
-        image ? "h-[100px] w-[100px]" : "h-20 w-[150px] ring-1 ring-slate-300"
-      }`}
+      className={`flex items-center justify-center rounded-lg
+       hover:ring-violet-400 ${
+         image ? "h-[100px] w-[100px]" : "h-20 w-[150px] ring-1 ring-slate-300"
+       } ${className}`}
     >
       {imgUploading && (
         <div className="opacity-60">
@@ -64,7 +67,11 @@ export default function ImageUpload({
       )}
       {image && (
         <div className="relative">
-          <img src={image} className="h-20 object-cover" alt="me-img" />
+          <img
+            src={image}
+            className="h-[130px] w-[200px] object-contain rounded-lg"
+            alt="me-img"
+          />
           <span
             onClick={handleClear}
             className="absolute right-[-10px] top-[-10px] flex h-5 w-5 cursor-pointer 

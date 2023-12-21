@@ -25,10 +25,6 @@ export default function SelectMultiple(props: SelectMultipleProps) {
 
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setSelectedOption(selected);
-  }, [selected]);
-
   const handleClickOutside = (e: any) => {
     if (sectionRef?.current && !sectionRef?.current?.contains(e.target)) {
       setShowOption(false);
@@ -49,8 +45,11 @@ export default function SelectMultiple(props: SelectMultipleProps) {
   };
 
   useEffect(() => {
-    document?.addEventListener("mousedown", handleClickOutside);
+    setSelectedOption(selected);
+  }, [selected]);
 
+  useEffect(() => {
+    document?.addEventListener("mousedown", handleClickOutside);
     return () => {
       document?.removeEventListener("mousedown", handleClickOutside);
     };

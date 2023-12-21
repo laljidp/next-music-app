@@ -5,8 +5,9 @@ import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import useDebounce from "@/utils/useDebouce";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
-import AlbumLists from "@/components/AlbumLists";
+import AlbumLists from "@/components/Albums/AlbumLists";
 import { SearchOutlined } from "@ant-design/icons";
+import EditViewAlbumLayout from "@/components/Albums/EditViewAlbumLayout";
 
 export default function AlbumPage() {
   const { data, status } = useSession();
@@ -50,7 +51,7 @@ export default function AlbumPage() {
       </MainRightLayout.Left>
       <MainRightLayout.Separator />
       <MainRightLayout.Right>
-        <div>Right layout</div>
+        <EditViewAlbumLayout />
       </MainRightLayout.Right>
     </MainRightLayout>
   );

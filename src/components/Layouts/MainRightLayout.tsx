@@ -32,9 +32,7 @@ MainRightLayout.Separator = function () {
 
 MainRightLayout.Right = function ({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-[60%] flex items-center justify-center px-8">
-      {children}
-    </div>
+    <div className="w-[60%] flex items-center justify-center">{children}</div>
   );
 };
 
