@@ -7,20 +7,21 @@ export interface IAlbumStatPayload {
   releaseDate: string;
   gradientColors: string[];
   coverImage: string;
+  artists: string[];
 }
 
 export interface IAlbumDto {
-  _id: string;
+  _id?: string;
   title: string;
   description: string;
   releaseDate: string;
-  genre: string[];
-  artist: ArtistsDto[];
-  coverImage: string;
-  songs: any[];
+  genre?: string[];
+  artists?: string[];
+  coverImage?: string;
+  songs?: any[];
   // Statistics
-  totalDuration: number;
-  totalLikes: number;
+  totalDuration?: number;
+  totalLikes?: number;
   setting: {
     gradientColors: string[];
   };

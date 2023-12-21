@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { useSession } from "next-auth/react";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import useDebounce from "@/utils/useDebouce";
@@ -8,12 +7,27 @@ import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import AlbumLists from "@/components/Albums/AlbumLists";
 import { SearchOutlined } from "@ant-design/icons";
 import EditViewAlbumLayout from "@/components/Albums/EditViewAlbumLayout";
+import useSWR from "swr";
+import { albumRequest } from "@/services/request/albums.request";
+import { apiUrls } from "@/constants";
+import { IAlbumDto } from "@/services/types/albums.types";
 
 export default function AlbumPage() {
-  const { data, status } = useSession();
-
   const [searchText, setSearchText] = useState("");
+  const [selectedAlbum, setSelectedAlbum] = useState<IAlbumDto | null>(null);
+
   const debouncedSearch = useDebounce(searchText, 1000);
+
+  const { isLoading, data: albums } = useSWR(
+    {
+      path: apiUrls.albums,
+      search: debouncedSearch,
+    },
+    albumRequest.fetchAlbums,
+    {
+      revalidateOnFocus: false,
+    }
+  );
 
   const handleSearchTextChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
@@ -38,20 +52,24 @@ export default function AlbumPage() {
         </div>
         <div
           className="overflow-auto scrollbar-hide h-[calc(100vh-200px)]
-         shadow-lg rounded-xl animation-scale-up-tl"
+            shadow-lg rounded-xl animation-scale-up-tl"
         >
-          {searchText ? (
+          {isLoading ? (
             <div className="flex items-center justify-center h-full">
               <PageSpinner />
             </div>
           ) : (
-            <AlbumLists />
+            <AlbumLists
+              albumSelectedID={selectedAlbum?._id}
+              onSelectAlbum={setSelectedAlbum}
+              albums={albums || []}
+            />
           )}
         </div>
       </MainRightLayout.Left>
       <MainRightLayout.Separator />
       <MainRightLayout.Right>
-        <EditViewAlbumLayout />
+        <EditViewAlbumLayout album={selectedAlbum} />
       </MainRightLayout.Right>
     </MainRightLayout>
   );

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import TWInput from "../UI/Input";
+import useDebounce from "@/utils/useDebouce";
 
 interface GradientColorPickerProps {
   colors?: string[];
@@ -23,25 +24,26 @@ export default function GradientColorPicker(props: GradientColorPickerProps) {
     to: string;
   }>({ from: from, via, to });
 
+  useDebounce(localColors, 1000, () => {
+    onColorChanges(Object.values(localColors));
+  });
+
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
-    setLocalColors({ ...localColors, [name]: value });
-  };
-
-  const handleChangeSubmit = () => {
-    console.log({ localColors });
-    onColorChanges(Object.values(localColors));
+    const newColors = { ...localColors, [name]: value };
+    setLocalColors(newColors);
   };
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
       {label && <label className="text-sm font-medium">{label}</label>}
-      <div className="flex flex-col ring-1 p-5 rounded-lg justify-center">
+      <div className="flex flex-col ring-slate-300 hover:ring-violet-400 ring-1 p-5 rounded-lg justify-center">
         <div
           className={`ring-1 ring-violet-200 px-4 py-2 rounded-lg h-28 w-[85%] self-center`}
           style={{
             backgroundColor: "rgb(101,44,140)",
-            background: `linear-gradient(227deg, ${localColors.from} 18%, ${localColors.to} 52%, ${localColors.via} 70%,
+            background: `linear-gradient(227deg, ${localColors.from} 18%,
+               ${localColors.to} 52%, ${localColors.via} 70%,
                  ${localColors.to} 52%)`,
             opacity: 0.4,
           }}
@@ -50,7 +52,6 @@ export default function GradientColorPicker(props: GradientColorPickerProps) {
           <TWInput
             name={"from"}
             onChange={handleChange}
-            onBlur={handleChangeSubmit}
             type="color"
             style={{
               background: localColors.from,
@@ -75,6 +76,11 @@ export default function GradientColorPicker(props: GradientColorPickerProps) {
             }}
             className={`rounded-md`}
           />
+        </div>
+        <div className="flex justify-center items-center gap-5 mt-4">
+          <span className="text-xs">{localColors.from}</span>
+          <span className="text-xs">{localColors.via}</span>
+          <span className="text-xs">{localColors.to}</span>
         </div>
       </div>
     </div>

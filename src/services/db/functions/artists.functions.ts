@@ -34,7 +34,10 @@ export type GetArtistsPayloadT = {
   searchTerm: string;
 };
 
-export const getArtists = async (payload: GetArtistsPayloadT) => {
+export const getArtists = async (
+  payload: GetArtistsPayloadT,
+  fields: string[] = []
+) => {
   const { batch, page, searchTerm } = payload;
   const regex = new RegExp(searchTerm, "i");
   let conditions = [
@@ -45,11 +48,13 @@ export const getArtists = async (payload: GetArtistsPayloadT) => {
   if (searchTerm.trim()?.length > 2) {
     data = await Artists.find({ $or: conditions })
       .skip(Number(page) * Number(batch))
-      .limit(batch);
+      .limit(batch)
+      .select(fields);
   } else {
-    data = await Artists.find({ $or: conditions })
+    data = await Artists.find({})
       .skip(Number(page) * Number(batch))
-      .limit(batch);
+      .limit(batch)
+      .select(fields);
   }
 
   return data;

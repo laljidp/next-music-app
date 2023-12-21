@@ -11,14 +11,20 @@ import {
 import { NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest, context: any) => {
-  debugger;
   const params = request.nextUrl.searchParams;
   const searchTerm = params.get("search") || "";
+  const minimal = params.get("minimal") || "";
   const batch = (params.get("batch") || 35) as number;
   const page = (params.get("page") || 0) as number;
+  const fields = [];
+
+  if (!!minimal && minimal === "true") {
+    console.log("Its minimal");
+    fields.push("_id", "name");
+  }
 
   try {
-    const data = await getArtists({ batch, page, searchTerm });
+    const data = await getArtists({ batch, page, searchTerm }, fields);
     return nextResponseSuccess({ data });
   } catch (err) {
     console.log("Error fetching /api/artists", err);
