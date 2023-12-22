@@ -24,13 +24,13 @@
     focus:ring-2 focus:ring-violet-500 focus:ring-opacity-75;
   }
 
-  /* Input Compoents */
+  /* Input Components */
 
   .tw-input {
     @apply rounded-xl bg-white px-4 py-2 text-black 
       outline-violet-400 ring-1 ring-slate-300 placeholder:text-slate-500
-       active:ring-1 active:ring-violet-200
-      hover:ring-violet-400;
+       active:ring-1 active:ring-violet-200 hover:ring-violet-400 focus:read-only:ring-0
+        read-only:ring-0 read-only:text-slate-500;
   }
 }
 

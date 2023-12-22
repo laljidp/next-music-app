@@ -1,6 +1,7 @@
 import { ArtistsDto } from "./artists.types";
 
 export interface IAlbumStatPayload {
+  _id?: string;
   title: string;
   description: string;
   genre: string[];

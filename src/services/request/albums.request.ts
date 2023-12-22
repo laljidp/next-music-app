@@ -49,6 +49,21 @@ class AlbumRequest {
       return null;
     }
   };
+
+  updateAlbum = async (body: IAlbumStatPayload) => {
+    try {
+      const resp = await fetch(apiUrls.albums, {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: getDefaultHeaders(),
+      });
+      const data = await resp.json();
+      return data?.album;
+    } catch (err) {
+      console.log("Error calling /PUT /api/albums", err);
+      return null;
+    }
+  };
 }
 
 const albumRequest = new AlbumRequest();

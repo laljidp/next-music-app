@@ -12,29 +12,46 @@ import { IAlbumDto, IAlbumStatPayload } from "@/services/types/albums.types";
 import useSWR from "swr";
 import artistRequest from "@/services/request/artists.request";
 import { albumRequest } from "@/services/request/albums.request";
-import { UserContext } from "@/context/user.context";
 import { SnackContext } from "@/context/snack.context";
+import TWSwitch from "../UI/Switch";
+import { PlusOutlined } from "@ant-design/icons";
 
 interface EditViewAlbumLayout {
   album?: IAlbumDto | null;
   onSelectAlbum?: (album: IAlbumDto) => void;
+  onAddNewSelection?: () => void;
+  onAlbumSaved: () => void;
 }
 
-export default function EditViewAlbumLayout({ album }: EditViewAlbumLayout) {
-  const [albumPayload, setAlbumPayload] = useState<IAlbumStatPayload>({
-    description: album?.description || "",
-    genre: album?.genre || [],
-    gradientColors: album?.setting.gradientColors || [],
-    releaseDate: album?.releaseDate || "",
-    title: album?.title || "",
-    coverImage: album?.coverImage || "",
-    artists: album?.artists || [],
-  });
+const initPayload = {
+  description: "",
+  genre: [],
+  gradientColors: [],
+  releaseDate: "",
+  title: "",
+  coverImage: "",
+  artists: [],
+};
+
+export default function EditViewAlbumLayout({
+  album,
+  onAddNewSelection = () => {},
+  onSelectAlbum = () => {},
+  onAlbumSaved = () => {},
+}: EditViewAlbumLayout) {
+  const [albumPayload, setAlbumPayload] =
+    useState<IAlbumStatPayload>(initPayload);
+  const [isReadOnly, setReadOnly] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isNew, setIsNew] = useState(false);
   const { showSnack } = useContext(SnackContext);
 
   const { isLoading: artistLoading, data: artists } = useSWR(
-    { path: "/api/artists", search: "", minimal: true },
+    {
+      path: "/api/artists",
+      search: "",
+      minimal: true,
+    },
     artistRequest.fetchArtists,
     {
       revalidateOnFocus: false,
@@ -42,7 +59,12 @@ export default function EditViewAlbumLayout({ album }: EditViewAlbumLayout) {
     }
   );
 
-  console.log("Artists", artists);
+  const handleAddAlbum = () => {
+    setAlbumPayload(initPayload);
+    setReadOnly(false);
+    setIsNew(true);
+    onAddNewSelection();
+  };
 
   const handleChange = (name: string, value: string | string[]) => {
     setAlbumPayload({
@@ -56,9 +78,24 @@ export default function EditViewAlbumLayout({ album }: EditViewAlbumLayout) {
     console.log({ albumPayload });
     try {
       setIsProcessing(true);
-      const resp = await albumRequest.saveAlbum(albumPayload);
-      console.log("resp", resp);
-      showSnack("Album Data Saved!", "success");
+
+      let _album;
+
+      if (isNew) {
+        _album = await albumRequest.saveAlbum(albumPayload);
+      } else {
+        _album = await albumRequest.updateAlbum({
+          _id: album?._id,
+          ...albumPayload,
+        });
+      }
+
+      if (_album) {
+        setAlbumPayload(initPayload);
+        console.log("resp", _album);
+        showSnack("Album data saved!", "success");
+        onAlbumSaved();
+      }
     } catch (err) {
       console.log("Error while posting request to save album::", err);
     } finally {
@@ -77,31 +114,56 @@ export default function EditViewAlbumLayout({ album }: EditViewAlbumLayout) {
         coverImage: album.coverImage || "",
         artists: album?.artists || [],
       });
+      setIsNew(false);
+      setReadOnly(true);
     }
   }, [album]);
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <div className="flex flex-col gap-5 w-full">
+        <div className="flex justify-between">
+          {!isNew && (
+            <TWButton
+              onClick={handleAddAlbum}
+              className="w-8 h-8 flex"
+              variant="outline"
+            >
+              <PlusOutlined className="font-bold text-md" />
+            </TWButton>
+          )}
+
+          <TWSwitch
+            name="isReadOnly"
+            label="Read Only"
+            isDisabled={isNew}
+            checked={isReadOnly}
+            onChange={setReadOnly}
+          />
+        </div>
+        <hr />
         <div className="w-[100%] flex-grow justify-between flex gap-[2rem]">
           <div className="flex flex-col gap-3 w-[100%]">
             <ImageUpload
+              previewMode={isReadOnly}
               name="coverImage"
               onChange={(url) => handleChange("coverImage", url)}
               className="h-[130px] w-[230px]"
               src={albumPayload.coverImage || ""}
             />
             <TWInput
+              readOnly={isReadOnly}
               name="title"
               required
               placeholder="Title"
               value={albumPayload.title}
               label="Title"
               onChange={({ currentTarget }) =>
-                handleChange(currentTarget?.name, currentTarget?.value || "")
+                handleChange(currentTarget?.name, currentTarget?.value)
               }
             />
             <TWTextArea
+              readOnly={isReadOnly}
               name="description"
               value={albumPayload.description}
               placeholder="Description"
@@ -109,17 +171,18 @@ export default function EditViewAlbumLayout({ album }: EditViewAlbumLayout) {
               label="Description"
               rows={5}
               onChange={({ currentTarget }) =>
-                handleChange(currentTarget?.name, currentTarget?.value || "")
+                handleChange(currentTarget?.name, currentTarget?.value)
               }
             />
           </div>
           <div className="flex flex-col w-[100%] gap-3">
             <TWDatePicker
+              isReadOnly={isReadOnly}
               label="Release Date"
               name="releaseDate"
               date={
                 !!albumPayload?.releaseDate
-                  ? new Date(albumPayload?.releaseDate)
+                  ? new Date(albumPayload.releaseDate)
                   : undefined
               }
               onSelectDate={(date) =>
@@ -130,6 +193,7 @@ export default function EditViewAlbumLayout({ album }: EditViewAlbumLayout) {
             <span className="font-medium">Settings</span>
             <GradientColorPicker
               name="gradientColors"
+              isReadOnly={isReadOnly}
               colors={albumPayload.gradientColors}
               label="Gradient cover colors"
               onColorChanges={(colors) =>
@@ -140,6 +204,7 @@ export default function EditViewAlbumLayout({ album }: EditViewAlbumLayout) {
         </div>
         <div>
           <SelectMultiple
+            isReadOnly={isReadOnly}
             onSelect={(selected) => {
               handleChange("artists", selected);
             }}
@@ -156,8 +221,9 @@ export default function EditViewAlbumLayout({ album }: EditViewAlbumLayout) {
         </div>
         <div>
           <SelectMultiple
-            onSelect={(selected) => {
-              handleChange("genre", selected);
+            isReadOnly={isReadOnly}
+            onSelect={(genres) => {
+              handleChange("genre", genres);
             }}
             options={GENRES.map((g) => ({ name: g, value: g }))}
             label="Genre"
@@ -168,11 +234,14 @@ export default function EditViewAlbumLayout({ album }: EditViewAlbumLayout) {
         </div>
 
         <div className="flex">
-          <div>
-            <TWButton loading={isProcessing} type="submit">
-              Save Album
-            </TWButton>
-          </div>
+          <TWButton
+            aria-hidden={isReadOnly}
+            loading={isProcessing}
+            type="submit"
+            className="aria-[hidden=true]:hidden"
+          >
+            Save Album
+          </TWButton>
         </div>
       </div>
     </form>

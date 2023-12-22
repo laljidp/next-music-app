@@ -39,3 +39,11 @@ export const saveAlbum = async (payload: IAlbumDto) => {
   }
   return album;
 };
+
+export const updateAlbum = async (_id: string, payload: IAlbumDto) => {
+  const album = await Albums.findOneAndUpdate({ _id }, payload);
+  if (!album) {
+    throw new Error("Album not saved");
+  }
+  return album;
+};

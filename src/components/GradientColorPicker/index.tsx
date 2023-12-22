@@ -1,43 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TWInput from "../UI/Input";
-import useDebounce from "@/utils/useDebouce";
 
 interface GradientColorPickerProps {
   colors?: string[];
   label?: string;
   name?: string;
   className?: string;
+  isReadOnly?: boolean;
   onColorChanges?: (colors: string[]) => void;
 }
 
 export default function GradientColorPicker(props: GradientColorPickerProps) {
   const {
-    colors = ["rgba(98, 59, 235, 1)", "rgba(138, 53, 250, 1)", "#5e46fc"],
+    colors = ["#fff", "#fff", "#fff"],
     label,
+    isReadOnly = false,
     className = "",
     onColorChanges = () => {},
   } = props;
-  const [from, via, to] = colors;
   const [localColors, setLocalColors] = useState<{
     from: string;
     via: string;
     to: string;
-  }>({ from: from, via, to });
-
-  useDebounce(localColors, 1000, () => {
-    onColorChanges(Object.values(localColors));
+  }>({
+    from: "#ffffff",
+    to: "#ffffff",
+    via: "#dedede",
   });
 
-  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
     const newColors = { ...localColors, [name]: value };
     setLocalColors(newColors);
+    const newColorsArr = Object.values(newColors);
+    onColorChanges(newColorsArr);
   };
+
+  useEffect(() => {
+    if (!!colors.length) {
+      const [from, via, to] = colors;
+      setLocalColors({ from, via, to });
+    }
+  }, [colors]);
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
       {label && <label className="text-sm font-medium">{label}</label>}
-      <div className="flex flex-col ring-slate-300 hover:ring-violet-400 ring-1 p-5 rounded-lg justify-center">
+      <div
+        className="flex flex-col ring-slate-300 hover:ring-violet-400
+       ring-1 p-5 rounded-lg justify-center gap-5"
+      >
         <div
           className={`ring-1 ring-violet-200 px-4 py-2 rounded-lg h-28 w-[85%] self-center`}
           style={{
@@ -48,39 +60,42 @@ export default function GradientColorPicker(props: GradientColorPickerProps) {
             opacity: 0.4,
           }}
         />
-        <div className="flex justify-center items-center gap-5 mt-4">
+        <div className="flex justify-center items-center gap-5">
           <TWInput
             name={"from"}
+            readOnly={isReadOnly}
+            id="from"
+            disabled={isReadOnly}
             onChange={handleChange}
             type="color"
+            value={localColors.from}
             style={{
-              background: localColors.from,
+              background: localColors.from || "",
             }}
-            className={`rounded-md`}
+            className={`rounded-md shadow-md disabled:cursor-not-allowed`}
           />
           <TWInput
             name={"via"}
+            id="via"
+            disabled={isReadOnly}
             onChange={handleChange}
             type="color"
             style={{
-              background: localColors.via,
+              background: localColors.via || "",
             }}
-            className={`rounded-md`}
+            className={`rounded-md shadow-md disabled:cursor-not-allowed`}
           />
           <TWInput
             name={"to"}
+            id="to"
+            disabled={isReadOnly}
             onChange={handleChange}
             type="color"
             style={{
-              background: localColors.to,
+              background: localColors.to || "",
             }}
-            className={`rounded-md`}
+            className={`rounded-md shadow-md disabled:cursor-not-allowed`}
           />
-        </div>
-        <div className="flex justify-center items-center gap-5 mt-4">
-          <span className="text-xs">{localColors.from}</span>
-          <span className="text-xs">{localColors.via}</span>
-          <span className="text-xs">{localColors.to}</span>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useClickOutside from "@/utils/useClickOutside";
 import { CalendarOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import InfiniteCalendar from "react-infinite-calendar";
@@ -9,6 +9,7 @@ interface TWDatePickerProps {
   date?: Date;
   label?: string;
   name?: string;
+  isReadOnly?: boolean;
   onSelectDate?: (date: Date | null) => void;
 }
 
@@ -19,6 +20,7 @@ export default function TWDatePicker(props: TWDatePickerProps) {
     date,
     placeholder = "Select date",
     onSelectDate = () => {},
+    isReadOnly = false,
     label,
   } = props;
   const [localDate, setLocalDate] = useState(date);
@@ -40,13 +42,24 @@ export default function TWDatePicker(props: TWDatePickerProps) {
     onSelectDate(null);
   };
 
+  useEffect(() => {
+    if (date) {
+      setLocalDate(date);
+    } else {
+      setLocalDate(undefined);
+    }
+  }, [date]);
+
   return (
     <div className="date-picker relative">
       {label && <label className="text-sm font-medium">{label}</label>}
       <div
         role="button"
+        aria-readonly={isReadOnly}
         className="ring-1 hover:cursor-pointer ring-slate-300 px-4
-       text-slate-500 rounded-lg hover:ring-violet-400 mt-1"
+       text-slate-500 rounded-lg hover:ring-violet-400 mt-1       
+       aria-[readonly=true]:pointer-events-none 
+       "
       >
         <div className="text-slate-800 flex justify-between items-center">
           <span
@@ -57,8 +70,9 @@ export default function TWDatePicker(props: TWDatePickerProps) {
           </span>
           <div className="flex gap-2">
             <CloseCircleOutlined
+              aria-hidden={isReadOnly}
               onClick={handleClearSelection}
-              className="hover:[&>svg]:fill-violet-700"
+              className="hover:[&>svg]:fill-violet-700 aria-[hidden=true]:hidden"
             />
             <CalendarOutlined className="[&>svg]:fill-violet-600" />
           </div>

@@ -18,7 +18,11 @@ export default function AlbumPage() {
 
   const debouncedSearch = useDebounce(searchText, 1000);
 
-  const { isLoading, data: albums } = useSWR(
+  const {
+    isLoading,
+    data: albums,
+    mutate: refreshAlbums,
+  } = useSWR(
     {
       path: apiUrls.albums,
       search: debouncedSearch,
@@ -28,6 +32,10 @@ export default function AlbumPage() {
       revalidateOnFocus: false,
     }
   );
+
+  const handleAddNewSelection = () => {
+    setSelectedAlbum(null);
+  };
 
   const handleSearchTextChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
@@ -69,7 +77,11 @@ export default function AlbumPage() {
       </MainRightLayout.Left>
       <MainRightLayout.Separator />
       <MainRightLayout.Right>
-        <EditViewAlbumLayout album={selectedAlbum} />
+        <EditViewAlbumLayout
+          onAlbumSaved={refreshAlbums}
+          album={selectedAlbum}
+          onAddNewSelection={handleAddNewSelection}
+        />
       </MainRightLayout.Right>
     </MainRightLayout>
   );

@@ -3,6 +3,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import PageSpinner from "../Spinner/PageSpinner";
+import ImagePreviewLayout from "@/components/Layouts/imagePreview.layout";
 
 interface ImageUploadProps {
   file?: File;
@@ -11,6 +12,7 @@ interface ImageUploadProps {
   text?: string;
   src?: string;
   className?: string;
+  previewMode?: boolean;
 }
 
 export default function ImageUpload({
@@ -18,6 +20,7 @@ export default function ImageUpload({
   name,
   text = "Upload file",
   className = "",
+  previewMode = false,
   onChange,
 }: ImageUploadProps) {
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -56,8 +59,8 @@ export default function ImageUpload({
   return (
     <div
       className={`flex items-center justify-center rounded-lg
-       hover:ring-violet-400 ${
-         image ? "h-[100px] w-[100px]" : "h-20 w-[150px] ring-1 ring-slate-300"
+       hover:ring-violet-400 h-20 ${
+         image ? "h-[150px] w-[150px]" : "w-[150px] ring-1 ring-slate-300"
        } ${className}`}
     >
       {imgUploading && (
@@ -65,13 +68,9 @@ export default function ImageUpload({
           <PageSpinner />
         </div>
       )}
-      {image && (
-        <div className="relative">
-          <img
-            src={image}
-            className="h-[130px] w-[200px] object-contain rounded-lg"
-            alt="me-img"
-          />
+      {!!image && (
+        <div className="relative py-2">
+          <ImagePreviewLayout src={image || ""} alt="image-artist" />
           <span
             onClick={handleClear}
             className="absolute right-[-10px] top-[-10px] flex h-5 w-5 cursor-pointer 

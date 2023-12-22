@@ -44,6 +44,7 @@ export default function AlbumLists(props: AlbumListsProps) {
             src={album?.coverImage || "/no-profile-image.png"}
             height={40}
             width={40}
+            priority
             className="rounded-lg mr-3 h-12 w-12 object-cover"
           />
           <div className="flex flex-col">

@@ -5,7 +5,7 @@ export type BtnVariants = "primary" | "secondary" | "outline";
 
 export type ButtonSize = "sm" | "md" | "lg";
 
-interface TWButtonI {
+interface TWButtonI extends React.HTMLProps<HTMLButtonElement> {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   children: React.ReactNode;
   variant?: BtnVariants;
@@ -28,6 +28,7 @@ export const TWButton: React.FC<TWButtonI> = ({
   loading = false,
   type = "button",
   className = "",
+  ...rest
 }): React.ReactElement => {
   return (
     <button
@@ -36,6 +37,7 @@ export const TWButton: React.FC<TWButtonI> = ({
       } flex items-center gap-2 ${className}`}
       disabled={loading}
       onClick={onClick}
+      {...rest}
     >
       {loading && <Spinner height={15} width={15} />}
       {children}

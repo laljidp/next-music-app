@@ -5,7 +5,11 @@ import {
   nextResponseSuccess,
 } from "@/utils/nextResponse.util";
 import { IAlbumDto, IAlbumStatPayload } from "@/services/types/albums.types";
-import { getAlbums, saveAlbum } from "@/services/db/functions/albums.functions";
+import {
+  getAlbums,
+  saveAlbum,
+  updateAlbum,
+} from "@/services/db/functions/albums.functions";
 
 export async function GET(req: NextRequest) {
   try {
@@ -57,5 +61,41 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.log("Error processing /POST /api/albums", err);
     return nextResponseError("Service looks down ! try again later", 403);
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const payload = await req.json();
+    const {
+      _id,
+      title,
+      description,
+      coverImage,
+      gradientColors,
+      releaseDate,
+      artists,
+      genre,
+    } = payload;
+    const albumPayload = {
+      setting: { gradientColors },
+      title,
+      description,
+      coverImage,
+      releaseDate,
+      artists,
+      genre,
+    } as IAlbumDto;
+
+    if (!_id) {
+      return nextResponseError("Bad request !", 501);
+    }
+    // TODO: apply validation on payload & process further
+    const album = await updateAlbum(_id, albumPayload);
+    if (album) {
+      return nextResponseSuccess({ album });
+    }
+  } catch (err) {
+    console.log("Error processing /PUT /api/albums", err);
   }
 }

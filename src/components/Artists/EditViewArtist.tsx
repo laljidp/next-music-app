@@ -128,7 +128,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
 
   if (!artist && !isNew) {
     return (
-      <div className="flex flex-col gap-5 items-center text-center">
+      <div className="flex flex-col gap-4 items-center text-center">
         <TWButton
           onClick={handleAddArtist}
           className="w-8 h-8 flex"
@@ -148,7 +148,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
     <form method="post" onSubmit={handleSubmit} className="w-full">
       <div
         className={`flex w-[100%] flex-col justify-center 
-          gap-5 ${animClass}`}
+          gap-3 ${animClass}`}
       >
         <div className="flex justify-between">
           {!isNew && (
@@ -176,61 +176,48 @@ export default function EditViewArtist(props: EditViewArtistProps) {
             {artistPayload?.name || "Add New"}
           </span>
         </div>
-        {isReadOnly ? (
-          <ImagePreviewLayout
-            src={artistPayload?.image || ""}
-            alt="image-artist"
-          />
-        ) : (
-          <ImageUpload
-            name="artist-image"
-            text="Upload Image"
-            src={artistPayload.image}
-            onChange={(file_url) => {
-              handleChange({
-                name: "image",
-                value: file_url,
-              });
-            }}
-          />
-        )}
 
-        {isReadOnly ? (
-          <ReadOnlyLayout label="Artist Name" value={artistPayload.name} />
-        ) : (
-          <TWInput
-            onChange={({ currentTarget }) => {
-              console.log(currentTarget.value);
-              handleChange({
-                name: "name",
-                value: currentTarget.value,
-              });
-            }}
-            name="name"
-            required={true}
-            placeholder="Artist name"
-            label={"Artist Name"}
-            value={artistPayload?.name}
-          />
-        )}
-
-        {isReadOnly ? (
-          <ReadOnlyLayout label="Bio" value={artistPayload.bio} />
-        ) : (
-          <TWTextArea
-            onChange={({ currentTarget }) =>
-              handleChange({
-                name: currentTarget.name,
-                value: currentTarget.value,
-              })
-            }
-            name="bio"
-            required={true}
-            placeholder="Bio"
-            label={"Bio"}
-            value={artistPayload?.bio}
-          />
-        )}
+        <ImageUpload
+          name="artist-image"
+          text="Upload Image"
+          src={artistPayload.image}
+          onChange={(file_url) => {
+            handleChange({
+              name: "image",
+              value: file_url,
+            });
+          }}
+          previewMode={isReadOnly}
+        />
+        <TWInput
+          onChange={({ currentTarget }) => {
+            console.log(currentTarget.value);
+            handleChange({
+              name: "name",
+              value: currentTarget.value,
+            });
+          }}
+          readOnly={isReadOnly}
+          name="name"
+          required={true}
+          placeholder="Artist name"
+          label={"Artist Name"}
+          value={artistPayload?.name}
+        />
+        <TWTextArea
+          onChange={({ currentTarget }) =>
+            handleChange({
+              name: currentTarget.name,
+              value: currentTarget.value,
+            })
+          }
+          readOnly={isReadOnly}
+          name="bio"
+          required={true}
+          placeholder="Bio"
+          label={"Bio"}
+          value={artistPayload?.bio}
+        />
 
         <SelectMultiple
           options={GENRES.map((genre) => ({ name: genre, value: genre }))}
