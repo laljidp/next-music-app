@@ -22,7 +22,7 @@ const ArtistsAdminPage = () => {
     data,
     mutate: refetchArtists,
   } = useSWR<ArtistsDto[], { search: string; path: string }>(
-    { path: `/admin/artists`, search: debouncedSearch },
+    { path: `/api/artists`, search: debouncedSearch },
     artistRequest.fetchArtists,
     {
       fallback: [],

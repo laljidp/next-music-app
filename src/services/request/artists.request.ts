@@ -16,23 +16,29 @@ class ArtistRequest {
     configFetchInterceptor();
   }
 
-  fetchArtists: Fetcher<ArtistsDto[], { path: string; search: string }> =
-    async ({ search }) => {
-      let requestUrl = apiUrls.artists.toString() + "?";
-      if (search?.trim()?.length > 0) {
-        const params = new URLSearchParams();
-        params.set("search", search);
-        requestUrl = requestUrl.concat(params.toString());
-      }
-      const resp = await fetch(requestUrl, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = (await resp.json()).data as ArtistsDto[];
-      return data;
-    };
+  fetchArtists: Fetcher<
+    ArtistsDto[],
+    { path: string; search: string; minimal?: boolean }
+  > = async ({ search = "", minimal = false, path }) => {
+    let requestUrl = path.toString() + "?";
+    const params = new URLSearchParams();
+
+    if (search?.trim()?.length > 0) {
+      params.set("search", search);
+    }
+    if (minimal) {
+      params.set("minimal", "true");
+    }
+    requestUrl = requestUrl.concat(params.toString());
+    const resp = await fetch(requestUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = (await resp.json()).data as ArtistsDto[];
+    return data;
+  };
 
   saveArtistsRequest = async (payload: saveArtistsPayloadI) => {
     try {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 
 export interface TWInputType extends React.HTMLProps<HTMLInputElement> {
   placeholder?: string;
@@ -13,8 +13,10 @@ export default function TWInput({
   icon,
   ...respProps
 }: TWInputType) {
-  const elemID = `tw-input-${name}`;
+  const id = useId();
+  const elemID = `tw-input-${id}`;
   const iconClass = !!icon ? "pl-8" : "";
+
   return (
     <div className={`flex flex-col gap-2 relative`}>
       {label && (

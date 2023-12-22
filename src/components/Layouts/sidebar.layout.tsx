@@ -36,12 +36,13 @@ const SidebarAdminLayout: React.FC = () => {
             className="rounded-lg text-center ring-1"
             width={60}
             height={60}
+            priority
           />
         </div>
         <hr className="mb-4 border-violet-500" />
         <div className="flex justify-center">
           <Image
-            src={data?.user?.image || "/"}
+            src={data?.user?.image || "/no-profile-image.png"}
             alt="user-pic"
             loading="lazy"
             height={40}

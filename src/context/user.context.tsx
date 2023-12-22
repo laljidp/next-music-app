@@ -49,8 +49,7 @@ export default function UserProvider({
   const loginAdmin = async (payload: LoginAdminPayloadT) => {
     try {
       setLoading(true);
-      setStatus("processing");
-      // TODO: Call login API
+      //:Call login API
       const resp = await fetch(apiUrls.login, {
         method: "POST",
         body: JSON.stringify(payload),

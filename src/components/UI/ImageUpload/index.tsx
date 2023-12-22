@@ -3,19 +3,23 @@ import { CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import PageSpinner from "../Spinner/PageSpinner";
+import ImagePreviewLayout from "@/components/Layouts/imagePreview.layout";
 
 interface ImageUploadProps {
-  file?: File;
   name: string;
-  onChange: (url: string | null) => void;
+  onChange: (url: string) => void;
   text?: string;
   src?: string;
+  className?: string;
+  previewMode?: boolean;
 }
 
 export default function ImageUpload({
   src,
   name,
   text = "Upload file",
+  className = "",
+  previewMode = false,
   onChange,
 }: ImageUploadProps) {
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -40,7 +44,7 @@ export default function ImageUpload({
 
   const handleClear = () => {
     setImage(null);
-    onChange(null);
+    onChange("");
   };
 
   useEffect(() => {
@@ -53,29 +57,32 @@ export default function ImageUpload({
 
   return (
     <div
-      className={`flex items-center justify-center rounded-lg hover:ring-violet-400 ${
-        image ? "h-[100px] w-[100px]" : "h-20 w-[150px] ring-1 ring-slate-300"
-      }`}
+      className={`flex items-center justify-center rounded-lg
+       hover:ring-violet-400 h-20 ${
+         image ? "h-[150px] w-[150px]" : "w-[150px] ring-1 ring-slate-300"
+       } ${className}`}
     >
       {imgUploading && (
         <div className="opacity-60">
           <PageSpinner />
         </div>
       )}
-      {image && (
-        <div className="relative">
-          <img src={image} className="h-20 object-cover" alt="me-img" />
+      {!!image && (
+        <div className="relative py-2">
+          <ImagePreviewLayout src={image || ""} alt="image-artist" />
           <span
             onClick={handleClear}
-            className="absolute right-[-10px] top-[-10px] flex h-5 w-5 cursor-pointer 
-            items-center justify-center rounded-full text-sm text-white ring-1 bg-violet-400
+            aria-hidden={previewMode}
+            className="absolute right-[-10px] top-[-5px] flex h-5 w-5 cursor-pointer 
+            items-center justify-center rounded-full text-sm text-white ring-1
+             bg-slate-500 aria-[hidden=true]:hidden hover:scale-125 font-medium
             "
           >
             <CloseOutlined className="hover:fill-violet-500" />
           </span>
         </div>
       )}
-      {!image && !imgUploading && (
+      {!image && !imgUploading && !previewMode && (
         <div
           onClick={handleClick}
           role="button"

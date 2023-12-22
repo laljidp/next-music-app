@@ -1,5 +1,8 @@
 import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import TWInput from "../Input";
+import { useStyleRegistry } from "styled-jsx";
+import Spinner from "../Spinner";
 
 interface SelectMultipleProps {
   options: { name: string; value: string }[];
@@ -9,6 +12,8 @@ interface SelectMultipleProps {
   placeholder?: string;
   label?: string;
   isReadOnly?: boolean;
+  loading?: boolean;
+  showSearch?: boolean;
 }
 
 export default function SelectMultiple(props: SelectMultipleProps) {
@@ -17,17 +22,16 @@ export default function SelectMultiple(props: SelectMultipleProps) {
     options,
     selected,
     isReadOnly = false,
+    showSearch = false,
     label,
     placeholder,
+    loading = false,
   } = props;
   const [showOption, setShowOption] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
-
+  const [isNew, setIsNew] = useState(true);
+  const id = useId();
   const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setSelectedOption(selected);
-  }, [selected]);
 
   const handleClickOutside = (e: any) => {
     if (sectionRef?.current && !sectionRef?.current?.contains(e.target)) {
@@ -36,28 +40,36 @@ export default function SelectMultiple(props: SelectMultipleProps) {
   };
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const isChecked = event.currentTarget.checked;
-    const name = event.currentTarget.name;
+    const { checked: isChecked, value } = event.currentTarget;
     const newOptions = selectedOption.slice();
     if (isChecked) {
-      newOptions.push(name);
+      newOptions.push(value);
     } else {
-      const index = selectedOption.findIndex((opt) => opt === name);
+      const index = selectedOption.findIndex((opt) => opt === value);
       newOptions.splice(index, 1);
     }
     onSelect(newOptions);
   };
 
+  const getTitle = (id: string) => {
+    return options.find((o) => o.value === id)?.name;
+  };
+
+  useEffect(() => {
+    setSelectedOption(selected);
+  }, [selected]);
+
+  useEffect(() => {}, [options]);
+
   useEffect(() => {
     document?.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document?.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
-    <div>
+    <div key={id}>
       {label && (
         <label htmlFor={"label-multiple"} className="text-medium text-sm">
           {label}
@@ -67,19 +79,25 @@ export default function SelectMultiple(props: SelectMultipleProps) {
         ref={sectionRef}
         onClick={() => setShowOption(true)}
         className={`border-1 relative rounded-lg border-solid px-1 py-1.5
-         ring-1 ring-slate-300 hover:ring-violet-400 mt-1 ${
-           isReadOnly && "border-none ring-0 pointer-events-none"
-         }`}
+         ring-1 ring-slate-300 hover:ring-violet-400 mt-1 
+         ${isReadOnly && "border-none ring-0 pointer-events-none"}
+          ${loading && "pointer-events-none opacity-30"}
+         `}
       >
-        <div className="flex items-center justify-start gap-2 flex-wrap cursor-pointer">
-          {selectedOption.length > 0 ? (
+        <div
+          className="flex items-center justify-start gap-2 
+          flex-wrap cursor-pointer relative"
+        >
+          {!!selectedOption.length ? (
             <>
               {selectedOption.map((opt, index) => (
                 <div
-                  key={opt + index}
+                  key={(opt + index).toString()}
                   className="px-3 py-1 ring-1 bg-violet-400 text-white rounded-lg"
                 >
-                  <span className="rounded-xl text-sm font-medium">{opt}</span>
+                  <span className="rounded-xl text-sm font-medium">
+                    {getTitle(opt)}
+                  </span>
                 </div>
               ))}
             </>
@@ -88,28 +106,35 @@ export default function SelectMultiple(props: SelectMultipleProps) {
               <span className="text-slate-500 pl-2 text-sm p-1">
                 {(!isReadOnly && placeholder) || "N/A"}
               </span>
-              {!isReadOnly && (
-                <CaretDownFilled
-                  className={`[&>svg]:fill-violet-500 ${
-                    showOption && "rotate-180"
-                  }`}
-                />
-              )}
             </div>
           )}
 
-          <i></i>
+          {!isReadOnly && !loading && (
+            <CaretDownFilled
+              className={`[&>svg]:fill-violet-500 absolute right-3 ${
+                showOption && "rotate-180"
+              }`}
+            />
+          )}
+          {loading && (
+            <div className="absolute right-3">
+              <Spinner color="violet" />
+            </div>
+          )}
         </div>
-
         <div
           className={`absolute left-0 top-11 z-10 w-full rounded-lg
          bg-white p-2 px-5 py-4 shadow-lg ring-1 ring-violet-400
-         ${
-           !showOption && "hidden"
-         } anim-scale-down anim-scale-down-reverse max-h-[220px] overflow-auto
+         ${!showOption && "hidden"} overflow-auto 
+         anim-scale-down anim-scale-down-reverse max-h-[250px]
          `}
         >
-          {options.map(({ name, value }) => (
+          {showSearch && (
+            <div className="mb-1">
+              <TWInput placeholder="Search options" />
+            </div>
+          )}
+          {options.map(({ name, value }, i) => (
             <div
               key={value}
               className="flex items-center border-b-1 last:border-b-0 p-2
@@ -117,15 +142,16 @@ export default function SelectMultiple(props: SelectMultipleProps) {
             >
               <input
                 type="checkbox"
-                id={name}
+                id={id + i}
                 name={name}
                 checked={selected.includes(value)}
                 onChange={handleChange}
+                value={value}
                 className="mr-4 h-5 w-5 cursor-pointer"
               />
               <label
                 className="cursor-pointer w-full select-none"
-                htmlFor={name}
+                htmlFor={id + i}
               >
                 {name}
               </label>

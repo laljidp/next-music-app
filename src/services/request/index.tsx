@@ -16,7 +16,6 @@ export const configFetchInterceptor = () => {
       let [resource, config] = args;
       const response = await originalFetch(resource, config);
       //TODO: check for 401 & redirect the user
-      console.log({ response });
       if (response.status === 401) {
         window.location.replace("/logout");
         console.log("error response 401");

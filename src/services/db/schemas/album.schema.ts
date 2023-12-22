@@ -3,11 +3,13 @@ import { COLLECTION } from "../constants/db.constants";
 
 const albumSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
+    title: { type: String, required: true, unique: true },
     description: { type: String, required: true },
     releaseDate: { type: Date },
     genre: [{ type: String }],
-    artist: { type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.ARTISTS },
+    artists: [
+      { type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.ARTISTS },
+    ],
     coverImage: { type: String },
     songs: [{ type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.SONGS }],
     // Statistics

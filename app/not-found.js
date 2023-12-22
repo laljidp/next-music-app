@@ -16,6 +16,7 @@ export default function Error404() {
         className="rounded-xl"
         src={"/next-streaming-512x512.png"}
         width={50}
+        priority
         height={50}
       />
       <div className="[line-height:4]">
