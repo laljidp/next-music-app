@@ -128,7 +128,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
 
   if (!artist && !isNew) {
     return (
-      <div className="flex flex-col gap-4 items-center text-center">
+      <div className="flex flex-col gap-4 items-center justify-center text-center h-[65vh]">
         <TWButton
           onClick={handleAddArtist}
           className="w-8 h-8 flex"
@@ -147,10 +147,10 @@ export default function EditViewArtist(props: EditViewArtistProps) {
   return (
     <form method="post" onSubmit={handleSubmit} className="w-full">
       <div
-        className={`flex w-[100%] flex-col justify-center 
-          gap-3 ${animClass}`}
+        className={`flex w-[100%] flex-col 
+        justify-center gap-3 ${animClass}`}
       >
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-row-reverse">
           {!isNew && (
             <TWButton
               onClick={handleAddArtist}

@@ -22,7 +22,7 @@ export default function ImagePreviewLayout(props: ImagePreviewLayoutProps) {
     <div className={`${wrapperClassName}`}>
       <Image
         className={`${className} h-[${height}px] w-[${width}px]`}
-        src={src || "/no-profile-image.png"}
+        src={src || "/no-image.png"}
         height={100}
         loading="lazy"
         alt={alt}

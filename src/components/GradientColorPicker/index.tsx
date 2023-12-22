@@ -12,7 +12,7 @@ interface GradientColorPickerProps {
 
 export default function GradientColorPicker(props: GradientColorPickerProps) {
   const {
-    colors = ["#fff", "#fff", "#fff"],
+    colors = [],
     label,
     isReadOnly = false,
     className = "",
@@ -23,7 +23,7 @@ export default function GradientColorPicker(props: GradientColorPickerProps) {
     via: string;
     to: string;
   }>({
-    from: "#ffffff",
+    from: "#dedede",
     to: "#ffffff",
     via: "#dedede",
   });

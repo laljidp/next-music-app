@@ -41,7 +41,7 @@ export default function AlbumLists(props: AlbumListsProps) {
         >
           <Image
             alt="artist-pic"
-            src={album?.coverImage || "/no-profile-image.png"}
+            src={album?.coverImage || "/no-image.png"}
             height={40}
             width={40}
             priority

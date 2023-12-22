@@ -72,7 +72,7 @@ export default function TWDatePicker(props: TWDatePickerProps) {
             <CloseCircleOutlined
               aria-hidden={isReadOnly}
               onClick={handleClearSelection}
-              className="hover:[&>svg]:fill-violet-700 aria-[hidden=true]:hidden"
+              className="hover:[&>svg]:fill-violet-700 hover:[&>svg]:scale-125 aria-[hidden=true]:hidden"
             />
             <CalendarOutlined className="[&>svg]:fill-violet-600" />
           </div>
@@ -80,16 +80,16 @@ export default function TWDatePicker(props: TWDatePickerProps) {
       </div>
       {showPicker && (
         <div
-          className="fixed right-0 top-0 left-0 h-screen w-screen
-         p-2 border-2 bg-transparent backdrop-blur-sm z-20 
-         animation-scale-up-tl overflow-hidden"
+          className="fixed border-2 left-[50%] top-[20%] bg-transparent backdrop-blur-sm z-20
+           animation-scale-up-tl overflow-hidden"
         >
           <div className="flex justify-center items-center h-full w-full relative">
             <div className="" ref={sectionRef}>
               <InfiniteCalendar
                 width={400}
+                className="bg-violet-400 [&>Cal__Header__root]:bg-violet-400"
                 selected={localDate}
-                height={500}
+                height={450}
                 disabledDays={[0, 6]}
                 maxDate={maxDate}
                 onSelect={handleSelectDate}

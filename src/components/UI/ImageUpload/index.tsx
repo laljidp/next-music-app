@@ -6,7 +6,6 @@ import PageSpinner from "../Spinner/PageSpinner";
 import ImagePreviewLayout from "@/components/Layouts/imagePreview.layout";
 
 interface ImageUploadProps {
-  file?: File;
   name: string;
   onChange: (url: string) => void;
   text?: string;
@@ -73,15 +72,17 @@ export default function ImageUpload({
           <ImagePreviewLayout src={image || ""} alt="image-artist" />
           <span
             onClick={handleClear}
-            className="absolute right-[-10px] top-[-10px] flex h-5 w-5 cursor-pointer 
-            items-center justify-center rounded-full text-sm text-white ring-1 bg-violet-400
+            aria-hidden={previewMode}
+            className="absolute right-[-10px] top-[-5px] flex h-5 w-5 cursor-pointer 
+            items-center justify-center rounded-full text-sm text-white ring-1
+             bg-slate-500 aria-[hidden=true]:hidden hover:scale-125 font-medium
             "
           >
             <CloseOutlined className="hover:fill-violet-500" />
           </span>
         </div>
       )}
-      {!image && !imgUploading && (
+      {!image && !imgUploading && !previewMode && (
         <div
           onClick={handleClick}
           role="button"

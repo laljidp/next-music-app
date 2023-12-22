@@ -20,11 +20,13 @@ export const getAlbums = async (
   let data: any;
   if (searchTerm.trim()?.length > 2) {
     data = await Albums.find({ $or: conditions })
+      .sort({ createdAt: "desc" })
       .skip(Number(page) * Number(batch))
       .limit(batch)
       .select(fields);
   } else {
     data = await Albums.find({})
+      .sort({ createdAt: "desc" })
       .skip(Number(page) * Number(batch))
       .limit(batch)
       .select(fields);
