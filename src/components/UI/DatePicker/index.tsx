@@ -66,7 +66,11 @@ export default function TWDatePicker(props: TWDatePickerProps) {
             className={`py-2 w-full ${!localDate && "text-slate-500"}`}
             onClick={() => setShowPicker(true)}
           >
-            {localDate ? localDate?.toDateString?.() : placeholder}
+            {localDate
+              ? localDate?.toDateString()
+              : isReadOnly
+                ? "N/A"
+                : placeholder}
           </span>
           <div className="flex gap-2">
             <CloseCircleOutlined
