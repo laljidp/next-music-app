@@ -1,6 +1,6 @@
 import { MONGO_ERROR_CODES } from "./constants/db.constants";
 
-export type DBFunctionRT<T> = { data: T | null; error: string | null };
+export type DBFunctionRT<T> = { data?: T | null; error?: string | null };
 
 export type TFuncResponse<T> = Promise<DBFunctionRT<T>>;
 

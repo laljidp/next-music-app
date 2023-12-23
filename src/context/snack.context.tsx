@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { createContext, useState } from "react";
 
-export type SnackSType = "success" | "info" | "warning";
+export type SnackSType = "success" | "info" | "warning" | "error";
 
 export type SnackT = {
   show: boolean;
@@ -63,6 +63,8 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
         return "bg-amber-500";
       case "success":
         return "bg-emerald-500";
+      case "error":
+        return "bg-red-400";
       default:
         return "bg-emerald-500";
     }

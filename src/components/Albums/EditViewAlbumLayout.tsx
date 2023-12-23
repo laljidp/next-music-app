@@ -111,15 +111,26 @@ export default function EditViewAlbumLayout({
       }
       console.log({ _album });
       if (_album) {
+        const newPayload = {
+          description: _album?.description || "",
+          genre: _album?.genre || [],
+          gradientColors: _album?.setting.gradientColors || [],
+          releaseDate: _album?.releaseDate || "",
+          title: _album?.title || "",
+          coverImage: _album.coverImage || "",
+          artists: _album?.artists || [],
+        };
         onSelectAlbum(_album);
         setReadOnly(true);
+        setIsNew(false);
         showSnack("Album data saved!", "success");
-        setAlbumPayload(_album);
-        setMatcherPayload(_album);
+        setAlbumPayload(newPayload);
+        setMatcherPayload(newPayload);
         onAlbumSaved();
       }
-    } catch (err) {
+    } catch (err: any) {
       console.log("Error while posting request to save album::", err);
+      showSnack(err?.toString(), "warning");
     } finally {
       setIsProcessing(false);
     }
@@ -152,7 +163,7 @@ export default function EditViewAlbumLayout({
     }
   }, [albumPayload, matcherPayload]);
 
-  console.log({ isChangesSaved });
+  console.log("Rendering EditViewAlbumLayout");
 
   if (!album && !isNew) {
     return (
@@ -223,7 +234,7 @@ export default function EditViewAlbumLayout({
               required
               placeholder="Title"
               value={albumPayload.title}
-              label="Title"
+              label="Title *"
               onChange={({ currentTarget }) =>
                 handleChange(currentTarget?.name, currentTarget?.value)
               }
@@ -234,7 +245,7 @@ export default function EditViewAlbumLayout({
               value={albumPayload.description}
               placeholder="Description"
               required
-              label="Description"
+              label="Description *"
               rows={5}
               onChange={({ currentTarget }) =>
                 handleChange(currentTarget?.name, currentTarget?.value)

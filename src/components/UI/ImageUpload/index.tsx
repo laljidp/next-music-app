@@ -62,9 +62,10 @@ export default function ImageUpload({
          image ? "h-[150px] w-[150px]" : "w-[150px] ring-1 ring-slate-300"
        } ${className}`}
     >
+      {/* view is in preview mode & no image set yet. */}
       {previewMode && !image && (
         <img
-          className="p-2"
+          className="p-2 object-cover"
           src="/no-image.png"
           alt="no image"
           height={80}

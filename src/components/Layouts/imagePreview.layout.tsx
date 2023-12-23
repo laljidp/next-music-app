@@ -21,7 +21,7 @@ export default function ImagePreviewLayout(props: ImagePreviewLayoutProps) {
   return (
     <div className={`${wrapperClassName}`}>
       <Image
-        className={`${className} h-[${height}px] w-[${width}px]`}
+        className={`${className} h-[${height}px] w-[${width}px] object-cover`}
         src={src || "/no-image.png"}
         height={100}
         loading="lazy"
