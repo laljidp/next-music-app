@@ -9,8 +9,6 @@ import { PlusOutlined } from "@ant-design/icons";
 import TWSwitch from "../UI/Switch";
 import artistRequest from "@/services/request/artists.request";
 import { SnackContext } from "@/context/snack.context";
-import ReadOnlyLayout from "../Layouts/readOnly.layout";
-import ImagePreviewLayout from "../Layouts/imagePreview.layout";
 
 interface EditViewArtistProps {
   artist: ArtistsDto | null;
@@ -80,49 +78,57 @@ export default function EditViewArtist(props: EditViewArtistProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log({ artistPayload });
+    setProcessing(true);
     if (isNew) {
-      setProcessing(true);
-      const payload = {
-        name: artistPayload.name,
-        bio: artistPayload.bio,
-        genre: artistPayload.genre,
-        image: artistPayload.image || null,
-      };
-      const newArtist = (await artistRequest.saveArtistsRequest(
-        payload
-      )) as ArtistsDto;
-      if (newArtist) {
-        // show notification and refetch artists
-        showSnack("Artist saved.", "info");
-        setArtistPayload({
-          bio: newArtist?.bio || "",
-          name: newArtist?.name || "",
-          genre: newArtist?.genre || [],
-          image: newArtist?.image || "",
-        });
-        onArtistAdded();
-        setIsNew(false);
-        setIsReadOnly(true);
+      try {
+        const payload = {
+          name: artistPayload.name,
+          bio: artistPayload.bio,
+          genre: artistPayload.genre,
+          image: artistPayload.image || null,
+        };
+        const newArtist = (await artistRequest.saveArtistsRequest(
+          payload
+        )) as ArtistsDto;
+        if (newArtist) {
+          // show notification and refetch artists
+          showSnack("Artist saved.", "info");
+          setArtistPayload({
+            bio: newArtist?.bio || "",
+            name: newArtist?.name || "",
+            genre: newArtist?.genre || [],
+            image: newArtist?.image || "",
+          });
+          onArtistAdded();
+          setIsNew(false);
+          setIsReadOnly(true);
+          handleSelectArtist(newArtist);
+        }
+      } catch (err: any) {
+        showSnack(err?.toString(), "warning");
+      } finally {
         setProcessing(false);
-        handleSelectArtist(newArtist);
       }
     } else {
       // manage update artist data
-      setProcessing(true);
-      const updatedArtist = await artistRequest.updateArtistRequest({
-        _id: artist?._id || "",
-        name: artistPayload.name,
-        bio: artistPayload.bio,
-        genre: artistPayload.genre,
-        image: artistPayload.image,
-      });
-      if (updatedArtist.name) {
-        showSnack(`Data saved.`, "success");
-        setIsReadOnly(true);
-        onArtistAdded();
+      try {
+        const updatedArtist = await artistRequest.updateArtistRequest({
+          _id: artist?._id || "",
+          name: artistPayload.name,
+          bio: artistPayload.bio,
+          genre: artistPayload.genre,
+          image: artistPayload.image,
+        });
+        if (updatedArtist.name) {
+          showSnack(`Data saved.`, "success");
+          setIsReadOnly(true);
+          onArtistAdded();
+        }
+      } catch (err) {
+        console.log("Error saving artist", err);
+      } finally {
+        setProcessing(true);
       }
-      setProcessing(false);
     }
   };
 
@@ -191,7 +197,6 @@ export default function EditViewArtist(props: EditViewArtistProps) {
         />
         <TWInput
           onChange={({ currentTarget }) => {
-            console.log(currentTarget.value);
             handleChange({
               name: "name",
               value: currentTarget.value,

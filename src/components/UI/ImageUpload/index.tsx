@@ -3,7 +3,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import PageSpinner from "../Spinner/PageSpinner";
-import ImagePreviewLayout from "@/components/Layouts/imagePreview.layout";
+import ImagePreviewLayout from "@/components/Layouts/ImagePreview.layout";
 
 interface ImageUploadProps {
   name: string;
@@ -62,6 +62,15 @@ export default function ImageUpload({
          image ? "h-[150px] w-[150px]" : "w-[150px] ring-1 ring-slate-300"
        } ${className}`}
     >
+      {previewMode && !image && (
+        <img
+          className="p-2"
+          src="/no-image.png"
+          alt="no image"
+          height={80}
+          width={80}
+        />
+      )}
       {imgUploading && (
         <div className="opacity-60">
           <PageSpinner />

@@ -1,4 +1,6 @@
 import Artists from "@/services/db/schemas/artists.schema";
+import { ArtistsDto } from "@/services/types/artists.types";
+import { TFuncResponse, getMongoConstraintError } from "../db.utils";
 
 export type ArtistPayloadT = {
   name: string;
@@ -15,16 +17,18 @@ export type ArtistPayloadT = {
   };
 };
 
-export const saveArtists = async (payload: ArtistPayloadT) => {
+export const saveArtists = async (
+  payload: ArtistPayloadT
+): TFuncResponse<ArtistsDto> => {
   try {
     const data = await Artists.create(payload);
     if (data) {
-      return data;
+      return { data, error: null };
     }
-    return null;
+    return { error: "Artists not saved.", data: null };
   } catch (err) {
-    console.log("Error saving artists", err);
-    return null;
+    const error = getMongoConstraintError(err?.toString() || "");
+    return { data: null, error };
   }
 };
 
@@ -37,30 +41,47 @@ export type GetArtistsPayloadT = {
 export const getArtists = async (
   payload: GetArtistsPayloadT,
   fields: string[] = []
-) => {
-  const { batch, page, searchTerm } = payload;
-  const regex = new RegExp(searchTerm, "i");
-  let conditions = [
-    { bio: regex }, // Matches titles containing 'JavaScript' (case insensitive)
-    { name: regex }, // Matches authors with the name 'John Doe'
-  ];
-  let data: any;
-  if (searchTerm.trim()?.length > 2) {
-    data = await Artists.find({ $or: conditions })
-      .skip(Number(page) * Number(batch))
-      .limit(batch)
-      .select(fields);
-  } else {
-    data = await Artists.find({})
-      .skip(Number(page) * Number(batch))
-      .limit(batch)
-      .select(fields);
+): TFuncResponse<ArtistsDto> => {
+  try {
+    const { batch, page, searchTerm } = payload;
+    const regex = new RegExp(searchTerm, "i");
+    let conditions = [
+      { bio: regex }, // Matches titles containing 'JavaScript' (case insensitive)
+      { name: regex }, // Matches authors with the name 'John Doe'
+    ];
+    let data: any;
+    if (searchTerm.trim()?.length > 2) {
+      data = await Artists.find({ $or: conditions })
+        .sort({ createdAt: "desc" })
+        .skip(Number(page) * Number(batch))
+        .limit(batch)
+        .select(fields);
+    } else {
+      data = await Artists.find({})
+        .skip(Number(page) * Number(batch))
+        .limit(batch)
+        .select(fields);
+    }
+    return { data, error: null };
+  } catch (err) {
+    console.log("Error fetching artists data", err);
+    return { data: null, error: "Service looks down ! please try again later" };
   }
-
-  return data;
 };
 
-export const updateArtist = async (_id: string, payload: ArtistPayloadT) => {
-  const doc = await Artists.findOneAndUpdate({ _id }, payload);
-  return doc;
+export const updateArtist = async (
+  _id: string,
+  payload: ArtistPayloadT
+): TFuncResponse<ArtistsDto> => {
+  try {
+    const artist = await Artists.findOneAndUpdate({ _id }, payload);
+    if (artist) {
+      return { data: artist, error: null };
+    }
+    return { data: null, error: "Artists not saved ! please try later." };
+  } catch (err) {
+    console.log("Error saving artists", err);
+    const error = getMongoConstraintError(err?.toString() || "");
+    return { data: null, error };
+  }
 };

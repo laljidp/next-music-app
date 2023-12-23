@@ -52,7 +52,6 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const hideSnackbar = () => {
-    console.log("Calling hide snackbar");
     setSnack({ ...initialState.snack, show: false });
   };
 
@@ -67,10 +66,6 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
       default:
         return "bg-emerald-500";
     }
-  };
-
-  const closeSnackbar = () => {
-    setSnack(initialState.snack);
   };
 
   return (

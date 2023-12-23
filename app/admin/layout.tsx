@@ -1,5 +1,5 @@
 "use client";
-import SidebarAdminLayout from "@/components/Layouts/sidebar.layout";
+import SidebarAdminLayout from "@/components/Layouts/Sidebar.layout";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

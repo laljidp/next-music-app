@@ -24,7 +24,7 @@ export const GET = async (request: NextRequest, context: any) => {
   }
 
   try {
-    const data = await getArtists({ batch, page, searchTerm }, fields);
+    const { data } = await getArtists({ batch, page, searchTerm }, fields);
     return nextResponseSuccess({ data });
   } catch (err) {
     console.log("Error fetching /api/artists", err);
@@ -45,14 +45,12 @@ export const POST = async (request: NextRequest) => {
     socialMedia: body?.socialMedia || null,
   };
   try {
-    const data = await saveArtists(payload);
+    const { data, error } = await saveArtists(payload);
     if (data) {
       return nextResponseSuccess({ artist: data });
+    } else {
+      return nextResponseError(error || "", 403);
     }
-    return nextResponseSuccess({
-      msg: "POST: /api/artists ERROR",
-      success: false,
-    });
   } catch (err) {
     return nextResponseError(
       "Service is under Maintenance, Please try later",

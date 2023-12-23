@@ -6,3 +6,7 @@ export const COLLECTION = {
   SETTINGS: "Settings",
   ARTISTS: "Artists",
 };
+
+export const MONGO_ERROR_CODES = Object.freeze({
+  DUPLICATE: "E11000",
+});

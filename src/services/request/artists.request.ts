@@ -49,9 +49,12 @@ class ArtistRequest {
       });
       const data = await resp.json();
       return data?.artist || null;
-    } catch (err) {
+    } catch (err: any) {
       console.log("error saving artists::", err);
-      return null;
+      const { message } = (await err?.json()) || {
+        message: "Artist not saved",
+      };
+      throw new Error(message);
     }
   };
 

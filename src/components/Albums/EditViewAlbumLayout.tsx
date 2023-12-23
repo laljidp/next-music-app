@@ -15,9 +15,11 @@ import { albumRequest } from "@/services/request/albums.request";
 import { SnackContext } from "@/context/snack.context";
 import TWSwitch from "../UI/Switch";
 import {
+  ArrowRightOutlined,
   InfoCircleFilled,
   InfoOutlined,
   PlusOutlined,
+  RightOutlined,
 } from "@ant-design/icons";
 
 interface EditViewAlbumLayout {
@@ -173,31 +175,37 @@ export default function EditViewAlbumLayout({
   return (
     <form onSubmit={handleSubmit} className={`w-full ${animClass}`}>
       <div className="flex flex-col gap-5 w-full">
-        <div className="flex justify-between flex-row-reverse">
-          {!isNew && (
-            <TWButton
-              onClick={handleAddAlbum}
-              className="w-8 h-8 flex"
-              variant="outline"
-            >
-              <PlusOutlined className="font-bold text-md" />
-            </TWButton>
-          )}
-
-          {!isChangesSaved && (
-            <div className="flex items-center gap-2">
-              <InfoCircleFilled className="[&>svg]:fill-yellow-500" />
-              <span className="text-xs">Unsaved changes.</span>
-            </div>
-          )}
-
-          <TWSwitch
-            name="isReadOnly"
-            label="Read Only"
-            isDisabled={isNew}
-            checked={isReadOnly}
-            onChange={setReadOnly}
-          />
+        <div className="flex justify-between">
+          <div className="flex items-center gap-1">
+            <span className="text-violet-500 font-medium cursor-pointer hover:scale-110">
+              Songs
+            </span>
+            <RightOutlined className="[&>svg]:fill-violet-500" />
+          </div>
+          <div className="flex items-center gap-4">
+            {!isChangesSaved && (
+              <div className="flex items-center gap-2">
+                <InfoCircleFilled className="[&>svg]:fill-yellow-500 [&>svg]:font-bold" />
+                <span className="text-xs">Unsaved changes.</span>
+              </div>
+            )}
+            <TWSwitch
+              name="isReadOnly"
+              label="ReadOnly"
+              isDisabled={isNew}
+              checked={isReadOnly}
+              onChange={setReadOnly}
+            />
+            {!isNew && (
+              <TWButton
+                onClick={handleAddAlbum}
+                className="w-8 h-8 flex"
+                variant="outline"
+              >
+                <PlusOutlined className="font-bold text-md" />
+              </TWButton>
+            )}
+          </div>
         </div>
         <hr />
         <div className="w-[100%] flex-grow justify-between flex gap-[2rem]">
