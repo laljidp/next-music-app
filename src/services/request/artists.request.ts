@@ -59,14 +59,22 @@ class ArtistRequest {
   };
 
   updateArtistRequest = async (payload: ArtistsDto) => {
-    const resp = await fetch(apiUrls.artists, {
-      method: "PUT",
-      body: JSON.stringify(payload),
-      headers: getDefaultHeaders(),
-    });
-    const data = await resp.json();
-    const artist = data?.artist as ArtistsDto;
-    return artist;
+    try {
+      const resp = await fetch(apiUrls.artists, {
+        method: "PUT",
+        body: JSON.stringify(payload),
+        headers: getDefaultHeaders(),
+      });
+      const data = await resp.json();
+      const artist = data?.artist as ArtistsDto;
+      return artist;
+    } catch (err: any) {
+      console.log("err updating artists", err);
+      const { message } = (await err?.json()) || {
+        message: "Artists not saved",
+      };
+      throw new Error(message);
+    }
   };
 }
 

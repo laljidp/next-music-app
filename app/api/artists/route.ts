@@ -70,10 +70,14 @@ export const PUT = async (request: NextRequest) => {
       genre: body?.genre || [],
     };
 
-    const updatedArtist = await updateArtist(_id, newPayload);
-    return nextResponseSuccess({ artist: updatedArtist });
+    const { data: artist, error } = await updateArtist(_id, newPayload);
+    if (artist) {
+      return nextResponseSuccess({ artist });
+    } else {
+      return nextResponseError(error || "Artist not updated", 400);
+    }
   } catch (err) {
     console.log("Error request PUT /artists", err);
-    return nextResponseError("Services are under maintainance", 503);
+    return nextResponseError("Services are under Maintenance", 503);
   }
 };

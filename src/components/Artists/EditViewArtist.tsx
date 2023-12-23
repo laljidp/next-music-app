@@ -126,8 +126,9 @@ export default function EditViewArtist(props: EditViewArtistProps) {
         }
       } catch (err) {
         console.log("Error saving artist", err);
+        showSnack(err?.toString() || "Artist not updated", "warning");
       } finally {
-        setProcessing(true);
+        setProcessing(false);
       }
     }
   };
