@@ -58,7 +58,7 @@ export default function TWDatePicker(props: TWDatePickerProps) {
         aria-readonly={isReadOnly}
         className="ring-1 hover:cursor-pointer ring-slate-300 px-4
        text-slate-500 rounded-lg hover:ring-violet-400 mt-1       
-       aria-[readonly=true]:pointer-events-none 
+       aria-[readonly=true]:pointer-events-none read-only:ring-0 
        "
       >
         <div className="text-slate-800 flex justify-between items-center">
