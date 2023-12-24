@@ -11,6 +11,7 @@ import useSWR from "swr";
 import { albumRequest } from "@/services/request/albums.request";
 import { apiUrls } from "@/constants";
 import { IAlbumDto } from "@/services/types/albums.types";
+import ListLayout from "@/components/Layouts/List.layout";
 
 export default function AlbumPage() {
   const [searchText, setSearchText] = useState("");
@@ -58,10 +59,7 @@ export default function AlbumPage() {
             }
           />
         </div>
-        <div
-          className="overflow-auto scrollbar-hide h-[calc(100vh-200px)]
-            shadow-lg rounded-xl animation-scale-up-tl"
-        >
+        <ListLayout>
           {isLoading ? (
             <div className="flex items-center justify-center h-full">
               <PageSpinner />
@@ -73,7 +71,7 @@ export default function AlbumPage() {
               albums={albums || []}
             />
           )}
-        </div>
+        </ListLayout>
       </MainRightLayout.Left>
       <MainRightLayout.Separator />
       <MainRightLayout.Right>

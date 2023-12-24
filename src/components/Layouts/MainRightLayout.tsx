@@ -32,7 +32,7 @@ MainRightLayout.Separator = function () {
 
 MainRightLayout.Right = function ({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-[60%] overflow-y-auto scrollbar-thin flex items-center p-2 justify-center">
+    <div className="w-[60%] overflow-y-auto h-[calc(100vh-150px)] scrollbar-thin flex items-start p-2 justify-center">
       {children}
     </div>
   );

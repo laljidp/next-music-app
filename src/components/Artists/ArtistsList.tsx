@@ -31,9 +31,7 @@ export default function ArtistsList(props: IArtistsListProps) {
           role="button"
           aria-selected={artist._id === props.artistSelectedID}
           onClick={() => onSelectArtist(artist)}
-          className="p-2 border-b-1 border-slate-400 border-1 border-solid
-            flex items-center hover:bg-slate-100 rounded-lg cursor-pointer
-            aria-[selected=true]:bg-violet-200"
+          className="card-layout"
         >
           <Image
             alt="artist-pic"

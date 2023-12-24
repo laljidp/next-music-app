@@ -207,7 +207,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
           name="name"
           required={true}
           placeholder="Artist name"
-          label={"Artist Name"}
+          label={"Artist Name *"}
           value={artistPayload?.name}
         />
         <TWTextArea
@@ -221,7 +221,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
           name="bio"
           required={true}
           placeholder="Bio"
-          label={"Bio"}
+          label={"Bio *"}
           value={artistPayload?.bio}
         />
 

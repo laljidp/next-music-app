@@ -5,16 +5,37 @@ const songSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     duration: { type: Number, required: true }, // Duration in seconds
-    artist: { type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.ARTISTS },
+    artist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: COLLECTION.ARTISTS,
+        default: [],
+      },
+    ],
     source: { type: String, required: true },
-    albums: [{ type: mongoose.Schema.Types.ObjectId, ref: COLLECTION.ALBUMS }],
-    genre: [{ type: String }],
+    coverImage: { type: String },
+    albums: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: COLLECTION.ALBUMS,
+        default: [],
+      },
+    ],
+    genre: [{ type: String, default: [] }],
     lyrics: { type: String },
     // Statistics
     plays: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },
     // Other song-related details
-    metadata: { type: Map<String, Number | String | Boolean>, default: {} },
+    metadata: {
+      name: String,
+      kind: String,
+      size: Number,
+      trackNumber: String,
+      bitRate: Number,
+      sampleRate: Number,
+      comment: String,
+    },
     type: {
       type: String,
       enum: ["auto", "user-defined"],
@@ -29,5 +50,9 @@ const songSchema = new mongoose.Schema(
 const Songs =
   mongoose?.models?.[COLLECTION.SONGS] ||
   mongoose.model(COLLECTION.SONGS, songSchema);
+
+// Songs.prototype.IncreaseLikes = function (context: any) {
+//   console.log({ context });
+// };
 
 export default Songs;
