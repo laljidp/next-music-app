@@ -15,9 +15,7 @@ import { albumRequest } from "@/services/request/albums.request";
 import { SnackContext } from "@/context/snack.context";
 import TWSwitch from "../UI/Switch";
 import {
-  ArrowRightOutlined,
   InfoCircleFilled,
-  InfoOutlined,
   LeftOutlined,
   PlusOutlined,
   RightOutlined,
@@ -152,14 +150,11 @@ export default function EditViewAlbumLayout({
       setAlbumPayload(newPayload);
       setMatcherPayload(newPayload);
       setIsNew(false);
+      setShowSongsLayout(false);
       setReadOnly(true);
       toggleAnimClass();
     }
   }, [album]);
-
-  const handleSongsLayout = (show: boolean = true) => {
-    setShowSongsLayout(show);
-  };
 
   const isChangesSaved = useMemo(() => {
     if (JSON.stringify(albumPayload) === JSON.stringify(matcherPayload)) {
@@ -192,8 +187,9 @@ export default function EditViewAlbumLayout({
   return (
     <div className="w-full">
       <div
+        id="album-songs-layout"
         aria-hidden={!showSongsLayout}
-        className="aria-[hidden=true]:hidden aria-[hidden=false]:animation-scale-up-tl"
+        className="anim-scale-out-top"
       >
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-1">
@@ -201,7 +197,7 @@ export default function EditViewAlbumLayout({
             <span
               role="button"
               onClick={() => setShowSongsLayout(false)}
-              className="text-violet-500 font-medium cursor-pointer hover:scale-110"
+              className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110"
             >
               Back
             </span>
@@ -211,8 +207,9 @@ export default function EditViewAlbumLayout({
         </div>
       </div>
       <div
+        id="album-form-layout"
         aria-hidden={showSongsLayout}
-        className="aria-[hidden=true]:hidden aria-[hidden=false]:animation-scale-up-tl"
+        className={`anim-scale-out-right`}
       >
         <form onSubmit={handleSubmit} className={`w-full`}>
           <div className="flex flex-col gap-5 w-full">
@@ -221,19 +218,20 @@ export default function EditViewAlbumLayout({
                 <span
                   role="button"
                   onClick={() => setShowSongsLayout(true)}
-                  className="text-violet-500 font-medium cursor-pointer hover:scale-110"
+                  className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110"
                 >
                   Songs
                 </span>
                 <RightOutlined className="[&>svg]:fill-violet-500" />
               </div>
               <div className="flex items-center gap-4">
-                {!isChangesSaved && (
-                  <div className="flex items-center gap-2">
-                    <InfoCircleFilled className="[&>svg]:fill-yellow-500 [&>svg]:font-bold" />
-                    <span className="text-xs">Unsaved changes.</span>
-                  </div>
-                )}
+                <div
+                  aria-hidden={isChangesSaved}
+                  className="flex items-center gap-2 aria-hide"
+                >
+                  <InfoCircleFilled className="[&>svg]:fill-yellow-500 [&>svg]:font-bold" />
+                  <span className="text-xs">Unsaved changes.</span>
+                </div>
                 <TWSwitch
                   name="isReadOnly"
                   label="ReadOnly"
@@ -241,15 +239,14 @@ export default function EditViewAlbumLayout({
                   checked={isReadOnly}
                   onChange={setReadOnly}
                 />
-                {!isNew && (
-                  <TWButton
-                    onClick={handleAddAlbum}
-                    className="w-8 h-8 flex"
-                    variant="outline"
-                  >
-                    <PlusOutlined className="font-bold text-md" />
-                  </TWButton>
-                )}
+                <TWButton
+                  aria-hidden={isNew}
+                  onClick={handleAddAlbum}
+                  className="w-8 h-8 flex aria-hide"
+                  variant="outline"
+                >
+                  <PlusOutlined className="font-bold text-md" />
+                </TWButton>
               </div>
             </div>
             <hr />
@@ -280,7 +277,7 @@ export default function EditViewAlbumLayout({
                   placeholder="Description"
                   required
                   label="Description *"
-                  rows={5}
+                  rows={4}
                   onChange={({ currentTarget }) =>
                     handleChange(currentTarget?.name, currentTarget?.value)
                   }
@@ -343,14 +340,13 @@ export default function EditViewAlbumLayout({
                 placeholder="Select Genre"
               />
             </div>
-
             <div className="flex">
               <TWButton
                 aria-hidden={isReadOnly}
                 loading={isProcessing}
                 disabled={isChangesSaved}
                 type="submit"
-                className="aria-[hidden=true]:hidden"
+                className="aria-hide"
               >
                 Save Album
               </TWButton>

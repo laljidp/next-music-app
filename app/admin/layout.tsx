@@ -25,7 +25,8 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
   return (
     <>
       <div
-        className="flex text-black fixed top-[45%] bottom-[50%] translate-y-[-50%] w-[320px]"
+        className="flex text-black fixed top-[45%] bottom-[50%]
+         translate-y-[-50%] translate-x-4 w-[300px]"
         id="left-sidebar"
       >
         <SidebarAdminLayout />

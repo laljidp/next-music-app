@@ -154,19 +154,19 @@ export default function EditViewArtist(props: EditViewArtistProps) {
   return (
     <form method="post" onSubmit={handleSubmit} className="w-full">
       <div
-        className={`flex w-[100%] flex-col 
+        className={`flex w-[100%] flex-col
         justify-center gap-3 ${animClass}`}
       >
         <div className="flex justify-between flex-row-reverse">
-          {!isNew && (
-            <TWButton
-              onClick={handleAddArtist}
-              className="w-8 h-8 flex"
-              variant="outline"
-            >
-              <PlusOutlined className="font-bold text-md" />
-            </TWButton>
-          )}
+          <TWButton
+            aria-hidden={isNew}
+            type="button"
+            onClick={handleAddArtist}
+            className="w-8 h-8 flex aria-hide"
+            variant="outline"
+          >
+            <PlusOutlined className="font-bold text-md" />
+          </TWButton>
 
           <TWSwitch
             name="isReadOnly"
@@ -239,16 +239,14 @@ export default function EditViewArtist(props: EditViewArtistProps) {
             })
           }
         />
-        {!isReadOnly && (
-          <TWButton
-            loading={isProcessing}
-            // onClick={handleSaveArtist}
-            className="w-[115px]"
-            type="submit"
-          >
-            Save
-          </TWButton>
-        )}
+        <TWButton
+          aria-hidden={isReadOnly}
+          loading={isProcessing}
+          className="w-[115px] aria-hide"
+          type="submit"
+        >
+          Save
+        </TWButton>
       </div>
     </form>
   );

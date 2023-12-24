@@ -36,7 +36,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <main
           className="max-h-100 flex min-h-screen bg-gradient-to-tr 
-          from-gray-100 to-sky-200 p-5 backdrop-blur-md"
+          from-gray-100 to-sky-200 px-2 backdrop-blur-xl overflow-hidden"
         >
           <NextAuthProvider>
             <SnackContextProvider>
