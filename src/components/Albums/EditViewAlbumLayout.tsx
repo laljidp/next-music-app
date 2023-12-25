@@ -211,7 +211,7 @@ export default function EditViewAlbumLayout({
         aria-hidden={showSongsLayout}
         className={`anim-scale-out-right`}
       >
-        <form onSubmit={handleSubmit} className={`w-full`}>
+        <form onSubmit={handleSubmit} className="w-full">
           <div className="flex flex-col gap-5 w-full">
             <div className="flex justify-between">
               <div className="flex items-center gap-1">

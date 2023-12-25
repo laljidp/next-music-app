@@ -14,19 +14,19 @@ export default function ImagePreviewLayout(props: ImagePreviewLayoutProps) {
     name,
     alt = "img-layout",
     className,
-    height = 150,
-    width = 150,
+    height = 100,
+    width = 100,
     ...rest
   } = props;
   return (
     <div className={`${wrapperClassName}`}>
       <Image
-        className={`${className} h-[${height}px] w-[${width}px] object-cover`}
+        className={`${className} h-[100px] w-[100px] object-cover`}
         src={src || "/no-image.png"}
-        height={100}
+        height={height}
         loading="lazy"
         alt={alt}
-        width={100}
+        width={width}
         {...rest}
       />
     </div>

@@ -2,10 +2,9 @@ export interface ISongsMetadata {
   name: string;
   kind: string;
   size: number;
-  trackNumber: string;
-  bitRate: number;
-  sampleRate: number;
-  comment: string;
+  trackNumber?: string;
+  bitRate?: number;
+  comment?: string;
 }
 
 export interface ISongPayload {

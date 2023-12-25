@@ -31,9 +31,8 @@ const songSchema = new mongoose.Schema(
       name: String,
       kind: String,
       size: Number,
-      trackNumber: String,
+      trackNumber: { type: String, default: 0 },
       bitRate: Number,
-      sampleRate: Number,
       comment: String,
     },
     type: {
