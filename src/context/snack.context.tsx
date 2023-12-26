@@ -75,7 +75,7 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
       {snack.show && snack.text && (
         <div
-          className={`fixed top-2 left-[45%] translate-X-[-50%] border-1 border-solid rounded-2xl px-4 py-2
+          className={`fixed top-2 left-[45%] translate-x-[-50%] border-1 border-solid rounded-2xl px-4 py-2
            anim-scale-down ${getSnackTypeColor(snack.type)}`}
         >
           <div className="text-white text-sm flex justify-evenly items-center gap-3">

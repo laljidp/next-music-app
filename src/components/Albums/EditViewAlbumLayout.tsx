@@ -297,7 +297,7 @@ export default function EditViewAlbumLayout({
                     handleChange("releaseDate", date?.toDateString() || "")
                   }
                 />
-                <hr className="border-2 border-violet-400 font-bold" />
+                <hr className="border-1 border-violet-400 font-bold" />
                 <span className="font-medium">Settings</span>
                 <GradientColorPicker
                   name="gradientColors"

@@ -64,7 +64,7 @@ export default function SongsPage() {
       </MainRightLayout.Left>
       <MainRightLayout.Separator />
       <MainRightLayout.Right>
-        <EditViewSongSection />
+        <EditViewSongSection onSongAdded={refetchSongs} />
       </MainRightLayout.Right>
     </MainRightLayout>
   );

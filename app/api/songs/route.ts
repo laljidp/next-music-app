@@ -52,20 +52,19 @@ export const POST = async (request: NextRequest) => {
     const { metadata = {} } = body;
     const payload: ISongsDto = {
       title: body?.title,
-      artist: body?.artists,
+      artists: body?.artists,
       source: body?.source,
       albums: body?.albums,
       genre: body?.genre,
       lyrics: body?.lyrics,
       duration: body?.duration,
-
+      coverImage: body?.coverImage,
       metadata: {
         name: metadata?.name,
         kind: metadata?.kind,
         size: metadata?.size,
         trackNumber: metadata?.trackNumber,
         bitRate: metadata?.bitRate,
-        sampleRate: metadata?.sampleRate,
         comment: metadata?.comment,
       },
     };
@@ -90,7 +89,7 @@ export async function PUT(request: NextRequest) {
       _id,
       title,
       source,
-      artist,
+      artists,
       albums,
       genre,
       duration,
@@ -101,17 +100,17 @@ export async function PUT(request: NextRequest) {
     if (!_id) {
       return nextResponseError("Bad request, payload missing[id]!", 400);
     }
-    const payload = {
+    const payload: ISongsDto = {
       title,
       source,
-      artist,
       albums,
       genre,
       duration,
       lyrics,
       metadata,
       coverImage,
-    } as ISongsDto;
+      artists,
+    };
     const { data, error } = await updateSong(_id, payload);
     if (error) {
       return nextResponseError(

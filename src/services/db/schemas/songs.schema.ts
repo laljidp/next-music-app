@@ -5,7 +5,7 @@ const songSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     duration: { type: Number, required: true }, // Duration in seconds
-    artist: [
+    artists: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: COLLECTION.ARTISTS,

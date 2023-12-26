@@ -3,6 +3,7 @@ import useClickOutside from "@/utils/useClickOutside";
 import { CalendarOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import InfiniteCalendar from "react-infinite-calendar";
 import "react-infinite-calendar/styles.css"; //
+import { COLORS } from "@/constants";
 
 interface TWDatePickerProps {
   placeholder?: string;
@@ -85,15 +86,20 @@ export default function TWDatePicker(props: TWDatePickerProps) {
       {showPicker && (
         <div
           className="fixed border-2 left-[50%] top-[20%] bg-transparent backdrop-blur-sm z-20
-           animation-scale-up-tl overflow-hidden"
+           animation-scale-up-tl overflow-hidden ring-1 ring-violet-400 rounded-2xl p-2"
         >
           <div className="flex justify-center items-center h-full w-full relative">
             <div className="" ref={sectionRef}>
               <InfiniteCalendar
                 width={400}
-                className="bg-violet-400 [&>Cal__Header__root]:bg-violet-400"
+                className=""
                 selected={localDate}
                 height={450}
+                theme={{
+                  headerColor: COLORS.primary,
+                  weekdayColor: COLORS.primary,
+                  selectionColor: COLORS.primary,
+                }}
                 disabledDays={[0, 6]}
                 maxDate={maxDate}
                 onSelect={handleSelectDate}
@@ -105,3 +111,20 @@ export default function TWDatePicker(props: TWDatePickerProps) {
     </div>
   );
 }
+
+// module.exports = {
+//   accentColor: "#448AFF",
+//   floatingNav: {
+//     background: "rgba(56, 87, 138, 0.94)",
+//     chevron: "#FFA726",
+//     color: "#FFF",
+//   },
+//   headerColor: "#448AFF",
+//   selectionColor: "#559FFF",
+//   textColor: {
+//     active: "#FFF",
+//     default: "#333",
+//   },
+//   todayColor: "#FFA726",
+//   weekdayColor: "#559FFF",
+// };

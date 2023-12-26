@@ -114,9 +114,9 @@ export default function SelectMultiple(props: SelectMultipleProps) {
           )}
           <CaretDownFilled
             aria-hidden={isReadOnly || loading}
-            aria-rotate={showOption}
+            aria-open={showOption}
             className={`[&>svg]:fill-violet-500 absolute right-3
-             aria-hide aria-[rotate=true]:rotate-180`}
+             aria-hide aria-[open=true]:rotate-180`}
           />
           <div aria-hidden={!loading} className="absolute right-3 aria-hide">
             <Spinner color="violet" />

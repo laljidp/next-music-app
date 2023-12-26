@@ -7,17 +7,11 @@ export interface ISongsMetadata {
   comment?: string;
 }
 
-export interface ISongPayload {
-  batch: number;
-  page: number;
-  search: string;
-}
-
 export interface ISongsDto {
   _id?: string;
   title: string;
   duration: number; // ins seconds
-  artist: string[];
+  artists: string[];
   source: string; // song file dest url
   albums: string[];
   genre: string[];

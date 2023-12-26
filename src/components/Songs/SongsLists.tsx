@@ -35,7 +35,7 @@ export default function SongsLists(props: SongsListsProps) {
           <div className="flex flex-col">
             <span>{song.title}</span>
             <span className="text-xs">
-              Duration: {Math.round(Number(song.duration) / 60)}m
+              Duration: {Number(song.duration / 60).toFixed(2)}m
             </span>
           </div>
         </div>

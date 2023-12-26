@@ -43,6 +43,9 @@
     aria-[hidden=false]:delay-200 duration-200;
   }
 
+  audio::-webkit-media-controls-panel {
+    background: #ddd6fe;
+  }
   .anim-scale-out-top {
     @apply aria-[hidden=true]:translate-y-[100vh]
     aria-[hidden=true]:w-0

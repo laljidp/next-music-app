@@ -46,4 +46,12 @@ const LEFT_MENUS = [
   },
 ];
 
-export { apiUrls, config, PAGES, LEFT_MENUS };
+const COLORS = Object.freeze({
+  brand: "#8b5cf6",
+  primary: "#818cf8",
+  secondary: "#475569",
+  primaryLight: "#a78bfa",
+  primaryExtraLight: "#c4b5fd",
+});
+
+export { apiUrls, config, PAGES, LEFT_MENUS, COLORS };
