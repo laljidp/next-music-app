@@ -1,14 +1,15 @@
 import { ISongsDto } from "@/services/types/songs.types";
-import ImagePreviewLayout from "../Layouts/ImagePreview.layout";
 import Image from "next/image";
 import { SolutionOutlined } from "@ant-design/icons";
 
 interface SongsListsProps {
   songs: ISongsDto[];
+  selectedSong?: ISongsDto | null;
+  onSelectSong: (song: ISongsDto) => void;
 }
 
 export default function SongsLists(props: SongsListsProps) {
-  const { songs } = props;
+  const { songs, selectedSong, onSelectSong = () => {} } = props;
   return (
     <div className="mt-3 h-full">
       <div
@@ -24,7 +25,13 @@ export default function SongsLists(props: SongsListsProps) {
         </span>
       </div>
       {songs.map((song) => (
-        <div className="card-layout" key={song._id}>
+        <div
+          role="button"
+          onClick={() => onSelectSong(song)}
+          aria-selected={selectedSong?._id === song._id ? true : false}
+          className="card-layout"
+          key={song._id}
+        >
           <Image
             height={40}
             width={40}

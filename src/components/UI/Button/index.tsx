@@ -36,6 +36,7 @@ export const TWButton: React.FC<TWButtonI> = ({
         loading ? "justify-evenly" : "justify-center"
       } flex items-center gap-2 ${className}`}
       disabled={loading}
+      type={type}
       onClick={onClick}
       {...rest}
     >

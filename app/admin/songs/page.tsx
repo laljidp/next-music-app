@@ -9,12 +9,13 @@ import useSWR from "swr";
 import RootPageLoader from "../../loading";
 import ListLayout from "@/components/Layouts/List.layout";
 import TWInput from "@/components/UI/Input";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import useDebounce from "@/utils/useDebouce";
 
 export default function SongsPage() {
   const [searchText, setSearchText] = useState("");
+  const [selectedSong, setSelectedSong] = useState<ISongsDto | null>(null);
 
   const debounceSearch = useDebounce(searchText, 1000);
 
@@ -27,6 +28,7 @@ export default function SongsPage() {
     songsRequest.fetchSongs,
     {
       revalidateOnFocus: false,
+      revalidateIfStale: false,
     }
   );
 
@@ -34,6 +36,16 @@ export default function SongsPage() {
     const { value } = event.currentTarget;
     setSearchText(value);
   };
+
+  const SongsList = useMemo(() => {
+    return (
+      <SongsLists
+        onSelectSong={setSelectedSong}
+        songs={data || []}
+        selectedSong={selectedSong}
+      />
+    );
+  }, [data, selectedSong]);
 
   return (
     <MainRightLayout>
@@ -58,13 +70,13 @@ export default function SongsPage() {
             <RootPageLoader />
           </div>
           <div aria-hidden={isLoading} className="anim-scale-out-top">
-            <SongsLists songs={data || []} />
+            {SongsList}
           </div>
         </ListLayout>
       </MainRightLayout.Left>
       <MainRightLayout.Separator />
       <MainRightLayout.Right>
-        <EditViewSongSection onSongAdded={refetchSongs} />
+        <EditViewSongSection song={selectedSong} onSongAdded={refetchSongs} />
       </MainRightLayout.Right>
     </MainRightLayout>
   );

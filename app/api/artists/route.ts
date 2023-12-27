@@ -19,7 +19,6 @@ export const GET = async (request: NextRequest, context: any) => {
   const fields = [];
 
   if (!!minimal && minimal === "true") {
-    console.log("Its minimal");
     // configuring selection fields in return
     fields.push("_id", "name");
   }

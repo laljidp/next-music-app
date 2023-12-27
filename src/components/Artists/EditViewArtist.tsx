@@ -9,6 +9,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import TWSwitch from "../UI/Switch";
 import artistRequest from "@/services/request/artists.request";
 import { SnackContext } from "@/context/snack.context";
+import AddNewButton from "../UI/Button/AddNewButton";
 
 interface EditViewArtistProps {
   artist: ArtistsDto | null;
@@ -136,13 +137,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
   if (!artist && !isNew) {
     return (
       <div className="flex flex-col gap-4 items-center justify-center text-center h-[65vh]">
-        <TWButton
-          onClick={handleAddArtist}
-          className="w-8 h-8 flex"
-          variant="outline"
-        >
-          <PlusOutlined className="font-bold text-md" />
-        </TWButton>
+        <AddNewButton onClick={handleAddArtist} />
         <p className="text-sm">
           Select an artist or click the '+' button to switch to{" "}
           <span className="font-medium">Add New Artist</span> layout.
@@ -158,16 +153,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
         justify-center gap-3 ${animClass}`}
       >
         <div className="flex justify-between flex-row-reverse">
-          <TWButton
-            aria-hidden={isNew}
-            type="button"
-            onClick={handleAddArtist}
-            className="w-8 h-8 flex aria-hide"
-            variant="outline"
-          >
-            <PlusOutlined className="font-bold text-md" />
-          </TWButton>
-
+          <AddNewButton onClick={handleAddArtist} />
           <TWSwitch
             name="isReadOnly"
             label="Read Only"

@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { CloseCircleOutlined, CloudUploadOutlined } from "@ant-design/icons";
+import {
+  CloseCircleOutlined,
+  CloudDownloadOutlined,
+  CloudUploadOutlined,
+  DownloadOutlined,
+  PlayCircleOutlined,
+} from "@ant-design/icons";
 import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
 import PageSpinner from "../UI/Spinner/PageSpinner";
 import IconView from "../Layouts/IconView.layout";
@@ -12,6 +18,7 @@ interface SongUploadControlProps {
   error?: boolean;
   errorText?: string;
   height?: number;
+  readOnly?: boolean;
   className?: string;
   onDurationChange?: (duration: number) => void;
 }
@@ -20,6 +27,7 @@ export default function SongUploadControl(props: SongUploadControlProps) {
   const {
     labelText = "Upload Song",
     className = "",
+    readOnly = false,
     onFileUpload = () => {},
     source,
     error = false,
@@ -29,6 +37,7 @@ export default function SongUploadControl(props: SongUploadControlProps) {
   } = props;
   const [songSource, setSongSource] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [loadSong, setLoadSong] = useState(false);
 
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -70,8 +79,13 @@ export default function SongUploadControl(props: SongUploadControlProps) {
   useEffect(() => {
     if (source) {
       setSongSource(source);
+      setLoadSong(false);
+    } else {
+      setSongSource(null);
     }
   }, [source]);
+
+  console.log("source::", source);
 
   return (
     <>
@@ -95,25 +109,37 @@ export default function SongUploadControl(props: SongUploadControlProps) {
             className="ring-1 ring-violet-400 rounded-full flex items-center gap-1
             px-3 py-1 text-xs hover:bg-violet-400 hover:text-white"
           >
-            <CloudUploadOutlined className="[&>svg]:fill-violet-500 [&>svg]:text-md" />
+            <CloudUploadOutlined className="[&>svg]:fill-violet-600 [&>svg]:text-md" />
             <span>{labelText}</span>
           </div>
           <span className=" text-[10px] ml-2">mp3, aac, wav, ogg</span>
         </div>
-        {songSource && (
-          <div className="w-[75%] relative [audio::-webkit-media-controls-panel]:bg-violet-400">
+        <div
+          className="aria-hide"
+          aria-hidden={loadSong || !source}
+          onClick={() => setLoadSong(true)}
+          role="button"
+        >
+          <div className="flex bg-slate-100 px-4 py-2 items-center gap-2 rounded-full hover:bg-violet-200">
+            <IconView Icon={PlayCircleOutlined} fill="fill-violet-400" />{" "}
+            <span className="text-sm">Load song</span>
+          </div>
+        </div>
+        {songSource && loadSong && (
+          <div className="w-[100%] relative [audio::-webkit-media-controls-panel]:bg-violet-400">
             <audio
               onDurationChange={({ currentTarget }) =>
                 onDurationChange(currentTarget.duration)
               }
               controls
+              className="w-full"
               autoPlay={false}
-              className=""
             >
               <source src={songSource} />
             </audio>
             <i
-              className="absolute right-[-10px] top-[-20px] hover:scale-125"
+              aria-hidden={readOnly}
+              className="absolute right-[-10px] top-[-20px] hover:scale-125 aria-hide"
               role="button"
               onClick={handleClear}
             >

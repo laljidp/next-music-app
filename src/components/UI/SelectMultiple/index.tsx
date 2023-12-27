@@ -92,7 +92,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
           className="flex items-center justify-start gap-2 
           flex-wrap cursor-pointer relative"
         >
-          {!!selectedOption.length ? (
+          {!!selectedOption?.length ? (
             <>
               {selectedOption.map((opt, index) => (
                 <div
@@ -147,7 +147,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
                 type="checkbox"
                 id={id + i}
                 name={name}
-                checked={selected.includes(value)}
+                checked={!!selected?.includes(value)}
                 onChange={handleChange}
                 value={value}
                 className="mr-4 h-5 w-5 cursor-pointer"

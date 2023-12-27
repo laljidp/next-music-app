@@ -20,6 +20,7 @@ import {
   PlusOutlined,
   RightOutlined,
 } from "@ant-design/icons";
+import AddNewButton from "../UI/Button/AddNewButton";
 
 interface EditViewAlbumLayout {
   album?: IAlbumDto | null;
@@ -169,13 +170,7 @@ export default function EditViewAlbumLayout({
   if (!album && !isNew) {
     return (
       <div className="flex flex-col gap-4 items-center justify-center h-[65vh]">
-        <TWButton
-          onClick={handleAddAlbum}
-          className="w-8 h-8 flex"
-          variant="outline"
-        >
-          <PlusOutlined className="font-bold text-md" />
-        </TWButton>
+        <AddNewButton onClick={handleAddAlbum} />
         <p className="text-sm">
           Select an artist or click the '+' button to switch to{" "}
           <span className="font-medium">Add New Album</span> layout.
@@ -239,14 +234,7 @@ export default function EditViewAlbumLayout({
                   checked={isReadOnly}
                   onChange={setReadOnly}
                 />
-                <TWButton
-                  aria-hidden={isNew}
-                  onClick={handleAddAlbum}
-                  className="w-8 h-8 flex aria-hide"
-                  variant="outline"
-                >
-                  <PlusOutlined className="font-bold text-md" />
-                </TWButton>
+                <AddNewButton onClick={handleAddAlbum} />
               </div>
             </div>
             <hr />

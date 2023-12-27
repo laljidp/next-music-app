@@ -21,7 +21,6 @@ export async function GET(req: NextRequest) {
     const fields = [];
 
     if (!!minimal && minimal === "true") {
-      console.log("Its minimal");
       fields.push("_id", "title");
     }
 
