@@ -1,11 +1,6 @@
 import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
-import {
-  CloseOutlined,
-  CloudDownloadOutlined,
-  CloudUploadOutlined,
-} from "@ant-design/icons";
-import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { CloseOutlined, CloudUploadOutlined } from "@ant-design/icons";
+import { useEffect, useRef, useState } from "react";
 import PageSpinner from "../Spinner/PageSpinner";
 import ImagePreviewLayout from "@/components/Layouts/ImagePreview.layout";
 
