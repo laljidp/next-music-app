@@ -11,18 +11,25 @@ export const getDefaultHeaders = (headers: Record<string, string> = {}) => {
 
 export const configFetchInterceptor = () => {
   if (typeof window !== "undefined") {
-    const { fetch: originalFetch } = window || {};
+    const { fetch: defaultFetch } = window;
     window.fetch = async (...args: any) => {
       let [resource, config] = args;
-      const response = await originalFetch(resource, config);
-      //TODO: check for 401 & redirect the user
-      if (response.status === 401) {
-        window.location.replace("/logout");
-        console.log("error response 401");
-        return response;
-      } else {
-        return response;
+      try {
+        const resp = await defaultFetch(resource, config);
+
+        if (!resp.ok) {
+          if (resp.status === 401) {
+            window.location.replace("/logout");
+            console.log("error response 401");
+          }
+          return Promise.reject(resp);
+        }
+        // when succeeding..
+        return resp;
+      } catch (err) {
+        return Promise.reject(err);
       }
+      //TODO: check for 401 & redirect the user
     };
   }
 };

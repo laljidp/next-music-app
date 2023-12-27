@@ -1,9 +1,13 @@
 import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
-import { CloseOutlined } from "@ant-design/icons";
+import {
+  CloseOutlined,
+  CloudDownloadOutlined,
+  CloudUploadOutlined,
+} from "@ant-design/icons";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import PageSpinner from "../Spinner/PageSpinner";
-import ImagePreviewLayout from "@/components/Layouts/imagePreview.layout";
+import ImagePreviewLayout from "@/components/Layouts/ImagePreview.layout";
 
 interface ImageUploadProps {
   name: string;
@@ -58,46 +62,63 @@ export default function ImageUpload({
   return (
     <div
       className={`flex items-center justify-center rounded-lg
-       hover:ring-violet-400 h-20 ${
-         image ? "h-[150px] w-[150px]" : "w-[150px] ring-1 ring-slate-300"
+       hover:ring-violet-400 h-[150px] w-[150px] ring-1 ${
+         !image && "ring-slate-300"
        } ${className}`}
     >
-      {imgUploading && (
-        <div className="opacity-60">
-          <PageSpinner />
-        </div>
+      {/* view is in preview mode & no image set yet. */}
+      {previewMode && !image && (
+        <img
+          aria-hidden={!previewMode && image}
+          className="p-2 object-cover"
+          src="/no-image.png"
+          alt="no image"
+          height={80}
+          width={80}
+        />
       )}
-      {!!image && (
-        <div className="relative py-2">
-          <ImagePreviewLayout src={image || ""} alt="image-artist" />
-          <span
-            onClick={handleClear}
-            aria-hidden={previewMode}
-            className="absolute right-[-10px] top-[-5px] flex h-5 w-5 cursor-pointer 
+      <div aria-hidden={!imgUploading} className="opacity-60 aria-hide">
+        <PageSpinner />
+      </div>
+      <div aria-hidden={!image} className="relative py-2 aria-hide">
+        <ImagePreviewLayout
+          height={100}
+          width={100}
+          src={image || ""}
+          alt="image-upload"
+        />
+        <span
+          onClick={handleClear}
+          aria-hidden={previewMode}
+          className="absolute right-[-10px] top-[-5px] flex h-5 w-5 cursor-pointer 
             items-center justify-center rounded-full text-sm text-white ring-1
              bg-slate-500 aria-[hidden=true]:hidden hover:scale-125 font-medium
             "
-          >
-            <CloseOutlined className="hover:fill-violet-500" />
-          </span>
-        </div>
-      )}
-      {!image && !imgUploading && !previewMode && (
-        <div
-          onClick={handleClick}
-          role="button"
-          className="flex items-center rounded-xl px-4 py-1 text-center text-xs ring-1
-          ring-violet-400 hover:cursor-pointer hover:bg-violet-400 hover:text-white"
         >
-          <span>{text}</span>
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*"
-            name={name}
-            className="hidden"
-            onChange={handleFileChange}
-          />
+          <CloseOutlined className="hover:fill-violet-500" />
+        </span>
+      </div>
+      {!image && !imgUploading && !previewMode && (
+        <div className="flex flex-col gap-2 items-center">
+          <i>
+            <CloudUploadOutlined className="[&>svg]:fill-violet-400 [&>svg]:text-4xl" />
+          </i>
+          <div
+            onClick={handleClick}
+            role="button"
+            className="flex items-center rounded-xl px-4 py-1 text-center text-xs ring-1
+          ring-violet-400 hover:cursor-pointer hover:bg-violet-400 hover:text-white"
+          >
+            <span>{text}</span>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              name={name}
+              className="hidden"
+              onChange={handleFileChange}
+            />
+          </div>
         </div>
       )}
     </div>

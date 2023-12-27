@@ -1,6 +1,7 @@
 "use client";
 import ArtistsList from "@/components/Artists/ArtistsList";
 import EditViewArtist from "@/components/Artists/EditViewArtist";
+import ListLayout from "@/components/Layouts/List.layout";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
@@ -55,10 +56,7 @@ const ArtistsAdminPage = () => {
             }
           />
         </div>
-        <div
-          className="overflow-auto scrollbar-hide
-           shadow-lg rounded-xl animation-scale-up-tl h-[calc(100vh-200px)]"
-        >
+        <ListLayout>
           {isLoading ? (
             <div className="flex items-center justify-center h-full">
               <PageSpinner />
@@ -70,7 +68,7 @@ const ArtistsAdminPage = () => {
               artists={data || []}
             />
           )}
-        </div>
+        </ListLayout>
       </MainRightLayout.Left>
       <MainRightLayout.Separator />
       <MainRightLayout.Right>

@@ -16,9 +16,11 @@ import { SnackContext } from "@/context/snack.context";
 import TWSwitch from "../UI/Switch";
 import {
   InfoCircleFilled,
-  InfoOutlined,
+  LeftOutlined,
   PlusOutlined,
+  RightOutlined,
 } from "@ant-design/icons";
+import AddNewButton from "../UI/Button/AddNewButton";
 
 interface EditViewAlbumLayout {
   album?: IAlbumDto | null;
@@ -50,6 +52,7 @@ export default function EditViewAlbumLayout({
   const [isReadOnly, setReadOnly] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isNew, setIsNew] = useState(false);
+  const [showSongsLayout, setShowSongsLayout] = useState(false);
   const { showSnack } = useContext(SnackContext);
 
   const [animClass, setAnimClass] = useState<"animation-scale-up-tl" | "">(
@@ -109,15 +112,26 @@ export default function EditViewAlbumLayout({
       }
       console.log({ _album });
       if (_album) {
+        const newPayload = {
+          description: _album?.description || "",
+          genre: _album?.genre || [],
+          gradientColors: _album?.setting.gradientColors || [],
+          releaseDate: _album?.releaseDate || "",
+          title: _album?.title || "",
+          coverImage: _album.coverImage || "",
+          artists: _album?.artists || [],
+        };
         onSelectAlbum(_album);
         setReadOnly(true);
+        setIsNew(false);
         showSnack("Album data saved!", "success");
-        setAlbumPayload(_album);
-        setMatcherPayload(_album);
+        setAlbumPayload(newPayload);
+        setMatcherPayload(newPayload);
         onAlbumSaved();
       }
-    } catch (err) {
+    } catch (err: any) {
       console.log("Error while posting request to save album::", err);
+      showSnack(err?.toString(), "warning");
     } finally {
       setIsProcessing(false);
     }
@@ -137,6 +151,7 @@ export default function EditViewAlbumLayout({
       setAlbumPayload(newPayload);
       setMatcherPayload(newPayload);
       setIsNew(false);
+      setShowSongsLayout(false);
       setReadOnly(true);
       toggleAnimClass();
     }
@@ -150,18 +165,12 @@ export default function EditViewAlbumLayout({
     }
   }, [albumPayload, matcherPayload]);
 
-  console.log({ isChangesSaved });
+  console.log("Rendering EditViewAlbumLayout");
 
   if (!album && !isNew) {
     return (
       <div className="flex flex-col gap-4 items-center justify-center h-[65vh]">
-        <TWButton
-          onClick={handleAddAlbum}
-          className="w-8 h-8 flex"
-          variant="outline"
-        >
-          <PlusOutlined className="font-bold text-md" />
-        </TWButton>
+        <AddNewButton onClick={handleAddAlbum} />
         <p className="text-sm">
           Select an artist or click the '+' button to switch to{" "}
           <span className="font-medium">Add New Album</span> layout.
@@ -171,138 +180,168 @@ export default function EditViewAlbumLayout({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`w-full ${animClass}`}>
-      <div className="flex flex-col gap-5 w-full">
-        <div className="flex justify-between flex-row-reverse">
-          {!isNew && (
-            <TWButton
-              onClick={handleAddAlbum}
-              className="w-8 h-8 flex"
-              variant="outline"
+    <div className="w-full">
+      <div
+        id="album-songs-layout"
+        aria-hidden={!showSongsLayout}
+        className="anim-scale-out-top"
+      >
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-1">
+            <LeftOutlined className="[&>svg]:fill-violet-500" />
+            <span
+              role="button"
+              onClick={() => setShowSongsLayout(false)}
+              className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110"
             >
-              <PlusOutlined className="font-bold text-md" />
-            </TWButton>
-          )}
-
-          {!isChangesSaved && (
-            <div className="flex items-center gap-2">
-              <InfoCircleFilled className="[&>svg]:fill-yellow-500" />
-              <span className="text-xs">Unsaved changes.</span>
-            </div>
-          )}
-
-          <TWSwitch
-            name="isReadOnly"
-            label="Read Only"
-            isDisabled={isNew}
-            checked={isReadOnly}
-            onChange={setReadOnly}
-          />
-        </div>
-        <hr />
-        <div className="w-[100%] flex-grow justify-between flex gap-[2rem]">
-          <div className="flex flex-col gap-3 w-[100%]">
-            <ImageUpload
-              previewMode={isReadOnly}
-              name="coverImage"
-              onChange={(url) => handleChange("coverImage", url)}
-              className="h-[130px] w-[230px]"
-              src={albumPayload.coverImage || ""}
-            />
-            <TWInput
-              readOnly={isReadOnly}
-              name="title"
-              required
-              placeholder="Title"
-              value={albumPayload.title}
-              label="Title"
-              onChange={({ currentTarget }) =>
-                handleChange(currentTarget?.name, currentTarget?.value)
-              }
-            />
-            <TWTextArea
-              readOnly={isReadOnly}
-              name="description"
-              value={albumPayload.description}
-              placeholder="Description"
-              required
-              label="Description"
-              rows={5}
-              onChange={({ currentTarget }) =>
-                handleChange(currentTarget?.name, currentTarget?.value)
-              }
-            />
+              Back
+            </span>
           </div>
-          <div className="flex flex-col w-[100%] gap-3">
-            <TWDatePicker
-              isReadOnly={isReadOnly}
-              label="Release Date"
-              name="releaseDate"
-              date={
-                !!albumPayload?.releaseDate
-                  ? new Date(albumPayload.releaseDate)
-                  : undefined
-              }
-              onSelectDate={(date) =>
-                handleChange("releaseDate", date?.toDateString() || "")
-              }
-            />
-            <hr className="border-2 border-violet-400 font-bold" />
-            <span className="font-medium">Settings</span>
-            <GradientColorPicker
-              name="gradientColors"
-              isReadOnly={isReadOnly}
-              colors={albumPayload.gradientColors}
-              label="Gradient cover colors"
-              onColorChanges={(colors) =>
-                handleChange("gradientColors", colors)
-              }
-            />
-          </div>
-        </div>
-        <div>
-          <SelectMultiple
-            isReadOnly={isReadOnly}
-            onSelect={(selected) => {
-              handleChange("artists", selected);
-            }}
-            options={artists.map((arts) => ({
-              name: arts.name,
-              value: arts._id,
-            }))}
-            selected={albumPayload.artists}
-            name="artists"
-            label="Artists"
-            placeholder="Select Artists"
-            loading={artistLoading}
-          />
-        </div>
-        <div>
-          <SelectMultiple
-            isReadOnly={isReadOnly}
-            onSelect={(genres) => {
-              handleChange("genre", genres);
-            }}
-            options={GENRES.map((g) => ({ name: g, value: g }))}
-            label="Genre"
-            selected={albumPayload.genre}
-            name="genre"
-            placeholder="Select Genre"
-          />
-        </div>
-
-        <div className="flex">
-          <TWButton
-            aria-hidden={isReadOnly}
-            loading={isProcessing}
-            disabled={isChangesSaved}
-            type="submit"
-            className="aria-[hidden=true]:hidden"
-          >
-            Save Album
-          </TWButton>
+          <hr />
+          <div>Songs lists</div>
         </div>
       </div>
-    </form>
+      <div
+        id="album-form-layout"
+        aria-hidden={showSongsLayout}
+        className={`anim-scale-out-right`}
+      >
+        <form onSubmit={handleSubmit} className="w-full">
+          <div className="flex flex-col gap-5 w-full">
+            <div className="flex justify-between">
+              <div className="flex items-center gap-1">
+                <span
+                  role="button"
+                  onClick={() => setShowSongsLayout(true)}
+                  className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110"
+                >
+                  Songs
+                </span>
+                <RightOutlined className="[&>svg]:fill-violet-500" />
+              </div>
+              <div className="flex items-center gap-4">
+                <div
+                  aria-hidden={isChangesSaved}
+                  className="flex items-center gap-2 aria-hide"
+                >
+                  <InfoCircleFilled className="[&>svg]:fill-yellow-500 [&>svg]:font-bold" />
+                  <span className="text-xs">Unsaved changes.</span>
+                </div>
+                <TWSwitch
+                  name="isReadOnly"
+                  label="ReadOnly"
+                  isDisabled={isNew}
+                  checked={isReadOnly}
+                  onChange={setReadOnly}
+                />
+                <AddNewButton onClick={handleAddAlbum} />
+              </div>
+            </div>
+            <hr />
+            <div className="w-[100%] flex-grow justify-between flex gap-[2rem]">
+              <div className="flex flex-col gap-3 w-[100%]">
+                <ImageUpload
+                  previewMode={isReadOnly}
+                  name="coverImage"
+                  onChange={(url) => handleChange("coverImage", url)}
+                  className="h-[130px] w-[230px]"
+                  src={albumPayload.coverImage || ""}
+                />
+                <TWInput
+                  readOnly={isReadOnly}
+                  name="title"
+                  required
+                  placeholder="Title"
+                  value={albumPayload.title}
+                  label="Title *"
+                  onChange={({ currentTarget }) =>
+                    handleChange(currentTarget?.name, currentTarget?.value)
+                  }
+                />
+                <TWTextArea
+                  readOnly={isReadOnly}
+                  name="description"
+                  value={albumPayload.description}
+                  placeholder="Description"
+                  required
+                  label="Description *"
+                  rows={4}
+                  onChange={({ currentTarget }) =>
+                    handleChange(currentTarget?.name, currentTarget?.value)
+                  }
+                />
+              </div>
+              <div className="flex flex-col w-[100%] gap-3">
+                <TWDatePicker
+                  isReadOnly={isReadOnly}
+                  label="Release Date"
+                  name="releaseDate"
+                  date={
+                    !!albumPayload?.releaseDate
+                      ? new Date(albumPayload.releaseDate)
+                      : undefined
+                  }
+                  onSelectDate={(date) =>
+                    handleChange("releaseDate", date?.toDateString() || "")
+                  }
+                />
+                <hr className="border-1 border-violet-400 font-bold" />
+                <span className="font-medium">Settings</span>
+                <GradientColorPicker
+                  name="gradientColors"
+                  isReadOnly={isReadOnly}
+                  colors={albumPayload.gradientColors}
+                  label="Gradient cover colors"
+                  onColorChanges={(colors) =>
+                    handleChange("gradientColors", colors)
+                  }
+                />
+              </div>
+            </div>
+            <div>
+              <SelectMultiple
+                isReadOnly={isReadOnly}
+                onSelect={(selected) => {
+                  handleChange("artists", selected);
+                }}
+                options={artists.map((arts) => ({
+                  name: arts.name,
+                  value: arts._id,
+                }))}
+                selected={albumPayload.artists}
+                name="artists"
+                label="Artists"
+                placeholder="Select Artists"
+                loading={artistLoading}
+              />
+            </div>
+            <div>
+              <SelectMultiple
+                isReadOnly={isReadOnly}
+                onSelect={(genres) => {
+                  handleChange("genre", genres);
+                }}
+                options={GENRES.map((g) => ({ name: g, value: g }))}
+                label="Genre"
+                selected={albumPayload.genre}
+                name="genre"
+                placeholder="Select Genre"
+              />
+            </div>
+            <div className="flex">
+              <TWButton
+                aria-hidden={isReadOnly}
+                loading={isProcessing}
+                disabled={isChangesSaved}
+                type="submit"
+                className="aria-hide"
+              >
+                Save Album
+              </TWButton>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }

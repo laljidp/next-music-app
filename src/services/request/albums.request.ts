@@ -44,9 +44,11 @@ class AlbumRequest {
       });
       const data = await resp.json();
       return data?.album;
-    } catch (err) {
-      console.log("Error calling /POST", apiUrls.albums, err);
-      return null;
+    } catch (err: any) {
+      const { message } = (await err?.json()) || {
+        message: "Album not saved ! Please try again later",
+      };
+      throw new Error(message);
     }
   };
 
@@ -59,9 +61,12 @@ class AlbumRequest {
       });
       const data = await resp.json();
       return data?.album;
-    } catch (err) {
+    } catch (err: any) {
       console.log("Error calling /PUT /api/albums", err);
-      return null;
+      const { message } = (await err?.json()) || {
+        message: "Album not saved ! Please try again later",
+      };
+      throw new Error(message);
     }
   };
 }

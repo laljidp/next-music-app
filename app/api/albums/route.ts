@@ -4,7 +4,7 @@ import {
   nextResponseError,
   nextResponseSuccess,
 } from "@/utils/nextResponse.util";
-import { IAlbumDto, IAlbumStatPayload } from "@/services/types/albums.types";
+import { IAlbumDto } from "@/services/types/albums.types";
 import {
   getAlbums,
   saveAlbum,
@@ -18,18 +18,20 @@ export async function GET(req: NextRequest) {
     const minimal = params.get("minimal") || "";
     const batch = (params.get("batch") || 35) as number;
     const page = (params.get("page") || 0) as number;
-    const data = await fetchAllUsers();
-    console.log({ data });
-
     const fields = [];
 
     if (!!minimal && minimal === "true") {
-      console.log("Its minimal");
       fields.push("_id", "title");
     }
 
     try {
-      const data = await getAlbums({ batch, page, searchTerm }, fields);
+      const { data, error } = await getAlbums(
+        { batch, page, searchTerm },
+        fields
+      );
+      if (error) {
+        return nextResponseError(error, 400);
+      }
       return nextResponseSuccess({ data });
     } catch (err) {
       console.log("Error fetching /api/artists", err);
@@ -56,7 +58,10 @@ export async function POST(req: NextRequest) {
         gradientColors: body?.gradientColors,
       },
     };
-    const album = await saveAlbum(payload);
+    const { data: album, error } = await saveAlbum(payload);
+    if (error) {
+      return nextResponseError(error, 400);
+    }
     return nextResponseSuccess({ album });
   } catch (err) {
     console.log("Error processing /POST /api/albums", err);
@@ -91,10 +96,11 @@ export async function PUT(req: NextRequest) {
       return nextResponseError("Bad request !", 501);
     }
     // TODO: apply validation on payload & process further
-    const album = await updateAlbum(_id, albumPayload);
-    if (album) {
-      return nextResponseSuccess({ album });
+    const { data: album, error } = await updateAlbum(_id, albumPayload);
+    if (error) {
+      return nextResponseError(error, 400);
     }
+    return nextResponseSuccess({ album });
   } catch (err) {
     console.log("Error processing /PUT /api/albums", err);
   }

@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { createContext, useState } from "react";
 
-export type SnackSType = "success" | "info" | "warning";
+export type SnackSType = "success" | "info" | "warning" | "error";
 
 export type SnackT = {
   show: boolean;
@@ -52,7 +52,6 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const hideSnackbar = () => {
-    console.log("Calling hide snackbar");
     setSnack({ ...initialState.snack, show: false });
   };
 
@@ -64,13 +63,11 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
         return "bg-amber-500";
       case "success":
         return "bg-emerald-500";
+      case "error":
+        return "bg-red-400";
       default:
         return "bg-emerald-500";
     }
-  };
-
-  const closeSnackbar = () => {
-    setSnack(initialState.snack);
   };
 
   return (
@@ -78,7 +75,7 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
       {snack.show && snack.text && (
         <div
-          className={`fixed top-2 left-[45%] translate-X-[-50%] border-1 border-solid rounded-2xl px-4 py-2
+          className={`fixed top-2 left-[45%] translate-x-[-50%] border-1 border-solid rounded-2xl px-4 py-2
            anim-scale-down ${getSnackTypeColor(snack.type)}`}
         >
           <div className="text-white text-sm flex justify-evenly items-center gap-3">
