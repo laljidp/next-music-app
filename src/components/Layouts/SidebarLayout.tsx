@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { LEFT_MENUS } from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
+import { SettingFilled, SettingOutlined } from "@ant-design/icons";
+import IconView from "./IconView.layout";
 
 const SidebarAdminLayout: React.FC = () => {
   const { data } = useSession();
@@ -73,6 +75,9 @@ const SidebarAdminLayout: React.FC = () => {
           </ul>
         </div>
         <div className="flex justify-center">
+          <i>
+            <IconView Icon={SettingFilled} size="xxl" />
+          </i>
           <TWButton
             className="mt-8 h-7 w-fit px-3 hover:scale-105"
             variant="outline"
