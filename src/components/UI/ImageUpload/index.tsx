@@ -2,7 +2,7 @@ import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
 import { CloseOutlined, CloudUploadOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
 import PageSpinner from "../Spinner/PageSpinner";
-import ImagePreviewLayout from "@/components/Layouts/ImagePreview.layout";
+import ImagePreviewLayout from "@/components/Layouts/ImagePreviewLayout";
 
 interface ImageUploadProps {
   name: string;
