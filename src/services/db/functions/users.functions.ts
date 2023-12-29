@@ -21,7 +21,7 @@ export const getUserByEmail = async (
     role: true,
   }
 ) => {
-  const user = await Users.find({ email }).select(select);
+  const user = await Users.findOne({ email }).select(select);
   if (!user) {
     return null;
   }
@@ -50,7 +50,8 @@ export const createUserIfNotExists = async (
 ): Promise<UserProcessStat> => {
   try {
     const user = await getUserByEmail(payload.email);
-    if (user?.[0]) {
+    console.log("findBYEmailUser", user);
+    if (user) {
       console.log(`User already exits:: ${payload.email}`);
       return "exists";
     }

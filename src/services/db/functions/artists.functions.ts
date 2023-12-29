@@ -45,27 +45,25 @@ export const getArtists = async (
   try {
     const { batch, page, searchTerm } = payload;
     const regex = new RegExp(searchTerm, "i");
-    let conditions = [
-      { bio: regex }, // Matches titles containing 'JavaScript' (case insensitive)
-      { name: regex }, // Matches authors with the name 'John Doe'
-    ];
-    let data: any;
-    if (searchTerm.trim()?.length > 2) {
-      data = await Artists.find({ $or: conditions })
-        .sort({ createdAt: "desc" })
-        .skip(Number(page) * Number(batch))
-        .limit(batch)
-        .select(fields);
-    } else {
-      data = await Artists.find({})
-        .skip(Number(page) * Number(batch))
-        .limit(batch)
-        .select(fields);
+    let finder = {};
+    if (searchTerm.trim().length > 2) {
+      let conditions = [
+        { bio: regex }, // Matches titles containing 'JavaScript' (case insensitive)
+        { name: regex }, // Matches authors with the name 'John Doe'
+      ];
+      finder = { $or: conditions };
     }
+    let data: any;
+    data = await Artists.find(finder)
+      .sort({ createdAt: "desc" })
+      .skip(Number(page) * Number(batch))
+      .limit(batch)
+      .select(fields);
+
     return { data, error: null };
   } catch (err) {
     console.log("Error fetching artists data", err);
-    return { data: null, error: "Service looks down ! please try again later" };
+    return { error: "Service looks down ! please try again later" };
   }
 };
 
