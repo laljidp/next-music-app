@@ -172,7 +172,7 @@ export default function EditViewAlbumLayout({
       <div className="flex flex-col gap-4 items-center justify-center h-[65vh]">
         <AddNewButton onClick={handleAddAlbum} />
         <p className="text-sm">
-          Select an artist or click the '+' button to switch to{" "}
+          Select an album or click the '+' button to switch to{" "}
           <span className="font-medium">Add New Album</span> layout.
         </p>
       </div>

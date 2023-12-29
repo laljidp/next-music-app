@@ -1,12 +1,12 @@
 "use client";
+import Image from "next/image";
+import IconView from "./IconView.layout";
 import { useCallback } from "react";
 import { TWButton } from "@/components/UI/Button";
-import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { LEFT_MENUS } from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
-import { SettingFilled, SettingOutlined } from "@ant-design/icons";
-import IconView from "./IconView.layout";
+import { SettingFilled } from "@ant-design/icons";
 
 const SidebarAdminLayout: React.FC = () => {
   const { data } = useSession();
@@ -27,8 +27,8 @@ const SidebarAdminLayout: React.FC = () => {
   return (
     <div className="grid place-content-center">
       <div
-        className="border-1 flex h-[480px] w-[250px] flex-col
-           rounded-xl border-solid bg-white shadow-md ring-1 ring-violet-500"
+        className="border-1 flex h-[480px] w-[250px] flex-col rounded-xl 
+        border-solid bg-white shadow-md ring-1 ring-violet-500"
         id="left-sidebar"
       >
         <div className="align-center mx-2 my-3 flex justify-center">
@@ -75,9 +75,7 @@ const SidebarAdminLayout: React.FC = () => {
           </ul>
         </div>
         <div className="flex justify-center">
-          <i>
-            <IconView Icon={SettingFilled} size="xxl" />
-          </i>
+          <IconView Icon={SettingFilled} size="xxl" fill="fill-violet-500" />
           <TWButton
             className="mt-8 h-7 w-fit px-3 hover:scale-105"
             variant="outline"

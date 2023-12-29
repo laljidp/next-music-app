@@ -13,12 +13,12 @@ export const POST = async (request: NextRequest) => {
     if (!email) {
       return nextResponseError("Bad request!", 403);
     }
-    const users = (await getUserByEmail(email)) || [];
 
-    if (users?.length === 0) {
+    const user = (await getUserByEmail(email)) || null;
+
+    if (!user) {
       return nextResponseError("User does not exists", 401);
     }
-    const [user] = users;
 
     if (user.role === "admin") {
       const payload = {
@@ -26,7 +26,7 @@ export const POST = async (request: NextRequest) => {
         email: user?.email,
         picture: user?.picture,
         role: user?.role,
-        _id: user?.id,
+        _id: user?._id.toString(),
       };
       console.log({
         payload,
