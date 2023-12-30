@@ -19,23 +19,28 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     signIn: async ({ user, account }) => {
-      const payload: UserPayloadT = {
-        email: user.email || "",
-        name: user.name || "",
-        picture: user.image || "",
-        provider: account?.provider || "",
-        providerId: account?.providerAccountId || "",
-        role: "user",
-        type: "oauth",
-      };
-      const result = await createUserIfNotExists(payload);
-      if (result === "exists") {
-        console.log("User already existed!");
+      try {
+        const payload: UserPayloadT = {
+          email: user.email || "",
+          name: user.name || "",
+          picture: user.image || "",
+          provider: account?.provider || "",
+          providerId: account?.providerAccountId || "",
+          role: "user",
+          type: "oauth",
+        };
+        const result = await createUserIfNotExists(payload);
+        if (result === "exists") {
+          console.log("User already existed!");
+        }
+        if (result === "created") {
+          console.log("New user created");
+        }
+        return true;
+      } catch (err) {
+        console.log("Error while executing signIn func::", err);
+        return false;
       }
-      if (result === "created") {
-        console.log("New user created");
-      }
-      return true;
     },
   },
 };
