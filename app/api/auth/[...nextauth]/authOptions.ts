@@ -5,6 +5,7 @@ import {
 } from "@/services/db/functions/users.functions";
 import { AuthOptions } from "next-auth";
 import { config } from "@/constants";
+import { connectDB } from "@/services/db/connect.db";
 
 export const authOptions: AuthOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work
@@ -20,6 +21,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     signIn: async ({ user, account }) => {
       try {
+        const db = await connectDB();
         const payload: UserPayloadT = {
           email: user.email || "",
           name: user.name || "",

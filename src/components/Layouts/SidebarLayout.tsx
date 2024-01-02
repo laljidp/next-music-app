@@ -75,7 +75,7 @@ const SidebarAdminLayout: React.FC = () => {
           </ul>
         </div>
         <div className="flex justify-center">
-          <IconView Icon={SettingFilled} size="xxl" fill="fill-violet-500" />
+          {/* <IconView Icon={SettingFilled} size="xxl" fill="fill-violet-500" /> */}
           <TWButton
             className="mt-8 h-7 w-fit px-3 hover:scale-105"
             variant="outline"
