@@ -33,6 +33,6 @@ export const config = {
   matcher: [
     "/api/artists/(POST|PUT)",
     "/api/songs/POST",
-    "/api/albums/(POST/PUT)",
+    "/api/albums/(POST|PUT)",
   ],
 };

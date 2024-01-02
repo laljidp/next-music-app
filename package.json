@@ -20,6 +20,7 @@
     "react-dom": "^18",
     "react-infinite-calendar": "^2.3.1",
     "react-no-ssr": "^1.1.0",
+    "sharp": "^0.33.1",
     "swr": "^2.2.4"
   },
   "devDependencies": {

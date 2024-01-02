@@ -23,7 +23,9 @@ export const metadata: Metadata = {
 };
 
 // DB connection
-connectDB().then((res) => console.log);
+connectDB()
+  .then((res) => console.log)
+  .catch((err) => console.log);
 // config fetch response interceptor
 
 export default function RootLayout({

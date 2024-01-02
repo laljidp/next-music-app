@@ -1,3 +1,4 @@
+"use client";
 import { ISongsDto, ISongsMetadata } from "@/services/types/songs.types";
 import ImageUpload from "../UI/ImageUpload";
 import TWInput from "../UI/Input";
@@ -150,8 +151,6 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
       setSongPayload(payload);
     }
   }, [song]);
-
-  console.log("Song payload", songPayload);
 
   return (
     <form className="w-full" onSubmit={handleSubmitSong}>
