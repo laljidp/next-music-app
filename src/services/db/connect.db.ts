@@ -25,5 +25,3 @@ export const connectDB = async () => {
     return Promise.reject(error);
   }
 };
-
-export default mongoose;
