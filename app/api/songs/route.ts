@@ -1,8 +1,4 @@
-import {
-  fetchSongs,
-  saveNewSong,
-  updateSong,
-} from "@/services/db/functions/songs.functions";
+import songsFunction from "@/services/db/functions/songs.functions";
 import { ISongsDto } from "@/services/types/songs.types";
 import {
   nextResponseError,
@@ -24,7 +20,7 @@ export const GET = async (request: NextRequest) => {
       fields.push("_id", "name");
     }
 
-    const { data, error } = await fetchSongs(
+    const { data, error } = await songsFunction.fetchSongs(
       { batch, page, searchText },
       fields
     );
@@ -68,7 +64,7 @@ export const POST = async (request: NextRequest) => {
       },
     };
 
-    const { data, error } = await saveNewSong(payload);
+    const { data, error } = await songsFunction.saveNewSong(payload);
     if (data) return nextResponseSuccess({ song: data });
 
     return nextResponseError(
@@ -110,7 +106,7 @@ export async function PUT(request: NextRequest) {
       coverImage,
       artists,
     };
-    const { data, error } = await updateSong(_id, payload);
+    const { data, error } = await songsFunction.updateSong(_id, payload);
     if (error) {
       return nextResponseError(
         error || "Service unavailable at the moment! try again later",

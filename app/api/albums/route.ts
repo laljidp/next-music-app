@@ -1,15 +1,10 @@
-import { fetchAllUsers } from "@/services/db/functions/users.functions";
 import { NextRequest } from "next/server";
 import {
   nextResponseError,
   nextResponseSuccess,
 } from "@/utils/nextResponse.util";
 import { IAlbumDto } from "@/services/types/albums.types";
-import {
-  getAlbums,
-  saveAlbum,
-  updateAlbum,
-} from "@/services/db/functions/albums.functions";
+import albumFunction from "@/services/db/functions/albums.functions";
 
 export async function GET(req: NextRequest) {
   try {
@@ -25,7 +20,7 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-      const { data, error } = await getAlbums(
+      const { data, error } = await albumFunction.getAlbums(
         { batch, page, searchTerm },
         fields
       );
@@ -58,7 +53,7 @@ export async function POST(req: NextRequest) {
         gradientColors: body?.gradientColors,
       },
     };
-    const { data: album, error } = await saveAlbum(payload);
+    const { data: album, error } = await albumFunction.saveAlbum(payload);
     if (error) {
       return nextResponseError(error, 400);
     }
@@ -96,7 +91,10 @@ export async function PUT(req: NextRequest) {
       return nextResponseError("Bad request !", 501);
     }
     // TODO: apply validation on payload & process further
-    const { data: album, error } = await updateAlbum(_id, albumPayload);
+    const { data: album, error } = await albumFunction.updateAlbum(
+      _id,
+      albumPayload
+    );
     if (error) {
       return nextResponseError(error, 400);
     }

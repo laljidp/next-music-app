@@ -1,3 +1,4 @@
+import { connectDB } from "@/services/db/connect.db";
 import { decryptJWT } from "@/utils/jwt.util";
 import { nextResponseError } from "@/utils/nextResponse.util";
 import { NextRequest, NextResponse } from "next/server";
@@ -7,6 +8,7 @@ export async function middleware(request: NextRequest) {
   try {
     console.log("Middleware running.");
     const token = request.headers.get("Authorization");
+    await connectDB();
     if (token) {
       console.log("token::", token);
       const [, jwtToken] = token.split(" ");

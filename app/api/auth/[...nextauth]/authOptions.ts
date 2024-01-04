@@ -1,7 +1,6 @@
 import GoogleProvider from "next-auth/providers/google";
-import {
+import usersFunctions, {
   UserPayloadT,
-  createUserIfNotExists,
 } from "@/services/db/functions/users.functions";
 import { AuthOptions } from "next-auth";
 import { config } from "@/constants";
@@ -31,7 +30,7 @@ export const authOptions: AuthOptions = {
           role: "user",
           type: "oauth",
         };
-        const result = await createUserIfNotExists(payload);
+        const result = await usersFunctions.createUserIfNotExists(payload);
         if (result === "exists") {
           console.log("User already existed!");
         }

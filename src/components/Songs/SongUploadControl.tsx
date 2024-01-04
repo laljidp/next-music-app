@@ -85,8 +85,6 @@ export default function SongUploadControl(props: SongUploadControlProps) {
     }
   }, [source]);
 
-  console.log("source::", source);
-
   return (
     <>
       <div

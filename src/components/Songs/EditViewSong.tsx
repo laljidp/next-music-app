@@ -15,7 +15,6 @@ import { albumRequest } from "@/services/request/albums.request";
 import songsRequest from "@/services/request/songs.request";
 import { SnackContext } from "@/context/snack.context";
 import TWSwitch from "../UI/Switch";
-import { PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import AddNewButton from "../UI/Button/AddNewButton";
 
 interface EditViewSongSectionProps {
@@ -42,11 +41,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
   const { showSnack } = useContext(SnackContext);
   const [readOnly, setReadOnly] = useState(false);
   const [isNew, setNew] = useState(true);
-  const {
-    data: artists,
-    isLoading: artistLoading,
-    error,
-  } = useSWR(
+  const { data: artists, isLoading: artistLoading } = useSWR(
     { search: "", minimal: true, path: apiUrls.artists },
     artistRequest.fetchArtists,
     {
@@ -145,6 +140,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
         title: song.title,
         coverImage: song.coverImage,
         metadata: song.metadata,
+        lyrics: song.lyrics,
       };
       setReadOnly(true);
       setNew(false);
