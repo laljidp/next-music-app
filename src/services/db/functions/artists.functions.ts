@@ -1,7 +1,6 @@
 import Artists from "@/services/db/schemas/artists.schema";
 import { ArtistsDto } from "@/services/types/artists.types";
 import { TFuncResponse, getMongoConstraintError } from "../db.utils";
-import { connectDB } from "../connect.db";
 
 export type ArtistPayloadT = {
   name: string;
@@ -26,7 +25,7 @@ export type GetArtistsPayloadT = {
 
 class ArtistFunction {
   constructor() {
-    connectDB();
+    console.log("Loading ArtistFunction::()");
   }
   saveArtists = async (payload: ArtistPayloadT): TFuncResponse<ArtistsDto> => {
     try {

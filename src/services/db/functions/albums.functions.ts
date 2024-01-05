@@ -1,7 +1,6 @@
 import { IAlbumDto } from "@/services/types/albums.types";
 import Albums from "../schemas/album.schema";
 import { TFuncResponse, getMongoConstraintError } from "../db.utils";
-import { connectDB } from "../connect.db";
 
 export type GetAlbumPayloadT = {
   page: number;
@@ -11,7 +10,7 @@ export type GetAlbumPayloadT = {
 
 class AlbumFunctions {
   constructor() {
-    connectDB().then(console.log).catch(console.log);
+    console.log("Loading AlbumFunctions::()");
   }
 
   getAlbums = async (

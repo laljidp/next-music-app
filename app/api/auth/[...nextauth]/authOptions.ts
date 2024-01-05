@@ -1,6 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
-import usersFunctions, {
+import {
   UserPayloadT,
+  createUserIfNotExists,
 } from "@/services/db/functions/users.functions";
 import { AuthOptions } from "next-auth";
 import { config } from "@/constants";
@@ -20,7 +21,6 @@ export const authOptions: AuthOptions = {
   callbacks: {
     signIn: async ({ user, account }) => {
       try {
-        const db = await connectDB();
         const payload: UserPayloadT = {
           email: user.email || "",
           name: user.name || "",
@@ -30,7 +30,7 @@ export const authOptions: AuthOptions = {
           role: "user",
           type: "oauth",
         };
-        const result = await usersFunctions.createUserIfNotExists(payload);
+        const result = await createUserIfNotExists(payload);
         if (result === "exists") {
           console.log("User already existed!");
         }

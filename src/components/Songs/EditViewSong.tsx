@@ -242,7 +242,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
           onChange={({ currentTarget }) =>
             handleChange(currentTarget.name, currentTarget.value)
           }
-          rows={3}
+          rows={readOnly ? 6 : 3}
         />
         <div className="aria-hide" aria-hidden={readOnly}>
           <TWButton loading={isProcessing} type="submit">

@@ -2,7 +2,6 @@ import { ISongsDto } from "@/services/types/songs.types";
 import { TFuncResponse } from "../db.utils";
 import Songs from "../schemas/songs.schema";
 import { MONGO_ERROR_CODES } from "../constants/db.constants";
-import { connectDB } from "../connect.db";
 
 export interface IFetchSongsPayload {
   searchText: string;
@@ -12,7 +11,7 @@ export interface IFetchSongsPayload {
 
 class SongsFunctions {
   constructor() {
-    connectDB();
+    console.log("Loading SongsFunctions::()");
   }
   fetchSongs = async (params: IFetchSongsPayload, fields: string[] = []) => {
     const { searchText, batch, page } = params;
