@@ -31,7 +31,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/api/artists/(POST|PUT)",
+    "/api/artists/(POST|PUT|GET)",
     "/api/songs/POST",
     "/api/albums/(POST|PUT)",
   ],

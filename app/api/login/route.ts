@@ -1,10 +1,11 @@
-import { getUserByEmail } from "@/services/db/functions/users.functions";
+import { fetchUserByEmail } from "@/services/db/functions/users.functions";
 import {
   nextResponseError,
   nextResponseSuccess,
 } from "@/utils/nextResponse.util";
 import { NextRequest } from "next/server";
 import { signJWT } from "@/utils/jwt.util";
+import { connectDB } from "@/services/db/connect.db";
 
 export const POST = async (request: NextRequest) => {
   //:: checking if users has admin right or not.
@@ -13,8 +14,8 @@ export const POST = async (request: NextRequest) => {
     if (!email) {
       return nextResponseError("Bad request!", 403);
     }
-
-    const user = (await getUserByEmail(email)) || null;
+    await connectDB();
+    const user = (await fetchUserByEmail(email)) || null;
 
     if (!user) {
       return nextResponseError("User does not exists", 401);

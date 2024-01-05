@@ -17,7 +17,6 @@ import TWSwitch from "../UI/Switch";
 import {
   InfoCircleFilled,
   LeftOutlined,
-  PlusOutlined,
   RightOutlined,
 } from "@ant-design/icons";
 import AddNewButton from "../UI/Button/AddNewButton";
@@ -164,8 +163,6 @@ export default function EditViewAlbumLayout({
       return false;
     }
   }, [albumPayload, matcherPayload]);
-
-  console.log("Rendering EditViewAlbumLayout");
 
   if (!album && !isNew) {
     return (

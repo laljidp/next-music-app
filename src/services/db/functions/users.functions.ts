@@ -12,7 +12,7 @@ export type UserPayloadT = {
 
 export type UserProcessStat = "created" | "exists" | "error";
 
-export const getUserByEmail = async (
+const getUserByEmail = async (
   email: string,
   select: Record<string, boolean> = {
     name: true,
@@ -35,9 +35,9 @@ export const isAdminRole = async (id: string) => {
   return true;
 };
 
-export const fetchAllUsers = async () => {
+export const fetchUserByEmail = async (email: string) => {
   try {
-    const users = await Users.find({});
+    const users = await Users.findOne({ email });
     return users;
   } catch (err) {
     console.log("Error fetching users (users.functions.ts:8)", err);

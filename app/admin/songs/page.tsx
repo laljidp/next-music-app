@@ -47,6 +47,8 @@ export default function SongsPage() {
     );
   }, [data, selectedSong]);
 
+  console.log("SElected song", selectedSong);
+
   return (
     <MainRightLayout>
       <MainRightLayout.Left>

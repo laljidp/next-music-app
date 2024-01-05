@@ -1,8 +1,5 @@
-import {
+import artistFunction, {
   ArtistPayloadT,
-  getArtists,
-  saveArtists,
-  updateArtist,
 } from "@/services/db/functions/artists.functions";
 import {
   nextResponseError,
@@ -24,7 +21,10 @@ export const GET = async (request: NextRequest, context: any) => {
   }
 
   try {
-    const { data } = await getArtists({ batch, page, searchTerm }, fields);
+    const { data } = await artistFunction.getArtists(
+      { batch, page, searchTerm },
+      fields
+    );
     return nextResponseSuccess({ data });
   } catch (err) {
     console.log("Error fetching /api/artists", err);
@@ -45,7 +45,7 @@ export const POST = async (request: NextRequest) => {
     socialMedia: body?.socialMedia || null,
   };
   try {
-    const { data, error } = await saveArtists(payload);
+    const { data, error } = await artistFunction.saveArtists(payload);
     if (data) {
       return nextResponseSuccess({ artist: data });
     } else {
@@ -70,7 +70,10 @@ export const PUT = async (request: NextRequest) => {
       genre: body?.genre || [],
     };
 
-    const { data: artist, error } = await updateArtist(_id, newPayload);
+    const { data: artist, error } = await artistFunction.updateArtist(
+      _id,
+      newPayload
+    );
     if (artist) {
       return nextResponseSuccess({ artist });
     } else {

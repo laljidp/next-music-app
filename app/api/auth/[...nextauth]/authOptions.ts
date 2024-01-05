@@ -21,7 +21,6 @@ export const authOptions: AuthOptions = {
   callbacks: {
     signIn: async ({ user, account }) => {
       try {
-        const db = await connectDB();
         const payload: UserPayloadT = {
           email: user.email || "",
           name: user.name || "",
