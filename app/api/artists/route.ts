@@ -1,3 +1,4 @@
+import { connectDB } from "@/services/db/connect.db";
 import artistFunction, {
   ArtistPayloadT,
 } from "@/services/db/functions/artists.functions";
@@ -8,6 +9,7 @@ import {
 import { NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest, context: any) => {
+  await connectDB();
   const params = request.nextUrl.searchParams;
   const searchTerm = params.get("search") || "";
   const minimal = params.get("minimal") || "";
