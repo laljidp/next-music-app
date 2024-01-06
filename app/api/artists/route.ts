@@ -9,7 +9,6 @@ import {
 import { NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest, context: any) => {
-  await connectDB();
   const params = request.nextUrl.searchParams;
   const searchTerm = params.get("search") || "";
   const minimal = params.get("minimal") || "";
@@ -23,6 +22,7 @@ export const GET = async (request: NextRequest, context: any) => {
   }
 
   try {
+    await connectDB();
     const { data } = await artistFunction.getArtists(
       { batch, page, searchTerm },
       fields
@@ -36,7 +36,6 @@ export const GET = async (request: NextRequest, context: any) => {
 
 export const POST = async (request: NextRequest) => {
   const body = await request.json();
-  console.log({ body });
   const payload: ArtistPayloadT = {
     name: body?.name,
     bio: body?.bio,
@@ -47,6 +46,7 @@ export const POST = async (request: NextRequest) => {
     socialMedia: body?.socialMedia || null,
   };
   try {
+    await connectDB();
     const { data, error } = await artistFunction.saveArtists(payload);
     if (data) {
       return nextResponseSuccess({ artist: data });
@@ -71,7 +71,7 @@ export const PUT = async (request: NextRequest) => {
       image: body?.image,
       genre: body?.genre || [],
     };
-
+    await connectDB();
     const { data: artist, error } = await artistFunction.updateArtist(
       _id,
       newPayload
