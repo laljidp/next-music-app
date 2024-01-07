@@ -5,6 +5,7 @@ import {
 } from "@/utils/nextResponse.util";
 import { IAlbumDto } from "@/services/types/albums.types";
 import albumFunction from "@/services/db/functions/albums.functions";
+import { connectDB } from "@/services/db/connect.db";
 
 export async function GET(req: NextRequest) {
   try {
@@ -14,7 +15,7 @@ export async function GET(req: NextRequest) {
     const batch = (params.get("batch") || 35) as number;
     const page = (params.get("page") || 0) as number;
     const fields = [];
-
+    await connectDB();
     if (!!minimal && minimal === "true") {
       fields.push("_id", "title");
     }
@@ -40,6 +41,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    await connectDB();
     const body = await req.json();
     // TODO: APPLY VALIDATION ON REQUEST BODY
     const payload: IAlbumDto = {
@@ -86,10 +88,10 @@ export async function PUT(req: NextRequest) {
       artists,
       genre,
     } as IAlbumDto;
-
     if (!_id) {
       return nextResponseError("Bad request !", 501);
     }
+    await connectDB();
     // TODO: apply validation on payload & process further
     const { data: album, error } = await albumFunction.updateAlbum(
       _id,

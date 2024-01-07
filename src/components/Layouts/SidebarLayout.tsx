@@ -1,12 +1,10 @@
 "use client";
 import Image from "next/image";
-import IconView from "./IconView.layout";
 import { useCallback } from "react";
 import { TWButton } from "@/components/UI/Button";
 import { useSession } from "next-auth/react";
 import { LEFT_MENUS } from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
-import { SettingFilled } from "@ant-design/icons";
 
 const SidebarAdminLayout: React.FC = () => {
   const { data } = useSession();

@@ -2,6 +2,7 @@ import { ISongsDto } from "@/services/types/songs.types";
 import { TFuncResponse } from "../db.utils";
 import Songs from "../schemas/songs.schema";
 import { MONGO_ERROR_CODES } from "../constants/db.constants";
+import Albums from "../schemas/album.schema";
 
 export interface IFetchSongsPayload {
   searchText: string;
@@ -13,6 +14,17 @@ class SongsFunctions {
   constructor() {
     console.log("Loading SongsFunctions::()");
   }
+
+  fetchSongsByAlbum = async (albumId: string) => {
+    try {
+      const _songs = Albums.findById(albumId).populate("songs");
+      return { data: _songs };
+    } catch (err) {
+      return { error: "Failed to fetch songs of albums" };
+      console.log("Error fetching songs by album::", err);
+    }
+  };
+
   fetchSongs = async (params: IFetchSongsPayload, fields: string[] = []) => {
     const { searchText, batch, page } = params;
     try {
@@ -22,7 +34,6 @@ class SongsFunctions {
         const conditions = [{ title: searchRegex }, { lyrics: searchRegex }];
         finder = { $or: conditions };
       }
-      console.log("finder", finder);
       const _songs = (await Songs.find(finder)
         .select(fields)
         .limit(batch)

@@ -15,14 +15,13 @@ export const GET = async (request: NextRequest, context: any) => {
   const batch = (params.get("batch") || 35) as number;
   const page = (params.get("page") || 0) as number;
   const fields = [];
-
+  await connectDB();
   if (!!minimal && minimal === "true") {
     // configuring selection fields in return
     fields.push("_id", "name");
   }
 
   try {
-    await connectDB();
     const { data } = await artistFunction.getArtists(
       { batch, page, searchTerm },
       fields
