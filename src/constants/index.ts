@@ -27,12 +27,6 @@ const LEFT_MENUS = [
     icon: null,
   },
   {
-    name: "playlists",
-    title: "Playlists",
-    url: PAGES.adminPlaylists,
-    icon: null,
-  },
-  {
     name: "albums",
     title: "Albums",
     url: PAGES.adminAlbums,
@@ -42,6 +36,12 @@ const LEFT_MENUS = [
     name: "artists",
     title: "Artists",
     url: PAGES.adminArtists,
+    icon: null,
+  },
+  {
+    name: "playlists",
+    title: "Playlists",
+    url: PAGES.adminPlaylists,
     icon: null,
   },
 ];
