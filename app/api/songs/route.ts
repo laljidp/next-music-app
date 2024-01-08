@@ -1,3 +1,4 @@
+import { connectDB } from "@/services/db/connect.db";
 import songsFunction from "@/services/db/functions/songs.functions";
 import { ISongsDto } from "@/services/types/songs.types";
 import {
@@ -8,6 +9,7 @@ import { NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest) => {
   try {
+    await connectDB();
     const params = request.nextUrl.searchParams;
     const searchText = params.get("search") || "";
     const minimal = params.get("minimal") || "";
@@ -44,6 +46,8 @@ export const POST = async (request: NextRequest) => {
     if (!body?.title?.trim() || !body?.source!) {
       return nextResponseError("Bad request ! request data invalid.", 400);
     }
+
+    await connectDB();
     const { metadata = {} } = body;
     const payload: ISongsDto = {
       title: body?.title,
@@ -95,6 +99,7 @@ export async function PUT(request: NextRequest) {
     if (!_id) {
       return nextResponseError("Bad request, payload missing[id]!", 400);
     }
+    await connectDB();
     const payload: ISongsDto = {
       title,
       source,
