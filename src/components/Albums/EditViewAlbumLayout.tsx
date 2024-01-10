@@ -20,6 +20,7 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import AddNewButton from "../UI/Button/AddNewButton";
+import SongsListsByAlbum from "../Songs/SongsListsByAlbum";
 
 interface EditViewAlbumLayout {
   album?: IAlbumDto | null;
@@ -195,7 +196,7 @@ export default function EditViewAlbumLayout({
             </span>
           </div>
           <hr />
-          <div>Songs lists</div>
+          {showSongsLayout && <SongsListsByAlbum albumID={album?._id || ""} />}
         </div>
       </div>
       <div

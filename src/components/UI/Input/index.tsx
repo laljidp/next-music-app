@@ -30,7 +30,7 @@ export default function TWInput({
         {...respProps}
         className={`tw-input ${className} ${iconClass}`}
       />
-      {icon && <i className="absolute left-2 top-1">{icon}</i>}
+      {icon && <i className="absolute left-2 top-0.5">{icon}</i>}
     </div>
   );
 }

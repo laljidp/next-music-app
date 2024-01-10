@@ -4,7 +4,6 @@ import NextAuthProvider from "@/components/NextAuthProvider";
 import UserProvider from "@/context/user.context";
 import { SnackContextProvider } from "@/context/snack.context";
 import "./globals.css";
-import { connectDB } from "@/services/db/connect.db";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +20,6 @@ export const metadata: Metadata = {
     },
   },
 };
-
-connectDB().then((res) => console.log("DB connected."));
 
 export default function RootLayout({
   children,

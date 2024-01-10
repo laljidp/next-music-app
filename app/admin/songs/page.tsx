@@ -4,7 +4,6 @@ import EditViewSongSection from "@/components/Songs/EditViewSong";
 import SongsLists from "@/components/Songs/SongsLists";
 import songsRequest from "@/services/request/songs.request";
 import { ISongsDto } from "@/services/types/songs.types";
-import PageLoader from "next/dist/client/page-loader";
 import useSWR from "swr";
 import RootPageLoader from "../../loading";
 import ListLayout from "@/components/Layouts/List.layout";
@@ -46,8 +45,6 @@ export default function SongsPage() {
       />
     );
   }, [data, selectedSong]);
-
-  console.log("SElected song", selectedSong);
 
   return (
     <MainRightLayout>

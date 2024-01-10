@@ -11,4 +11,5 @@ export const PAGES = Object.freeze({
   adminSongs: "/admin/songs",
   adminPlaylists: "/admin/playlists",
   adminArtists: "/admin/artists",
+  adminStats: "/admin/stats",
 });

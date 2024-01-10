@@ -21,6 +21,12 @@ const config = Object.freeze({
 
 const LEFT_MENUS = [
   {
+    name: "stats",
+    title: "Stats",
+    url: PAGES.adminStats,
+    icon: null,
+  },
+  {
     name: "songs",
     title: "Songs",
     url: PAGES.adminSongs,

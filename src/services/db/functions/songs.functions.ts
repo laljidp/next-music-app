@@ -17,11 +17,12 @@ class SongsFunctions {
 
   fetchSongsByAlbum = async (albumId: string) => {
     try {
-      const _songs = Albums.findById(albumId).populate("songs");
+      console.log({ albumId });
+      const _songs = await Albums.findById(albumId).populate("songs");
       return { data: _songs };
     } catch (err) {
-      return { error: "Failed to fetch songs of albums" };
       console.log("Error fetching songs by album::", err);
+      return { error: "Failed to fetch songs of albums" };
     }
   };
 

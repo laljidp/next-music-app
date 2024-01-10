@@ -2,11 +2,25 @@ import { apiUrls } from "@/constants";
 import { configFetchInterceptor, getDefaultHeaders } from ".";
 import { ISongsDto } from "../types/songs.types";
 import { Fetcher } from "swr";
-import { MONGO_ERROR_CODES } from "../db/constants/db.constants";
 
 class SongsRequest {
   constructor() {
     configFetchInterceptor();
+  }
+
+  async fetchSongsByAlbum({ id }: { id: string; path: string }) {
+    console.log("Calling fetchSongsByAlbum::");
+    console.log({ id });
+    try {
+      const resp = await fetch(`${apiUrls.songs}/${id}`, {
+        method: "GET",
+        headers: getDefaultHeaders(),
+      });
+      const data = await resp.json();
+      return data?.songs || [];
+    } catch (err) {
+      console.log("Error fetching songs by albums", err);
+    }
   }
 
   fetchSongs: Fetcher<

@@ -50,7 +50,6 @@ export default function AlbumPage() {
           <TWInput
             placeholder="Search albums"
             name="search"
-            className=""
             onChange={handleSearchTextChange}
             value={searchText}
             id="art-input"
