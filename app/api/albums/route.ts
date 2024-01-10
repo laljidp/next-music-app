@@ -1,10 +1,10 @@
+import albumFunction from "@/services/db/functions/albums.functions";
 import { NextRequest } from "next/server";
 import {
   nextResponseError,
   nextResponseSuccess,
 } from "@/utils/nextResponse.util";
 import { IAlbumDto } from "@/services/types/albums.types";
-import albumFunction from "@/services/db/functions/albums.functions";
 import { connectDB } from "@/services/db/connect.db";
 
 export async function GET(req: NextRequest) {
@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
     const page = (params.get("page") || 0) as number;
     const fields = [];
     await connectDB();
+
     if (!!minimal && minimal === "true") {
       fields.push("_id", "title");
     }

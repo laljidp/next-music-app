@@ -25,7 +25,7 @@ const SidebarAdminLayout: React.FC = () => {
   return (
     <div className="grid place-content-center">
       <div
-        className="border-1 flex h-[480px] w-[250px] flex-col rounded-xl 
+        className="border-1 flex h-[510px] w-[250px] flex-col rounded-xl 
         border-solid bg-white shadow-md ring-1 ring-violet-500"
         id="left-sidebar"
       >
@@ -73,9 +73,8 @@ const SidebarAdminLayout: React.FC = () => {
           </ul>
         </div>
         <div className="flex justify-center">
-          {/* <IconView Icon={SettingFilled} size="xxl" fill="fill-violet-500" /> */}
           <TWButton
-            className="mt-8 h-7 w-fit px-3 hover:scale-105"
+            className="h-7 mt-2 w-fit px-3 hover:scale-105"
             variant="outline"
             onClick={logout}
           >

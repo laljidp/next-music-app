@@ -29,7 +29,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
   } = props;
   const [showOption, setShowOption] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
-  const [isNew, setIsNew] = useState(true);
+  const optionRef = useRef<HTMLDivElement>(null);
   const id = useId();
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -56,6 +56,14 @@ export default function SelectMultiple(props: SelectMultipleProps) {
   };
 
   useEffect(() => {
+    if (showOption) {
+      setTimeout(() => {
+        optionRef?.current?.scrollIntoView({ behavior: "smooth" });
+      }, 250);
+    }
+  }, [showOption]);
+
+  useEffect(() => {
     setSelectedOption(selected);
   }, [selected]);
 
@@ -73,7 +81,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
       <label
         aria-hidden={!label}
         htmlFor={"label-multiple"}
-        className="text-medium text-sm aria-hide:"
+        className="text-medium text-sm aria-hide"
       >
         {label}
       </label>
@@ -114,9 +122,9 @@ export default function SelectMultiple(props: SelectMultipleProps) {
           )}
           <CaretDownFilled
             aria-hidden={isReadOnly || loading}
-            aria-open={showOption}
+            aria-checked={showOption}
             className={`[&>svg]:fill-violet-500 absolute right-3
-             aria-hide aria-[open=true]:rotate-180`}
+             aria-hide aria-[checked=true]:rotate-180`}
           />
           <div aria-hidden={!loading} className="absolute right-3 aria-hide">
             <Spinner color="violet" />
@@ -139,6 +147,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
           </div>
           {options.map(({ name, value }, i) => (
             <div
+              ref={optionRef}
               key={value}
               className="flex items-center border-b-1 last:border-b-0 p-2
              hover:bg-violet-200 rounded-lg shadow-xl shadow-violet-50"

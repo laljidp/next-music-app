@@ -150,7 +150,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
 
   return (
     <form className="w-full" onSubmit={handleSubmitSong}>
-      <div className="w-full gap-5 flex flex-col">
+      <div className="w-full gap-3 flex flex-col">
         <div className="flex justify-between items-center">
           <TWSwitch
             label="Readonly"
@@ -236,7 +236,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
         <TWTextArea
           value={songPayload.lyrics}
           label="Lyrics"
-          placeholder="Lyrics"
+          placeholder={readOnly && !songPayload.lyrics ? "N/A" : "Lyrics"}
           readOnly={readOnly}
           name="lyrics"
           onChange={({ currentTarget }) =>
