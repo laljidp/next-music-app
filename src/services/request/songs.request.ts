@@ -8,21 +8,20 @@ class SongsRequest {
     configFetchInterceptor();
   }
 
-  fetchSongsByAlbum: Fetcher<ISongsDto[], { path: string; id: string }> =
-    async ({ id }) => {
-      console.log("Calling fetchSongsByAlbum::");
-      console.log({ id });
-      try {
-        const resp = await fetch(`${apiUrls.songs}/${id}`, {
-          method: "GET",
-          headers: getDefaultHeaders(),
-        });
-        const data = await resp.json();
-        return data?.songs || [];
-      } catch (err) {
-        console.log("Error fetching songs by albums", err);
-      }
-    };
+  async fetchSongsByAlbum({ id }: { id: string; path: string }) {
+    console.log("Calling fetchSongsByAlbum::");
+    console.log({ id });
+    try {
+      const resp = await fetch(`${apiUrls.songs}/${id}`, {
+        method: "GET",
+        headers: getDefaultHeaders(),
+      });
+      const data = await resp.json();
+      return data?.songs || [];
+    } catch (err) {
+      console.log("Error fetching songs by albums", err);
+    }
+  }
 
   fetchSongs: Fetcher<
     ISongsDto[],

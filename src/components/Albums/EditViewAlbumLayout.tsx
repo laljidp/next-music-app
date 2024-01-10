@@ -20,7 +20,7 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import AddNewButton from "../UI/Button/AddNewButton";
-import SongsListsByAlbum from "../Songs/SongsListsByAlbun";
+import SongsListsByAlbum from "../Songs/SongsListsByAlbum";
 
 interface EditViewAlbumLayout {
   album?: IAlbumDto | null;
