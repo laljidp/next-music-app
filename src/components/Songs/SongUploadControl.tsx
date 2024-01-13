@@ -10,6 +10,7 @@ import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
 import PageSpinner from "../UI/Spinner/PageSpinner";
 import IconView from "../Layouts/IconView.layout";
 import { ISongsMetadata } from "@/services/types/songs.types";
+import SongPlayer from "../SongPlayer";
 
 interface SongUploadControlProps {
   source?: string;
@@ -135,6 +136,7 @@ export default function SongUploadControl(props: SongUploadControlProps) {
             >
               <source src={songSource} />
             </audio>
+            {/* <SongPlayer src={songSource} /> */}
             <i
               aria-hidden={readOnly}
               className="absolute right-[-10px] top-[-20px] hover:scale-125 aria-hide"

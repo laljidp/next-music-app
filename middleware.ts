@@ -30,5 +30,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/artists/:path*", "/api/songs/:path*", "/api/albums/:path*"],
+  matcher: [
+    "/api/artists/:path*",
+    "/api/songs/:path*",
+    "/api/albums/:path*",
+    "/api/playlists/:path*",
+  ],
 };

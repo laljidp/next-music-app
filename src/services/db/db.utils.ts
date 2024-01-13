@@ -9,3 +9,10 @@ export const getMongoConstraintError = (errStr: string) => {
     return "Record Already exists";
   else return "Record not saved ! Please try again later";
 };
+
+export const ERROR_MSG = {
+  UNDER_MAINTENANCE: "Service under maintenance ! Please Try again later.",
+  BAD_REQUEST: "Bad request ! Required Parameter missing.",
+  UNAUTHORIZED_ACCESS: "Unauthorized Access.",
+  USER_NOT_EXISTS: "User does not exists.",
+};

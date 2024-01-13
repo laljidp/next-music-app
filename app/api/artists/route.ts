@@ -1,4 +1,5 @@
 import { connectDB } from "@/services/db/connect.db";
+import { ERROR_MSG } from "@/services/db/db.utils";
 import artistFunction, {
   ArtistPayloadT,
 } from "@/services/db/functions/artists.functions";
@@ -29,7 +30,7 @@ export const GET = async (request: NextRequest, context: any) => {
     return nextResponseSuccess({ data });
   } catch (err) {
     console.log("Error fetching /api/artists", err);
-    return nextResponseError("Service under maintenance", 503);
+    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   }
 };
 
@@ -53,10 +54,7 @@ export const POST = async (request: NextRequest) => {
       return nextResponseError(error || "", 403);
     }
   } catch (err) {
-    return nextResponseError(
-      "Service is under Maintenance, Please try later",
-      503
-    );
+    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   }
 };
 
@@ -82,6 +80,6 @@ export const PUT = async (request: NextRequest) => {
     }
   } catch (err) {
     console.log("Error request PUT /artists", err);
-    return nextResponseError("Services are under Maintenance", 503);
+    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   }
 };

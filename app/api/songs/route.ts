@@ -1,4 +1,5 @@
 import { connectDB } from "@/services/db/connect.db";
+import { ERROR_MSG } from "@/services/db/db.utils";
 import songsFunction from "@/services/db/functions/songs.functions";
 import { ISongsDto } from "@/services/types/songs.types";
 import {
@@ -29,13 +30,10 @@ export const GET = async (request: NextRequest) => {
     if (data) {
       return nextResponseSuccess({ songs: data });
     }
-    return nextResponseError(error || "Service under maintenance", 503);
+    return nextResponseError(error || ERROR_MSG.UNDER_MAINTENANCE, 503);
   } catch (err) {
     console.log("Error processing GET /songs", err);
-    return nextResponseError(
-      "Service looks down | Please try again later",
-      503
-    );
+    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   }
 };
 
@@ -44,7 +42,7 @@ export const POST = async (request: NextRequest) => {
     const body = await request.json();
 
     if (!body?.title?.trim() || !body?.source!) {
-      return nextResponseError("Bad request ! request data invalid.", 400);
+      return nextResponseError(ERROR_MSG.BAD_REQUEST, 400);
     }
 
     await connectDB();
@@ -71,10 +69,7 @@ export const POST = async (request: NextRequest) => {
     const { data, error } = await songsFunction.saveNewSong(payload);
     if (data) return nextResponseSuccess({ song: data });
 
-    return nextResponseError(
-      error || "Service unavailable ! please try later",
-      503
-    );
+    return nextResponseError(error || ERROR_MSG.UNDER_MAINTENANCE, 503);
   } catch (err) {
     console.log("Error processing /POST /songs", err);
   }
@@ -113,17 +108,11 @@ export async function PUT(request: NextRequest) {
     };
     const { data, error } = await songsFunction.updateSong(_id, payload);
     if (error) {
-      return nextResponseError(
-        error || "Service unavailable at the moment! try again later",
-        500
-      );
+      return nextResponseError(error || ERROR_MSG.UNDER_MAINTENANCE, 500);
     }
     return nextResponseSuccess({ song: data });
   } catch (err) {
     console.log("Error processing PUT /songs", err);
-    return nextResponseError(
-      "Service looks down | Please try agin later.",
-      503
-    );
+    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   }
 }

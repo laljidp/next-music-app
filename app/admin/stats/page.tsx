@@ -1,6 +1,8 @@
 "use client";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
+import { PAGES } from "@/constants";
 import { getDefaultHeaders } from "@/services/request";
+import { useRouter } from "next/navigation";
 import useSWR, { Fetcher } from "swr";
 
 const fetchStats: Fetcher<Record<string, number>, string> = async (
@@ -11,7 +13,7 @@ const fetchStats: Fetcher<Record<string, number>, string> = async (
     headers: getDefaultHeaders(),
   });
   const json = await resp.json();
-  return json?.total || null;
+  return json?.counts || null;
 };
 
 export default function AdminStats() {
@@ -26,6 +28,8 @@ export default function AdminStats() {
     },
   });
 
+  const navigate = useRouter();
+
   console.log({ isLoading });
 
   if (isLoading) return <PageSpinner />;
@@ -33,27 +37,50 @@ export default function AdminStats() {
   return (
     <div className="flex justify-center">
       <div className="flex gap-5 grow items-center">
-        <div className="p-3 text-white ring-1 grow bg-violet-400 rounded-lg">
-          <section className="text-4xl">{total?.albums || 0}</section>
-          <span className="text-sm">Albums</span>
-        </div>
-        <div className="p-3 text-white ring-1 bg-violet-400 rounded-lg grow">
-          <section className="text-4xl">{total?.songs || 0}</section>
-          <span className="text-sm">Songs</span>
-        </div>
-        <div className="p-3 text-white ring-1 bg-violet-400 rounded-lg grow">
-          <section className="text-4xl">{total?.artists || 0}</section>
-          <span className="text-sm">Artists</span>
-        </div>
-        <div className="p-3 text-white ring-1 bg-violet-400 rounded-lg grow">
-          <section className="text-4xl">{total?.users || 0}</section>
-          <span className="text-sm">Users</span>
-        </div>
-        <div className="p-3 text-white ring-1 bg-violet-400 rounded-lg grow">
-          <section className="text-4xl">{total?.playlists || 0}</section>
-          <span className="text-sm">Playlists</span>
-        </div>
+        {STAT_CARDS.map((card) => (
+          <div
+            role="button"
+            aria-disabled={!card?.path}
+            onClick={() => (card?.path ? navigate.push(card.path) : {})}
+            className="p-3 text-white ring-1 grow bg-violet-400
+            aria-[disabled=true]:opacity-70 aria-[disabled=true]:select-none
+             rounded-lg cursor-pointer hover:scale-105"
+          >
+            <section className="text-4xl">
+              {total?.[card.keyIndex] || 0}
+            </section>
+            <span className="text-sm font-medium">{card.name}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
+
+const STAT_CARDS = [
+  {
+    name: "Users",
+    keyIndex: "users",
+    path: PAGES.adminUsers,
+  },
+  {
+    name: "Songs",
+    keyIndex: "songs",
+    path: PAGES.adminSongs,
+  },
+  {
+    name: "Albums",
+    keyIndex: "albums",
+    path: PAGES.adminAlbums,
+  },
+  {
+    name: "Artists",
+    keyIndex: "artists",
+    path: PAGES.adminArtists,
+  },
+  {
+    name: "Playlists",
+    keyIndex: "playlists",
+    path: PAGES.adminPlaylists,
+  },
+];

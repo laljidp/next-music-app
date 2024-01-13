@@ -37,6 +37,13 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.10.2":
+  version "7.23.8"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.8.tgz#8ee6fe1ac47add7122902f257b8ddf55c898f650"
+  integrity sha512-Y7KbAP984rn1VGMbGqKmBLio9V7y5Je9GvU4rQPCPinCyNfUcToxIXl06d59URp/F3LwinvODxab5N/G6qggkw==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@ctrl/tinycolor@^3.4.0":
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.6.1.tgz#b6c75a56a1947cc916ea058772d666a2c8932f31"
@@ -444,6 +451,18 @@
     long "^5.0.0"
     protobufjs "^7.2.4"
     yargs "^17.7.2"
+
+"@iconify/react@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@iconify/react/-/react-4.1.1.tgz#da1bf03cdca9427f07cf22cf5b63fa8f02db4722"
+  integrity sha512-jed14EjvKjee8mc0eoscGxlg7mSQRkwQG3iX3cPBCO7UlOjz0DtlvTqxqEcHUJGh+z1VJ31Yhu5B9PxfO0zbdg==
+  dependencies:
+    "@iconify/types" "^2.0.0"
+
+"@iconify/types@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@iconify/types/-/types-2.0.0.tgz#ab0e9ea681d6c8a1214f30cd741fe3a20cc57f57"
+  integrity sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==
 
 "@img/sharp-darwin-arm64@0.33.1":
   version "0.33.1"
@@ -1755,6 +1774,14 @@ react-dom@^18:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-h5-audio-player@^3.9.1:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/react-h5-audio-player/-/react-h5-audio-player-3.9.1.tgz#8a9721fd7a5ff6a9185ce626435207bee1774e83"
+  integrity sha512-ILJdTXZgHEfv7WsvYPoN7afJncroYyg5Cxvs2qqrsnTzhtBdEuzlM0ETkhUhjqXOsAkbwAdHF9YgnEwgBJ8dCQ==
+  dependencies:
+    "@babel/runtime" "^7.10.2"
+    "@iconify/react" "^4.1.1"
 
 react-infinite-calendar@^2.3.1:
   version "2.3.1"
