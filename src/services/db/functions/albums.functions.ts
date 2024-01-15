@@ -83,6 +83,6 @@ class AlbumFunctions {
   };
 }
 
-const albumFunc = new AlbumFunctions();
+const albumFunction = new AlbumFunctions();
 
-export default albumFunc;
+export default albumFunction;

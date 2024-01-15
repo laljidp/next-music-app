@@ -7,7 +7,11 @@ export type TFuncResponse<T> = Promise<DBFunctionRT<T>>;
 export const getMongoConstraintError = (errStr: string) => {
   if (errStr?.includes(MONGO_ERROR_CODES.DUPLICATE))
     return "Record Already exists";
-  else return "Record not saved ! Please try again later";
+  if (
+    errStr?.toLowerCase()?.includes(MONGO_ERROR_CODES.CAST_ERROR?.toLowerCase())
+  ) {
+    return "Provided invalid value.";
+  } else return "Record not saved ! Please try again later";
 };
 
 export const ERROR_MSG = {

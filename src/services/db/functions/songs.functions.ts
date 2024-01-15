@@ -79,6 +79,20 @@ class SongsFunctions {
       return { error: err?.toString() };
     }
   };
+
+  deleteSongs = async (_ids: string[]) => {
+    try {
+      const resp = await Songs.deleteMany({
+        id: {
+          $in: _ids,
+        },
+      });
+      return { data: resp };
+    } catch (err) {
+      return { error: "Failed to delete songs" };
+      console.log("ERROR deleting a song::", err);
+    }
+  };
 }
 
 const songsFunction = new SongsFunctions();

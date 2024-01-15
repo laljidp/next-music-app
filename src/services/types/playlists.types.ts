@@ -6,7 +6,6 @@ export interface IPlaylistPayload {
   description: string;
   songs: string[];
 }
-
 export interface IPlaylistsDto {
   _id?: string;
   name: string;

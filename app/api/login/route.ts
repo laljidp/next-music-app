@@ -1,4 +1,4 @@
-import { fetchUserByEmail } from "@/services/db/functions/users.functions";
+import usersFunctions from "@/services/db/functions/users.functions";
 import {
   nextResponseError,
   nextResponseSuccess,
@@ -16,7 +16,7 @@ export const POST = async (request: NextRequest) => {
       return nextResponseError(ERROR_MSG.BAD_REQUEST, 403);
     }
     await connectDB();
-    const user = (await fetchUserByEmail(email)) || null;
+    const user = (await usersFunctions.fetchUserByEmail(email)) || null;
 
     if (!user) {
       return nextResponseError(ERROR_MSG.USER_NOT_EXISTS, 401);

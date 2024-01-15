@@ -9,4 +9,10 @@ export const COLLECTION = {
 
 export const MONGO_ERROR_CODES = Object.freeze({
   DUPLICATE: "E11000",
+  CAST_ERROR: "Cast to ObjectId failed",
+});
+
+export const USER_ROLES = Object.freeze({
+  admin: "admin",
+  superAdmin: "superAdmin",
 });
