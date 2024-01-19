@@ -37,6 +37,7 @@ export default function GradientColorPicker(props: GradientColorPickerProps) {
   };
 
   useEffect(() => {
+    console.log({ colors });
     if (!!colors.length) {
       const [from, via, to] = colors;
       setLocalColors({ from, via, to });

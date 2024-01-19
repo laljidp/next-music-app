@@ -1,15 +1,6 @@
+import { UserPayloadT } from "@/services/types/users.types";
 import { USER_ROLES } from "../constants/db.constants";
 import Users from "../schemas/user.schema";
-
-export type UserPayloadT = {
-  name: string;
-  email: string;
-  provider: string;
-  providerId: string;
-  type: string;
-  role: string;
-  picture: string;
-};
 
 export type FetchUsersParamsT = {
   batch: number;
@@ -106,6 +97,22 @@ class UsersFunctions {
     } catch (err) {
       console.log("Failed to create a user", err);
       return "error";
+    }
+  };
+
+  switchUserToAdmin = async (userId: string, role: string) => {
+    try {
+      const user = await Users.updateOne(
+        { _id: userId },
+        {
+          role: role,
+        },
+        { returnDocument: "after" }
+      );
+      return { data: user };
+    } catch (err) {
+      console.log("ERROR executing switchUserToAdmin", err);
+      return { error: "Failed to switch role to Admin." };
     }
   };
 }
