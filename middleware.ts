@@ -35,5 +35,6 @@ export const config = {
     "/api/songs/:path*",
     "/api/albums/:path*",
     "/api/playlists/:path*",
+    "/api/users/:path*",
   ],
 };

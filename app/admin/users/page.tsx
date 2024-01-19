@@ -3,6 +3,7 @@
 import { TWButton } from "@/components/UI/Button";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
+import UserListItem from "@/components/Users/UserListItem";
 import { SnackContext } from "@/context/snack.context";
 import { FetchUsersParamsT } from "@/services/db/functions/users.functions";
 import userRequests from "@/services/request/users.request";
@@ -16,8 +17,6 @@ import useSWR from "swr";
 export default function UsersPage() {
   const [search, setSearch] = useState("");
   const debounceSearch = useDebounce(search, 1000);
-  const [processing, setProcessing] = useState(false);
-  const { showSnack } = useContext(SnackContext);
   const {
     isLoading,
     data,
@@ -30,25 +29,6 @@ export default function UsersPage() {
       fallbackData: [],
     }
   );
-
-  const handleSwitchToAdmin = async (userId: string) => {
-    setProcessing(true);
-    try {
-      const data = await userRequests.switchUserRole(userId);
-      console.log("Data", data);
-      if (data && data.status) {
-        showSnack("Switched user role to Admin.", "success");
-        refreshUsers();
-      }
-      // TODO: Call api to switch user to admin
-    } catch (err) {
-      console.log("ERROR handle switching admin::", err);
-      showSnack("Failed to switch role. Please try again later.", "error");
-    } finally {
-      setProcessing(false);
-    }
-    console.log("Handle switch to login.");
-  };
 
   return (
     <div className="p-2 flex flex-col justify-center items-center">
@@ -74,42 +54,11 @@ export default function UsersPage() {
             items-start overflow-auto scrollbar-thin group"
           >
             {data?.map((user) => (
-              <div className="bg-violet-100 p-3 flex gap-2 rounded-xl ml-1 justify-between shadow-md relative">
-                <div className="flex gap-3">
-                  <div className="grow flex gap-2">
-                    <Image
-                      src={user.picture}
-                      height={45}
-                      width={45}
-                      alt="user_profile"
-                      className="rounded-full"
-                    />
-                    <div className="text-sm flex flex-col gap-0.5">
-                      <span className="capitalize">{user.name}</span>
-                      <span className="text-xs">{user.email}</span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  aria-role={user?.role?.toLowerCase()}
-                  className="capitalize text-xs font-medium
-                      absolute bottom-2 right-4
-                      aria-[role=admin]:text-violet-500
-                      aria-[role=user]:text-pink-500"
-                >
-                  {user.role === "admin" ? (
-                    "Admin"
-                  ) : (
-                    <TWButton
-                      loading={processing}
-                      className="group-hover:visible py-1 px-2 text-xs"
-                      onClick={() => handleSwitchToAdmin(user._id)}
-                    >
-                      Switch to Admin
-                    </TWButton>
-                  )}
-                </div>
-              </div>
+              <UserListItem
+                user={user}
+                key={user._id}
+                onRefreshUsers={refreshUsers}
+              />
             ))}
           </div>
         )}

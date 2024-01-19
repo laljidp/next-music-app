@@ -31,9 +31,9 @@ class UsersRequests {
     }
   };
 
-  switchUserRole = async (id: string) => {
+  switchUserRole = async (id: string, role: string) => {
     try {
-      const resp = await fetch(`${apiUrls.users}/${id}/admin`, {
+      const resp = await fetch(`${apiUrls.users}/${id}/${role}`, {
         method: "PATCH",
         headers: getDefaultHeaders(),
       });
