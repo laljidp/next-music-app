@@ -1,18 +1,14 @@
 "use client";
-
-import { TWButton } from "@/components/UI/Button";
+import { useState } from "react";
+import { SearchOutlined } from "@ant-design/icons";
+import useSWR from "swr";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import UserListItem from "@/components/Users/UserListItem";
-import { SnackContext } from "@/context/snack.context";
 import { FetchUsersParamsT } from "@/services/db/functions/users.functions";
 import userRequests from "@/services/request/users.request";
 import { IUserShortDto } from "@/services/types/users.types";
 import useDebounce from "@/utils/useDebouce";
-import { SearchOutlined } from "@ant-design/icons";
-import Image from "next/image";
-import { useContext, useState } from "react";
-import useSWR from "swr";
 
 export default function UsersPage() {
   const [search, setSearch] = useState("");

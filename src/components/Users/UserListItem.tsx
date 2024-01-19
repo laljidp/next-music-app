@@ -1,6 +1,6 @@
 import { IUserShortDto } from "@/services/types/users.types";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { TWButton } from "../UI/Button";
 import { SnackContext } from "@/context/snack.context";
 import userRequests from "@/services/request/users.request";
@@ -21,7 +21,7 @@ export default function UserListItem(props: UsersListsProps) {
       const data = await userRequests.switchUserRole(userId, role);
       console.log("Data", data);
       if (data && data.status) {
-        showSnack("Switched user role to Admin.", "success");
+        showSnack("User role has switched.", "success");
         onRefreshUsers();
       }
       // TODO: Call api to switch user to admin
@@ -33,7 +33,9 @@ export default function UserListItem(props: UsersListsProps) {
     }
   };
 
-  const isAdmin = user.role === "admin";
+  const isAdmin = useMemo(() => user.role === "admin", [user]);
+
+  console.log({ isAdmin, name: user.name });
 
   return (
     <div className="bg-violet-100 p-3 flex gap-2 rounded-xl ml-1 justify-between shadow-md relative">
@@ -67,7 +69,7 @@ export default function UserListItem(props: UsersListsProps) {
             handleSwitchToAdmin(user._id, isAdmin ? "user" : "admin")
           }
         >
-          {isAdmin ? "Switch to Admin" : "Switch to User"}
+          {isAdmin ? "Revoke admin" : "Switch to Admin"}
         </TWButton>
       </div>
     </div>
