@@ -1,10 +1,9 @@
 import GoogleProvider from "next-auth/providers/google";
-import usersFunctions, {
-  UserPayloadT,
-} from "@/services/db/functions/users.functions";
+import usersFunctions from "@/services/db/functions/users.functions";
 import { AuthOptions } from "next-auth";
 import { config } from "@/constants";
 import { connectDB } from "@/services/db/connect.db";
+import { UserPayloadT } from "@/services/types/users.types";
 
 export const authOptions: AuthOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work
