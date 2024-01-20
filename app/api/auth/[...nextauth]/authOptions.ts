@@ -1,11 +1,9 @@
 import GoogleProvider from "next-auth/providers/google";
-import {
-  UserPayloadT,
-  createUserIfNotExists,
-} from "@/services/db/functions/users.functions";
+import usersFunctions from "@/services/db/functions/users.functions";
 import { AuthOptions } from "next-auth";
 import { config } from "@/constants";
 import { connectDB } from "@/services/db/connect.db";
+import { UserPayloadT } from "@/services/types/users.types";
 
 export const authOptions: AuthOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work
@@ -31,7 +29,7 @@ export const authOptions: AuthOptions = {
           role: "user",
           type: "oauth",
         };
-        const result = await createUserIfNotExists(payload);
+        const result = await usersFunctions.createUserIfNotExists(payload);
         if (result === "exists") {
           console.log("User already existed!");
         }

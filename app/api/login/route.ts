@@ -1,4 +1,4 @@
-import { fetchUserByEmail } from "@/services/db/functions/users.functions";
+import usersFunctions from "@/services/db/functions/users.functions";
 import {
   nextResponseError,
   nextResponseSuccess,
@@ -6,19 +6,24 @@ import {
 import { NextRequest } from "next/server";
 import { signJWT } from "@/utils/jwt.util";
 import { connectDB } from "@/services/db/connect.db";
+import { ERROR_MSG } from "@/services/db/db.utils";
 
 export const POST = async (request: NextRequest) => {
   //:: checking if users has admin right or not.
   try {
     const { email } = await request.json();
     if (!email) {
-      return nextResponseError("Bad request!", 403);
+      return nextResponseError(ERROR_MSG.BAD_REQUEST, 403);
     }
     await connectDB();
-    const user = (await fetchUserByEmail(email)) || null;
+    const user = (await usersFunctions.fetchUserByEmail(email)) || null;
 
     if (!user) {
-      return nextResponseError("User does not exists", 401);
+      return nextResponseError(ERROR_MSG.USER_NOT_EXISTS, 401);
+    }
+
+    if (user.role !== "admin") {
+      return nextResponseError(ERROR_MSG.UNAUTHORIZED_ACCESS, 401);
     }
 
     if (user.role === "admin") {
@@ -29,21 +34,18 @@ export const POST = async (request: NextRequest) => {
         role: user?.role,
         _id: user?._id.toString(),
       };
-      console.log({
-        payload,
-      });
       // INFO:: generate token and send back to client.
       const token = await signJWT(payload);
       return nextResponseSuccess({ data: user, isAdmin: true, token });
     }
 
-    return nextResponseError("Unauthorized Access", 401);
+    return nextResponseError(ERROR_MSG.UNAUTHORIZED_ACCESS, 401);
   } catch (err) {
     console.log("Error calling /POST /api/login", err);
-    return nextResponseError("User does not exists", 401);
+    return nextResponseError(ERROR_MSG.USER_NOT_EXISTS, 401);
   }
 };
 
-export const GET = (request: NextRequest) => {
+export const GET = () => {
   return nextResponseError("Method not allowed", 405);
 };

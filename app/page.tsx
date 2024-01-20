@@ -1,5 +1,5 @@
 "use client";
-import LoginPage from "@/components/login/page";
+import LoginPage from "@/components/login";
 
 // DB connection
 // config fetch response interceptor

@@ -55,10 +55,6 @@ export default function EditViewAlbumLayout({
   const [showSongsLayout, setShowSongsLayout] = useState(false);
   const { showSnack } = useContext(SnackContext);
 
-  const [animClass, setAnimClass] = useState<"animation-scale-up-tl" | "">(
-    "animation-scale-up-tl"
-  );
-
   const { isLoading: artistLoading, data: artists } = useSWR(
     {
       path: "/api/artists",
@@ -71,13 +67,6 @@ export default function EditViewAlbumLayout({
       fallbackData: [],
     }
   );
-
-  const toggleAnimClass = () => {
-    setAnimClass("");
-    setTimeout(() => {
-      setAnimClass("animation-scale-up-tl");
-    }, 20);
-  };
 
   const handleAddAlbum = () => {
     setAlbumPayload(initPayload);
@@ -110,7 +99,6 @@ export default function EditViewAlbumLayout({
           ...albumPayload,
         });
       }
-      console.log({ _album });
       if (_album) {
         const newPayload = {
           description: _album?.description || "",
@@ -124,10 +112,10 @@ export default function EditViewAlbumLayout({
         onSelectAlbum(_album);
         setReadOnly(true);
         setIsNew(false);
-        showSnack("Album data saved!", "success");
         setAlbumPayload(newPayload);
         setMatcherPayload(newPayload);
         onAlbumSaved();
+        showSnack("Album data saved!", "success");
       }
     } catch (err: any) {
       console.log("Error while posting request to save album::", err);
@@ -153,7 +141,6 @@ export default function EditViewAlbumLayout({
       setIsNew(false);
       setShowSongsLayout(false);
       setReadOnly(true);
-      toggleAnimClass();
     }
   }, [album]);
 
@@ -196,7 +183,9 @@ export default function EditViewAlbumLayout({
             </span>
           </div>
           <hr />
-          {showSongsLayout && <SongsListsByAlbum albumID={album?._id || ""} />}
+          {showSongsLayout && album?._id && (
+            <SongsListsByAlbum albumID={album._id} />
+          )}
         </div>
       </div>
       <div

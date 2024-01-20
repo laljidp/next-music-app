@@ -6,6 +6,7 @@ import {
 } from "@/utils/nextResponse.util";
 import { IAlbumDto } from "@/services/types/albums.types";
 import { connectDB } from "@/services/db/connect.db";
+import { ERROR_MSG } from "@/services/db/db.utils";
 
 export async function GET(req: NextRequest) {
   try {
@@ -32,11 +33,11 @@ export async function GET(req: NextRequest) {
       return nextResponseSuccess({ data });
     } catch (err) {
       console.log("Error fetching /api/artists", err);
-      return nextResponseError("Service under maintenance", 503);
+      return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
     }
   } catch (err) {
     console.log("err:", err);
-    return nextResponseError("Service unavailable.", 503);
+    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   }
 }
 
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest) {
     return nextResponseSuccess({ album });
   } catch (err) {
     console.log("Error processing /POST /api/albums", err);
-    return nextResponseError("Service looks down ! try again later", 403);
+    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 403);
   }
 }
 

@@ -1,4 +1,5 @@
 import { connectDB } from "@/services/db/connect.db";
+import { ERROR_MSG } from "@/services/db/db.utils";
 import Albums from "@/services/db/schemas/album.schema";
 import Artists from "@/services/db/schemas/artists.schema";
 import Songs from "@/services/db/schemas/songs.schema";
@@ -23,14 +24,10 @@ export async function GET(req: NextRequest) {
       artists,
     };
     return nextResponseSuccess({
-      msg: "Stats running..",
-      total: responsePayload,
+      counts: responsePayload,
     });
   } catch (err) {
     console.log("Error processing /api/stats", err);
-    return nextResponseError(
-      "Service under maintenance! Please try later.",
-      503
-    );
+    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   }
 }

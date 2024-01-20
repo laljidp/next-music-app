@@ -10,6 +10,8 @@ interface GradientColorPickerProps {
   onColorChanges?: (colors: string[]) => void;
 }
 
+const initialColors = { from: "#fff", to: "#fff", via: "#fff" };
+
 export default function GradientColorPicker(props: GradientColorPickerProps) {
   const {
     colors = [],
@@ -23,9 +25,7 @@ export default function GradientColorPicker(props: GradientColorPickerProps) {
     via: string;
     to: string;
   }>({
-    from: "#dedede",
-    to: "#ffffff",
-    via: "#dedede",
+    ...initialColors,
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +40,8 @@ export default function GradientColorPicker(props: GradientColorPickerProps) {
     if (!!colors.length) {
       const [from, via, to] = colors;
       setLocalColors({ from, via, to });
+    } else {
+      setLocalColors(initialColors);
     }
   }, [colors]);
 
