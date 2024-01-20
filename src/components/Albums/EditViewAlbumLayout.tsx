@@ -184,7 +184,7 @@ export default function EditViewAlbumLayout({
           </div>
           <hr />
           {showSongsLayout && album?._id && (
-            <SongsListsByAlbum albumID={album?._id} />
+            <SongsListsByAlbum albumID={album._id} />
           )}
         </div>
       </div>
