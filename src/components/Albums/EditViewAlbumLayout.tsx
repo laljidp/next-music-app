@@ -17,10 +17,12 @@ import TWSwitch from "../UI/Switch";
 import {
   InfoCircleFilled,
   LeftOutlined,
+  PlusCircleOutlined,
   RightOutlined,
 } from "@ant-design/icons";
 import AddNewButton from "../UI/Button/AddNewButton";
 import SongsListsByAlbum from "../Songs/SongsListsByAlbum";
+import IconView from "../Layouts/IconView.layout";
 
 interface EditViewAlbumLayout {
   album?: IAlbumDto | null;
@@ -172,15 +174,21 @@ export default function EditViewAlbumLayout({
         className="anim-scale-out-top"
       >
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-1">
-            <LeftOutlined className="[&>svg]:fill-violet-500" />
-            <span
-              role="button"
-              onClick={() => setShowSongsLayout(false)}
-              className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110"
-            >
-              Back
-            </span>
+          <div className="flex items-center gap-1 justify-between">
+            <div className="flex items-center gap-1">
+              <LeftOutlined className="[&>svg]:fill-violet-500" />
+              <span
+                role="button"
+                onClick={() => setShowSongsLayout(false)}
+                className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110"
+              >
+                Back
+              </span>
+            </div>
+            <div className="select-none flex items-center gap-1 text-violet-500 font-medium cursor-pointer hover:scale-105">
+              <IconView Icon={PlusCircleOutlined} />
+              Add songs
+            </div>
           </div>
           <hr />
           {showSongsLayout && album?._id && (

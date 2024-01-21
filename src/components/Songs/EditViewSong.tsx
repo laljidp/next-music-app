@@ -24,7 +24,6 @@ interface EditViewSongSectionProps {
 }
 
 const initPayload: ISongsDto = {
-  albums: [],
   artists: [],
   duration: 0,
   genre: [],
@@ -133,7 +132,6 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
     if (song) {
       const payload: ISongsDto = {
         artists: song.artists || [],
-        albums: song.albums || [],
         duration: song.duration,
         genre: song.genre,
         source: song.source,
@@ -170,7 +168,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
               src={songPayload?.coverImage}
               previewMode={readOnly}
               text="Cover Image"
-              className="[height:140px] w-full"
+              className="[height:150px] w-full"
             />
             <SongUploadControl
               className="h-20"
@@ -194,33 +192,17 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
                 handleChange(currentTarget.name, currentTarget.value)
               }
             />
-            <div className="">
-              <SelectMultiple
-                label="Select Album"
-                options={albumsOption.map((album) => ({
-                  name: album.title,
-                  value: album._id || "",
-                }))}
-                isReadOnly={readOnly}
-                loading={albumLoading}
-                selected={songPayload.albums}
-                onSelect={(selected) => handleChange("albums", selected)}
-                placeholder="Select Albums"
-              />
-            </div>
-            <div>
-              <SelectMultiple
-                label="Select Artists"
-                options={
-                  artists?.map((ar) => ({ name: ar.name, value: ar._id })) || []
-                }
-                isReadOnly={readOnly}
-                selected={songPayload.artists}
-                onSelect={(selected) => handleChange("artists", selected)}
-                loading={artistLoading}
-                placeholder="Select Artists"
-              />
-            </div>
+            <TWTextArea
+              value={songPayload.lyrics}
+              label="Lyrics"
+              placeholder={readOnly && !songPayload.lyrics ? "N/A" : "Lyrics"}
+              readOnly={readOnly}
+              name="lyrics"
+              onChange={({ currentTarget }) =>
+                handleChange(currentTarget.name, currentTarget.value)
+              }
+              rows={6}
+            />
           </div>
         </div>
         <div>
@@ -228,22 +210,25 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
             options={GENRES.map((genre) => ({ name: genre, value: genre }))}
             selected={songPayload.genre}
             name="genre"
+            label="Select Genre"
             isReadOnly={readOnly}
             onSelect={(selected) => handleChange("genre", selected)}
             placeholder="Select Genre"
           />
         </div>
-        <TWTextArea
-          value={songPayload.lyrics}
-          label="Lyrics"
-          placeholder={readOnly && !songPayload.lyrics ? "N/A" : "Lyrics"}
-          readOnly={readOnly}
-          name="lyrics"
-          onChange={({ currentTarget }) =>
-            handleChange(currentTarget.name, currentTarget.value)
-          }
-          rows={readOnly ? 6 : 3}
-        />
+        <div>
+          <SelectMultiple
+            label="Select Artists"
+            options={
+              artists?.map((ar) => ({ name: ar.name, value: ar._id })) || []
+            }
+            isReadOnly={readOnly}
+            selected={songPayload.artists}
+            onSelect={(selected) => handleChange("artists", selected)}
+            loading={artistLoading}
+            placeholder="Select Artists"
+          />
+        </div>
         <div className="aria-hide" aria-hidden={readOnly}>
           <TWButton loading={isProcessing} type="submit">
             Save song

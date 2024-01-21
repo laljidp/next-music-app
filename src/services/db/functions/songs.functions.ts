@@ -18,8 +18,9 @@ class SongsFunctions {
   fetchSongsByAlbum = async (albumId: string) => {
     try {
       console.log({ albumId });
-      const _songs = await Albums.findById(albumId).populate("songs");
-      return { data: _songs };
+      const album = await Albums.findById(albumId).populate("songs");
+      console.log("Albums", album);
+      return { data: album.songs || [] };
     } catch (err) {
       console.log("Error fetching songs by album::", err);
       return { error: "Failed to fetch songs of albums" };
@@ -89,8 +90,8 @@ class SongsFunctions {
       });
       return { data: resp };
     } catch (err) {
-      return { error: "Failed to delete songs" };
       console.log("ERROR deleting a song::", err);
+      return { error: "Failed to delete songs" };
     }
   };
 }

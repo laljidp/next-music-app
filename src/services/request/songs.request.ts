@@ -18,6 +18,7 @@ class SongsRequest {
           headers: getDefaultHeaders(),
         });
         const data = await resp.json();
+        console.log("resp data::", data.songs);
         return data?.songs || [];
       } catch (err) {
         console.log("Error fetching songs by albums", err);
