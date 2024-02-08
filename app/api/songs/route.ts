@@ -51,7 +51,6 @@ export const POST = async (request: NextRequest) => {
       title: body?.title,
       artists: body?.artists,
       source: body?.source,
-      albums: body?.albums,
       genre: body?.genre,
       lyrics: body?.lyrics,
       duration: body?.duration,
@@ -84,7 +83,6 @@ export async function PUT(request: NextRequest) {
       title,
       source,
       artists,
-      albums,
       genre,
       duration,
       metadata,
@@ -98,7 +96,6 @@ export async function PUT(request: NextRequest) {
     const payload: ISongsDto = {
       title,
       source,
-      albums,
       genre,
       duration,
       lyrics,
