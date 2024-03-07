@@ -12,7 +12,9 @@ import { albumRequest } from "@/services/request/albums.request";
 import { apiUrls } from "@/constants";
 import { IAlbumDto } from "@/services/types/albums.types";
 
-const AlbumLists = dynamic(() => import("@/components/Albums/AlbumLists"));
+const AlbumLists = dynamic(() => import("@/components/Albums/AlbumLists"), {
+  ssr: false,
+});
 const EditViewAlbumLayout = dynamic(
   () => import("@/components/Albums/EditViewAlbumLayout"),
   { ssr: false }

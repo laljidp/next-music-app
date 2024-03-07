@@ -15,7 +15,10 @@ const ArtistsList = dynamic(() => import("@/components/Artists/ArtistsList"), {
   ssr: false,
 });
 const EditViewArtist = dynamic(
-  () => import("@/components/Artists/EditViewArtist")
+  () => import("@/components/Artists/EditViewArtist"),
+  {
+    ssr: false,
+  }
 );
 
 const ArtistsAdminPage = () => {
