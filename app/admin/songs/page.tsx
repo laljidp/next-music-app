@@ -1,16 +1,26 @@
 "use client";
-import MainRightLayout from "@/components/Layouts/MainRightLayout";
-import EditViewSongSection from "@/components/Songs/EditViewSong";
-import SongsLists from "@/components/Songs/SongsLists";
-import songsRequest from "@/services/request/songs.request";
-import { ISongsDto } from "@/services/types/songs.types";
+
 import useSWR from "swr";
 import RootPageLoader from "../../loading";
 import ListLayout from "@/components/Layouts/List.layout";
 import TWInput from "@/components/UI/Input";
+import MainRightLayout from "@/components/Layouts/MainRightLayout";
+
+import songsRequest from "@/services/request/songs.request";
+import useDebounce from "@/utils/useDebouce";
+import { ISongsDto } from "@/services/types/songs.types";
 import { useMemo, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
-import useDebounce from "@/utils/useDebouce";
+import dynamic from "next/dynamic";
+
+const SongsLists = dynamic(() => import("@/components/Songs/SongsLists"), {
+  ssr: false,
+});
+
+const EditViewSongSection = dynamic(
+  () => import("@/components/Songs/EditViewSong"),
+  { ssr: false }
+);
 
 export default function SongsPage() {
   const [searchText, setSearchText] = useState("");

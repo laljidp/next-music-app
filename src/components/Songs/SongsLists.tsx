@@ -1,5 +1,5 @@
-import { ISongsDto } from "@/services/types/songs.types";
 import Image from "next/image";
+import { ISongsDto } from "@/services/types/songs.types";
 import { SolutionOutlined } from "@ant-design/icons";
 
 interface SongsListsProps {

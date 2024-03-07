@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
     console.log("Middleware running.");
     const token = request.headers.get("Authorization");
     if (token) {
-      console.log("token::", token);
+      // console.log("token::", token);
       const [, jwtToken] = token.split(" ");
       const payload = await decryptJWT(jwtToken);
       if (payload?.name && payload?._id) {
@@ -21,7 +21,6 @@ export async function middleware(request: NextRequest) {
     } else {
       // needs to redirect to root page
       return NextResponse.next();
-      // return NextResponse.redirect(new URL("/", request.url));
     }
   } catch (err) {
     console.log("Error executing middleware:", err);

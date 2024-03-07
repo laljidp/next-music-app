@@ -1,28 +1,30 @@
 "use client";
-import { GENRES } from "@/services/types/artists.types";
-import { TWButton } from "../UI/Button";
+import useSWR from "swr";
 import TWDatePicker from "../UI/DatePicker";
 import ImageUpload from "../UI/ImageUpload";
 import TWInput from "../UI/Input";
 import TWTextArea from "../UI/Input/Textarea.input";
 import SelectMultiple from "../UI/SelectMultiple";
 import GradientColorPicker from "../GradientColorPicker";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { IAlbumDto, IAlbumStatPayload } from "@/services/types/albums.types";
-import useSWR from "swr";
 import artistRequest from "@/services/request/artists.request";
+import TWSwitch from "../UI/Switch";
+import AddNewButton from "../UI/Button/AddNewButton";
+import IconView from "../Layouts/IconView.layout";
+import dynamic from "next/dynamic";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { GENRES } from "@/services/types/artists.types";
+import { TWButton } from "../UI/Button";
+import { IAlbumDto, IAlbumStatPayload } from "@/services/types/albums.types";
 import { albumRequest } from "@/services/request/albums.request";
 import { SnackContext } from "@/context/snack.context";
-import TWSwitch from "../UI/Switch";
 import {
   InfoCircleFilled,
   LeftOutlined,
   PlusCircleOutlined,
   RightOutlined,
 } from "@ant-design/icons";
-import AddNewButton from "../UI/Button/AddNewButton";
-import SongsListsByAlbum from "../Songs/SongsListsByAlbum";
-import IconView from "../Layouts/IconView.layout";
+
+const SongsListsByAlbum = dynamic(() => import("../Songs/SongsListsByAlbum"));
 
 interface EditViewAlbumLayout {
   album?: IAlbumDto | null;

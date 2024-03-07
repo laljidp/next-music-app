@@ -1,6 +1,4 @@
 "use client";
-import ArtistsList from "@/components/Artists/ArtistsList";
-import EditViewArtist from "@/components/Artists/EditViewArtist";
 import ListLayout from "@/components/Layouts/List.layout";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
@@ -9,8 +7,16 @@ import artistRequest from "@/services/request/artists.request";
 import { ArtistsDto } from "@/services/types/artists.types";
 import useDebounce from "@/utils/useDebouce";
 import { SearchOutlined } from "@ant-design/icons";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import useSWR from "swr";
+
+const ArtistsList = dynamic(() => import("@/components/Artists/ArtistsList"), {
+  ssr: false,
+});
+const EditViewArtist = dynamic(
+  () => import("@/components/Artists/EditViewArtist")
+);
 
 const ArtistsAdminPage = () => {
   const [artist, setArtist] = useState<ArtistsDto | null>(null);

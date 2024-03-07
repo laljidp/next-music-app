@@ -27,8 +27,9 @@ export const GET = async (request: NextRequest) => {
       { batch, page, searchText },
       fields
     );
+    const hasMore = data?.length === batch;
     if (data) {
-      return nextResponseSuccess({ songs: data });
+      return nextResponseSuccess({ songs: data, hasMore });
     }
     return nextResponseError(error || ERROR_MSG.UNDER_MAINTENANCE, 503);
   } catch (err) {
