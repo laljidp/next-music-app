@@ -17,8 +17,11 @@ export async function GET(req: NextRequest, { params }: any) {
     }
 
     await connectDB();
-    const _songs = await songsFunction.fetchSongsByAlbum(id);
-    return nextResponseSuccess({ songs: _songs });
+    const { data } = await songsFunction.fetchSongsByAlbum(id);
+    if (data) {
+      return nextResponseSuccess({ songs: data });
+    }
+    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   } catch (err) {
     return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   }

@@ -14,13 +14,6 @@ const songSchema = new mongoose.Schema(
     ],
     source: { type: String, required: true },
     coverImage: { type: String },
-    albums: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: COLLECTION.ALBUMS,
-        default: [],
-      },
-    ],
     genre: [{ type: String, default: [] }],
     lyrics: { type: String },
     // Statistics

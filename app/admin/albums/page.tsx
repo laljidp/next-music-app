@@ -1,17 +1,24 @@
 "use client";
+import useSWR from "swr";
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import useDebounce from "@/utils/useDebouce";
+import ListLayout from "@/components/Layouts/List.layout";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
-import AlbumLists from "@/components/Albums/AlbumLists";
 import { SearchOutlined } from "@ant-design/icons";
-import EditViewAlbumLayout from "@/components/Albums/EditViewAlbumLayout";
-import useSWR from "swr";
 import { albumRequest } from "@/services/request/albums.request";
 import { apiUrls } from "@/constants";
 import { IAlbumDto } from "@/services/types/albums.types";
-import ListLayout from "@/components/Layouts/List.layout";
+
+const AlbumLists = dynamic(() => import("@/components/Albums/AlbumLists"), {
+  ssr: false,
+});
+const EditViewAlbumLayout = dynamic(
+  () => import("@/components/Albums/EditViewAlbumLayout"),
+  { ssr: false }
+);
 
 export default function AlbumPage() {
   const [searchText, setSearchText] = useState("");

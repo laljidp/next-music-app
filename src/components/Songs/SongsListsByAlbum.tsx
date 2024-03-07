@@ -13,15 +13,16 @@ interface SongsListsByAlbumProps {
 export default function SongsListsByAlbum(props: SongsListsByAlbumProps) {
   const { albumID } = props;
 
-  const { isLoading, data, error } = useSWR<ISongsDto[]>(
+  const { isLoading, data, error } = useSWR(
     { path: apiUrls.songs, id: albumID },
     songsRequest.fetchSongsByAlbum,
     {
       revalidateOnFocus: false,
-      revalidateIfStale: false,
       fallbackData: [],
     }
   );
+
+  console.log({ data });
 
   console.log({ error });
   console.log({ isLoading });

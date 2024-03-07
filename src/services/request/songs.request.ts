@@ -18,6 +18,7 @@ class SongsRequest {
           headers: getDefaultHeaders(),
         });
         const data = await resp.json();
+        console.log("resp data::", data.songs);
         return data?.songs || [];
       } catch (err) {
         console.log("Error fetching songs by albums", err);
@@ -71,6 +72,7 @@ class SongsRequest {
       console.log("Failed to process saving song::", err);
     }
   }
+
   async updateSong(_id: string, payload: ISongsDto) {
     try {
       const resp = await fetch(apiUrls.songs, {

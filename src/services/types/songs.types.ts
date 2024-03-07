@@ -13,7 +13,6 @@ export interface ISongsDto {
   duration: number; // ins seconds
   artists: string[];
   source: string; // song file dest url
-  albums: string[];
   genre: string[];
   lyrics?: string;
   coverImage?: string;

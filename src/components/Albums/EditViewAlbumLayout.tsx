@@ -1,26 +1,30 @@
 "use client";
-import { GENRES } from "@/services/types/artists.types";
-import { TWButton } from "../UI/Button";
+import useSWR from "swr";
 import TWDatePicker from "../UI/DatePicker";
 import ImageUpload from "../UI/ImageUpload";
 import TWInput from "../UI/Input";
 import TWTextArea from "../UI/Input/Textarea.input";
 import SelectMultiple from "../UI/SelectMultiple";
 import GradientColorPicker from "../GradientColorPicker";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { IAlbumDto, IAlbumStatPayload } from "@/services/types/albums.types";
-import useSWR from "swr";
 import artistRequest from "@/services/request/artists.request";
+import TWSwitch from "../UI/Switch";
+import AddNewButton from "../UI/Button/AddNewButton";
+import IconView from "../Layouts/IconView.layout";
+import dynamic from "next/dynamic";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { GENRES } from "@/services/types/artists.types";
+import { TWButton } from "../UI/Button";
+import { IAlbumDto, IAlbumStatPayload } from "@/services/types/albums.types";
 import { albumRequest } from "@/services/request/albums.request";
 import { SnackContext } from "@/context/snack.context";
-import TWSwitch from "../UI/Switch";
 import {
   InfoCircleFilled,
   LeftOutlined,
+  PlusCircleOutlined,
   RightOutlined,
 } from "@ant-design/icons";
-import AddNewButton from "../UI/Button/AddNewButton";
-import SongsListsByAlbum from "../Songs/SongsListsByAlbum";
+
+const SongsListsByAlbum = dynamic(() => import("../Songs/SongsListsByAlbum"));
 
 interface EditViewAlbumLayout {
   album?: IAlbumDto | null;
@@ -171,18 +175,24 @@ export default function EditViewAlbumLayout({
         aria-hidden={!showSongsLayout}
         className="anim-scale-out-top"
       >
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-1">
-            <LeftOutlined className="[&>svg]:fill-violet-500" />
-            <span
-              role="button"
-              onClick={() => setShowSongsLayout(false)}
-              className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110"
-            >
-              Back
-            </span>
+        <div className="flex flex-col">
+          <div className="flex items-center gap-1 justify-between">
+            <div className="flex items-center gap-1">
+              <LeftOutlined className="[&>svg]:fill-violet-500" />
+              <span
+                role="button"
+                onClick={() => setShowSongsLayout(false)}
+                className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110"
+              >
+                Back
+              </span>
+            </div>
+            <div className="select-none flex items-center gap-1 text-violet-500 font-medium cursor-pointer hover:scale-105">
+              <IconView Icon={PlusCircleOutlined} />
+              Add songs
+            </div>
           </div>
-          <hr />
+          <hr className="mt-3" />
           {showSongsLayout && album?._id && (
             <SongsListsByAlbum albumID={album._id} />
           )}
@@ -195,36 +205,45 @@ export default function EditViewAlbumLayout({
       >
         <form onSubmit={handleSubmit} className="w-full">
           <div className="flex flex-col gap-5 w-full">
-            <div className="flex justify-between">
-              <div className="flex items-center gap-1">
-                <span
-                  role="button"
-                  onClick={() => setShowSongsLayout(true)}
-                  className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110"
-                >
-                  Songs
-                </span>
-                <RightOutlined className="[&>svg]:fill-violet-500" />
-              </div>
-              <div className="flex items-center gap-4">
-                <div
-                  aria-hidden={isChangesSaved}
-                  className="flex items-center gap-2 aria-hide"
-                >
-                  <InfoCircleFilled className="[&>svg]:fill-yellow-500 [&>svg]:font-bold" />
-                  <span className="text-xs">Unsaved changes.</span>
+            <div>
+              <div className="flex justify-between">
+                {isNew ? (
+                  <span className="text-violet-500 font-medium">New Album</span>
+                ) : (
+                  <div
+                    className="flex items-center gap-1 aria-hide"
+                    aria-hidden={isNew}
+                  >
+                    <span
+                      role="button"
+                      onClick={() => setShowSongsLayout(true)}
+                      className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110 "
+                    >
+                      Songs
+                    </span>
+                    <RightOutlined className="[&>svg]:fill-violet-500" />
+                  </div>
+                )}
+                <div className="flex items-center gap-4">
+                  <div
+                    aria-hidden={isChangesSaved}
+                    className="flex items-center gap-2 aria-hide"
+                  >
+                    <InfoCircleFilled className="[&>svg]:fill-yellow-500 [&>svg]:font-bold" />
+                    <span className="text-xs">Unsaved changes.</span>
+                  </div>
+                  <TWSwitch
+                    name="isReadOnly"
+                    label="ReadOnly"
+                    isDisabled={isNew}
+                    checked={isReadOnly}
+                    onChange={setReadOnly}
+                  />
+                  {!isNew && <AddNewButton onClick={handleAddAlbum} />}
                 </div>
-                <TWSwitch
-                  name="isReadOnly"
-                  label="ReadOnly"
-                  isDisabled={isNew}
-                  checked={isReadOnly}
-                  onChange={setReadOnly}
-                />
-                <AddNewButton onClick={handleAddAlbum} />
               </div>
+              <hr className="mt-3" />
             </div>
-            <hr />
             <div className="w-[100%] flex-grow justify-between flex gap-[2rem]">
               <div className="flex flex-col gap-3 w-[100%]">
                 <ImageUpload

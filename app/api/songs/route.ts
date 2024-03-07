@@ -27,8 +27,9 @@ export const GET = async (request: NextRequest) => {
       { batch, page, searchText },
       fields
     );
+    const hasMore = data?.length === batch;
     if (data) {
-      return nextResponseSuccess({ songs: data });
+      return nextResponseSuccess({ songs: data, hasMore });
     }
     return nextResponseError(error || ERROR_MSG.UNDER_MAINTENANCE, 503);
   } catch (err) {
@@ -51,7 +52,6 @@ export const POST = async (request: NextRequest) => {
       title: body?.title,
       artists: body?.artists,
       source: body?.source,
-      albums: body?.albums,
       genre: body?.genre,
       lyrics: body?.lyrics,
       duration: body?.duration,
@@ -84,7 +84,6 @@ export async function PUT(request: NextRequest) {
       title,
       source,
       artists,
-      albums,
       genre,
       duration,
       metadata,
@@ -98,7 +97,6 @@ export async function PUT(request: NextRequest) {
     const payload: ISongsDto = {
       title,
       source,
-      albums,
       genre,
       duration,
       lyrics,

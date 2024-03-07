@@ -1,14 +1,18 @@
 "use client";
-import { useState } from "react";
-import { SearchOutlined } from "@ant-design/icons";
 import useSWR from "swr";
+import useDebounce from "@/utils/useDebouce";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
-import UserListItem from "@/components/Users/UserListItem";
-import { FetchUsersParamsT } from "@/services/db/functions/users.functions";
 import userRequests from "@/services/request/users.request";
+import { useState } from "react";
+import { SearchOutlined } from "@ant-design/icons";
+import { FetchUsersParamsT } from "@/services/db/functions/users.functions";
 import { IUserShortDto } from "@/services/types/users.types";
-import useDebounce from "@/utils/useDebouce";
+import dynamic from "next/dynamic";
+
+const UserListItem = dynamic(() => import("@/components/Users/UserListItem"), {
+  ssr: false,
+});
 
 export default function UsersPage() {
   const [search, setSearch] = useState("");
@@ -39,7 +43,11 @@ export default function UsersPage() {
         />
       </div>
       <div className="w-[100%] md:w-[90%] xl:w-[70%] h-[calc(100vh-165px)]">
-        {!isLoading && !data?.length && <div>No users found.</div>}
+        {!isLoading && !data?.length && (
+          <div className="p-5 flex items-center justify-center">
+            No users found.
+          </div>
+        )}
         {isLoading ? (
           <div className="h-[350px] flex justify-center items-center">
             <PageSpinner />
