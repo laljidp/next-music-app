@@ -16,3 +16,7 @@ export const USER_ROLES = Object.freeze({
   admin: "admin",
   superAdmin: "superAdmin",
 });
+
+export const DB_CONFIG = Object.freeze({
+  BATCH_SIZE: 15,
+});

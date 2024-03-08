@@ -1,7 +1,6 @@
 "use client";
-import useSWR from "swr";
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import useDebounce from "@/utils/useDebouce";
@@ -11,6 +10,9 @@ import { SearchOutlined } from "@ant-design/icons";
 import { albumRequest } from "@/services/request/albums.request";
 import { apiUrls } from "@/constants";
 import { IAlbumDto } from "@/services/types/albums.types";
+import { TWButton } from "@/components/UI/Button";
+import useSWRInfinite from "swr/infinite";
+import { DB_CONFIG } from "@/services/db/constants/db.constants";
 
 const AlbumLists = dynamic(() => import("@/components/Albums/AlbumLists"), {
   ssr: false,
@@ -26,20 +28,43 @@ export default function AlbumPage() {
 
   const debouncedSearch = useDebounce(searchText, 1000);
 
+  const getKey = (pageIndex: number, previousPageData: any) => {
+    console.log("PreviousPageData", previousPageData);
+    console.log("pageIndex", pageIndex);
+    if (previousPageData && !previousPageData?.data?.length) return null;
+
+    let requestUrl = apiUrls?.albums?.toString() + "?";
+    const params = new URLSearchParams();
+
+    if (debouncedSearch?.trim()?.length > 0) {
+      params.set("search", debouncedSearch);
+    }
+    params.set("page", pageIndex.toString());
+    params.set("batch", DB_CONFIG.BATCH_SIZE.toString());
+
+    requestUrl = requestUrl.concat(params.toString());
+    console.log("requestUrl", requestUrl);
+    return requestUrl;
+  };
+
   const {
+    size,
+    setSize,
     isLoading,
+    isValidating,
     data: albums,
     mutate: refreshAlbums,
-  } = useSWR(
-    {
-      path: apiUrls.albums,
-      search: debouncedSearch,
-    },
-    albumRequest.fetchAlbums,
-    {
-      revalidateOnFocus: false,
-    }
-  );
+  } = useSWRInfinite(getKey, albumRequest.fetchAlbums, {
+    revalidateOnFocus: false,
+    fallbackData: [
+      {
+        data: [],
+        hasMore: false,
+      },
+    ],
+  });
+
+  console.log("Albums", isValidating);
 
   const handleAddNewSelection = () => {
     setSelectedAlbum(null);
@@ -49,6 +74,21 @@ export default function AlbumPage() {
     const { value } = event.currentTarget;
     setSearchText(value);
   };
+
+  const { filteredAlbums, hasMore } = useMemo(() => {
+    let hasMore = true;
+    const __data = [] as IAlbumDto[];
+    if (albums && albums?.length > 0) {
+      albums.filter((alb) => {
+        __data.push(...(alb.data || []));
+        hasMore = alb.hasMore;
+      });
+      return { filteredAlbums: __data, hasMore };
+    }
+    return { filteredAlbums: [], hasMore: false };
+  }, [albums]);
+
+  console.log("hasMore", hasMore);
 
   return (
     <MainRightLayout>
@@ -74,7 +114,20 @@ export default function AlbumPage() {
             <AlbumLists
               albumSelectedID={selectedAlbum?._id}
               onSelectAlbum={setSelectedAlbum}
-              albums={albums || []}
+              albums={filteredAlbums || []}
+              loadMore={
+                hasMore && (
+                  <div className="flex justify-center py-2">
+                    <TWButton
+                      loading={isValidating}
+                      onClick={() => setSize(size + 1)}
+                      className="text-center"
+                    >
+                      Load more
+                    </TWButton>
+                  </div>
+                )
+              }
             />
           )}
         </ListLayout>

@@ -1,5 +1,5 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import useSWR from "swr";
 import TWSwitch from "../UI/Switch";
 import AddNewButton from "../UI/Button/AddNewButton";
@@ -7,7 +7,6 @@ import ImageUpload from "../UI/ImageUpload";
 import TWInput from "../UI/Input";
 import TWTextArea from "../UI/Input/Textarea.input";
 import SongUploadControl from "./SongUploadControl";
-// import SelectMultiple from "../UI/SelectMultiple";
 import artistRequest from "@/services/request/artists.request";
 import songsRequest from "@/services/request/songs.request";
 import { ISongsDto, ISongsMetadata } from "@/services/types/songs.types";
@@ -15,9 +14,7 @@ import { TWButton } from "../UI/Button";
 import { GENRES } from "@/services/types/artists.types";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { apiUrls } from "@/constants";
-import { albumRequest } from "@/services/request/albums.request";
 import { SnackContext } from "@/context/snack.context";
-import dynamic from "next/dynamic";
 
 const SelectMultiple = dynamic(() => import("../UI/SelectMultiple"), {
   ssr: false,
@@ -52,15 +49,6 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
     {
       fallbackData: [],
       revalidateOnFocus: false,
-    }
-  );
-
-  const { data: albumsOption, isLoading: albumLoading } = useSWR(
-    { search: "", path: apiUrls.albums, minimal: true },
-    albumRequest.fetchAlbums,
-    {
-      revalidateOnFocus: false,
-      fallbackData: [],
     }
   );
 

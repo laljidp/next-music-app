@@ -7,13 +7,14 @@ import {
 import { IAlbumDto } from "@/services/types/albums.types";
 import { connectDB } from "@/services/db/connect.db";
 import { ERROR_MSG } from "@/services/db/db.utils";
+import { DB_CONFIG } from "@/services/db/constants/db.constants";
 
 export async function GET(req: NextRequest) {
   try {
     const params = req.nextUrl.searchParams;
     const searchTerm = params.get("search") || "";
     const minimal = params.get("minimal") || "";
-    const batch = (params.get("batch") || 35) as number;
+    const batch = (params.get("batch") || DB_CONFIG.BATCH_SIZE) as number;
     const page = (params.get("page") || 0) as number;
     const fields = [];
     await connectDB();
@@ -23,14 +24,15 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-      const { data, error } = await albumFunction.getAlbums(
-        { batch, page, searchTerm },
-        fields
-      );
+      const {
+        data,
+        error,
+        hasMore = false,
+      } = await albumFunction.getAlbums({ batch, page, searchTerm }, fields);
       if (error) {
         return nextResponseError(error, 400);
       }
-      return nextResponseSuccess({ data });
+      return nextResponseSuccess({ data, hasMore });
     } catch (err) {
       console.log("Error fetching /api/artists", err);
       return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
