@@ -1,7 +1,6 @@
 import { IAlbumDto } from "@/services/types/albums.types";
 import Albums from "../schemas/album.schema";
 import { TFuncResponse, getMongoConstraintError } from "../db.utils";
-import { DB_CONFIG } from "../constants/db.constants";
 
 export type GetAlbumPayloadT = {
   page: number;

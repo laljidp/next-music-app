@@ -29,8 +29,6 @@ export default function AlbumPage() {
   const debouncedSearch = useDebounce(searchText, 1000);
 
   const getKey = (pageIndex: number, previousPageData: any) => {
-    console.log("PreviousPageData", previousPageData);
-    console.log("pageIndex", pageIndex);
     if (previousPageData && !previousPageData?.data?.length) return null;
 
     let requestUrl = apiUrls?.albums?.toString() + "?";
@@ -41,9 +39,8 @@ export default function AlbumPage() {
     }
     params.set("page", pageIndex.toString());
     params.set("batch", DB_CONFIG.BATCH_SIZE.toString());
-
+    // query string for api call
     requestUrl = requestUrl.concat(params.toString());
-    console.log("requestUrl", requestUrl);
     return requestUrl;
   };
 
@@ -63,8 +60,6 @@ export default function AlbumPage() {
       },
     ],
   });
-
-  console.log("Albums", isValidating);
 
   const handleAddNewSelection = () => {
     setSelectedAlbum(null);
@@ -87,8 +82,6 @@ export default function AlbumPage() {
     }
     return { filteredAlbums: [], hasMore: false };
   }, [albums]);
-
-  console.log("hasMore", hasMore);
 
   return (
     <MainRightLayout>
