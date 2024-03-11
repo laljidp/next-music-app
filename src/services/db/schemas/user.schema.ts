@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 import { COLLECTION } from "../constants/db.constants";
 
+export enum USER_ROLES {
+  USER = "user",
+  ADMIN = "admin",
+  SUPER_ADMIN = "super_admin",
+}
+
 export type UserPreferencesT = {
   createPlaylist: boolean;
   uploadSongs: boolean;
@@ -32,7 +38,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       default: "user",
-      enum: ["user", "admin"],
+      enum: USER_ROLES,
     },
     preferences: {
       type: Map,
@@ -54,7 +60,7 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 const Users =

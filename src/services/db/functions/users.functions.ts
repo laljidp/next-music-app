@@ -1,6 +1,5 @@
 import { UserPayloadT } from "@/services/types/users.types";
-import { USER_ROLES } from "../constants/db.constants";
-import Users from "../schemas/user.schema";
+import Users, { USER_ROLES } from "../schemas/user.schema";
 
 export type FetchUsersParamsT = {
   batch: number;
@@ -52,7 +51,7 @@ class UsersFunctions {
   };
 
   isAdminRole = async (id: string) => {
-    const user = await Users.findById(id, { role: USER_ROLES.admin });
+    const user = await Users.findById(id, { role: USER_ROLES.ADMIN });
     if (!user) return false;
 
     return true;

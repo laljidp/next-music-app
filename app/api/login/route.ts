@@ -7,6 +7,7 @@ import { NextRequest } from "next/server";
 import { signJWT } from "@/utils/jwt.util";
 import { connectDB } from "@/services/db/connect.db";
 import { ERROR_MSG } from "@/services/db/db.utils";
+import { USER_ROLES } from "@/services/db/schemas/user.schema";
 
 export const POST = async (request: NextRequest) => {
   //:: checking if users has admin right or not.
@@ -22,24 +23,23 @@ export const POST = async (request: NextRequest) => {
       return nextResponseError(ERROR_MSG.USER_NOT_EXISTS, 401);
     }
 
-    if (user.role !== "admin") {
-      return nextResponseError(ERROR_MSG.UNAUTHORIZED_ACCESS, 401);
-    }
+    // if (user.role !== "admin") {
+    //   return nextResponseError(ERROR_MSG.UNAUTHORIZED_ACCESS, 401);
+    // }
 
-    if (user.role === "admin") {
-      const payload = {
-        name: user?.name,
-        email: user?.email,
-        picture: user?.picture,
-        role: user?.role,
-        _id: user?._id.toString(),
-      };
-      // INFO:: generate token and send back to client.
-      const token = await signJWT(payload);
-      return nextResponseSuccess({ data: user, isAdmin: true, token });
-    }
+    const payload = {
+      name: user?.name,
+      email: user?.email,
+      picture: user?.picture,
+      role: user?.role,
+      _id: user?._id.toString(),
+    };
 
-    return nextResponseError(ERROR_MSG.UNAUTHORIZED_ACCESS, 401);
+    const isSuperAdmin = user?.role === USER_ROLES.SUPER_ADMIN;
+
+    // INFO:: generate token and send back to client.
+    const token = await signJWT(payload);
+    return nextResponseSuccess({ data: user, isSuperAdmin, token });
   } catch (err) {
     console.log("Error calling /POST /api/login", err);
     return nextResponseError(ERROR_MSG.USER_NOT_EXISTS, 401);
