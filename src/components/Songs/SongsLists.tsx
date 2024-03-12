@@ -14,7 +14,7 @@ export default function SongsLists(props: SongsListsProps) {
     <div className="mt-3 h-full">
       <div
         aria-hidden={!!songs.length}
-        className="flex justify-center items-center h-[85%] aria-hide"
+        className="flex justify-center items-center h-[50vh] aria-hide"
       >
         <span className="font-medium px-3 py-2 rounded-lg flex flex-col items-center text-violet-600">
           <SolutionOutlined

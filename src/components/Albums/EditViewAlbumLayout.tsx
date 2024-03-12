@@ -18,6 +18,7 @@ import { IAlbumDto, IAlbumStatPayload } from "@/services/types/albums.types";
 import { albumRequest } from "@/services/request/albums.request";
 import { SnackContext } from "@/context/snack.context";
 import {
+  CloudDownloadOutlined,
   InfoCircleFilled,
   LeftOutlined,
   PlusCircleOutlined,
@@ -186,6 +187,10 @@ export default function EditViewAlbumLayout({
               >
                 Back
               </span>
+            </div>
+            <div className="select-none flex items-center gap-1 text-violet-500 font-medium cursor-pointer hover:scale-105">
+              <IconView Icon={CloudDownloadOutlined} />
+              Upload bulk songs
             </div>
             <div className="select-none flex items-center gap-1 text-violet-500 font-medium cursor-pointer hover:scale-105">
               <IconView Icon={PlusCircleOutlined} />
