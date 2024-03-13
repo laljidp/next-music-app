@@ -1,15 +1,19 @@
 "use client";
+
+import useSWRInfinite from "swr/infinite";
 import ListLayout from "@/components/Layouts/List.layout";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
+import { apiUrls } from "@/constants";
+import { DB_CONFIG } from "@/services/db/constants/db.constants";
 import artistRequest from "@/services/request/artists.request";
 import { ArtistsDto } from "@/services/types/artists.types";
 import useDebounce from "@/utils/useDebouce";
 import { SearchOutlined } from "@ant-design/icons";
 import dynamic from "next/dynamic";
-import { useState } from "react";
-import useSWR from "swr";
+import { useMemo, useState } from "react";
+import { TWButton } from "@/components/UI/Button";
 
 const ArtistsList = dynamic(() => import("@/components/Artists/ArtistsList"), {
   ssr: false,
@@ -27,18 +31,50 @@ const ArtistsAdminPage = () => {
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 1000);
 
+  const getKey = (pageIndex: number, previousPageData: any) => {
+    if (previousPageData && !previousPageData?.length) return null;
+
+    let requestUrl = apiUrls?.artists?.toString() + "?";
+    const params = new URLSearchParams();
+
+    if (debouncedSearch?.trim()?.length > 0) {
+      params.set("search", debouncedSearch);
+    }
+    params.set("page", pageIndex.toString());
+    params.set("batch", DB_CONFIG.BATCH_SIZE.toString());
+    // query string for api call
+    requestUrl = requestUrl.concat(params.toString());
+    return requestUrl;
+  };
+
   const {
     isLoading,
     data,
+    size,
+    setSize,
+    isValidating,
     mutate: refetchArtists,
-  } = useSWR<ArtistsDto[], { search: string; path: string }>(
-    { path: `/api/artists`, search: debouncedSearch },
-    artistRequest.fetchArtists,
-    {
-      fallback: [],
-      revalidateOnFocus: false,
+  } = useSWRInfinite<ArtistsDto[]>(getKey, artistRequest.fetchArtists, {
+    fallback: [],
+    revalidateOnFocus: false,
+  });
+
+  const { artists, hasMore } = useMemo(() => {
+    if (data && data?.length > 0) {
+      let artists = [] as ArtistsDto[];
+      let hasMore = false;
+      data.forEach((artistsArr) => {
+        hasMore = artistsArr.length === DB_CONFIG.BATCH_SIZE;
+        artists.push(...artistsArr);
+      });
+
+      return { artists, hasMore };
+    } else {
+      return { artists: [], hasMore: false };
     }
-  );
+  }, [data]);
+
+  console.log({ artists, hasMore });
 
   const handleSearchTextChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
@@ -74,7 +110,20 @@ const ArtistsAdminPage = () => {
             <ArtistsList
               artistSelectedID={artistSelectedID}
               onSelectArtist={handleSelectArtist}
-              artists={data || []}
+              artists={artists || []}
+              loadMore={
+                hasMore && (
+                  <div className="flex justify-center py-2">
+                    <TWButton
+                      loading={isValidating}
+                      onClick={() => setSize(size + 1)}
+                      className="text-center"
+                    >
+                      Load more
+                    </TWButton>
+                  </div>
+                )
+              }
             />
           )}
         </ListLayout>

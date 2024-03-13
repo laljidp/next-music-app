@@ -26,28 +26,15 @@ class SongsRequest {
       }
     };
 
-  fetchSongs: Fetcher<
-    ISongsDto[],
-    { path: string; search: string; minimal?: boolean }
-  > = async (payload) => {
+  fetchSongs: Fetcher<ISongsDto[], string> = async (apiPath) => {
     try {
-      const { search, minimal } = payload;
-      const params = new URLSearchParams();
-
-      if (search?.trim()?.length > 0) {
-        params.set("search", search);
-      }
-      if (minimal) {
-        params.set("minimal", "true");
-      }
-      const queryStr = params.toString();
-      const resp = await fetch(`${apiUrls.songs}?${queryStr}`, {
+      const resp = await fetch(apiPath, {
         method: "GET",
         headers: getDefaultHeaders(),
       });
       const data = await resp.json();
       const songs = data.songs as ISongsDto[];
-      if (songs) {
+      if (songs?.length) {
         return songs || [];
       }
       return [];

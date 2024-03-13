@@ -5,11 +5,12 @@ import { SolutionOutlined } from "@ant-design/icons";
 interface SongsListsProps {
   songs: ISongsDto[];
   selectedSong?: ISongsDto | null;
+  loadMore?: React.ReactNode;
   onSelectSong: (song: ISongsDto) => void;
 }
 
 export default function SongsLists(props: SongsListsProps) {
-  const { songs, selectedSong, onSelectSong = () => {} } = props;
+  const { songs, selectedSong, onSelectSong = () => {}, loadMore } = props;
   return (
     <div className="mt-3 h-full">
       <div
@@ -47,6 +48,7 @@ export default function SongsLists(props: SongsListsProps) {
           </div>
         </div>
       ))}
+      {loadMore}
     </div>
   );
 }

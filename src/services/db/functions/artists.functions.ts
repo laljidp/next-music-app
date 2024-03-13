@@ -62,7 +62,9 @@ class ArtistFunction {
         .limit(batch)
         .select(fields);
 
-      return { data, error: null };
+      console.log(typeof batch);
+      const hasMore = data.length === Number(batch);
+      return { data, hasMore, error: null };
     } catch (err) {
       console.log("Error fetching artists data", err);
       return { error: "Service looks down ! please try again later" };

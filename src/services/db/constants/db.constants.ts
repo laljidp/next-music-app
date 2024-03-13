@@ -18,5 +18,5 @@ export const USER_ROLES = Object.freeze({
 });
 
 export const DB_CONFIG = Object.freeze({
-  BATCH_SIZE: 15,
+  BATCH_SIZE: 10,
 });

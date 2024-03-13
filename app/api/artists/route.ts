@@ -24,11 +24,11 @@ export const GET = async (request: NextRequest, context: any) => {
   }
 
   try {
-    const { data } = await artistFunction.getArtists(
+    const { data, hasMore } = await artistFunction.getArtists(
       { batch, page, searchTerm },
       fields
     );
-    return nextResponseSuccess({ data });
+    return nextResponseSuccess({ data, hasMore });
   } catch (err) {
     console.log("Error fetching /api/artists", err);
     return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);

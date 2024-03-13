@@ -44,7 +44,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
   const [readOnly, setReadOnly] = useState(false);
   const [isNew, setNew] = useState(true);
   const { data: artists, isLoading: artistLoading } = useSWR(
-    { search: "", minimal: true, path: apiUrls.artists },
+    `${apiUrls.artists}?minimal=true&batch=100`,
     artistRequest.fetchArtists,
     {
       fallbackData: [],

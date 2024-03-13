@@ -24,6 +24,7 @@ import {
   PlusCircleOutlined,
   RightOutlined,
 } from "@ant-design/icons";
+import { apiUrls } from "@/constants";
 
 const SongsListsByAlbum = dynamic(() => import("../Songs/SongsListsByAlbum"));
 
@@ -61,11 +62,7 @@ export default function EditViewAlbumLayout({
   const { showSnack } = useContext(SnackContext);
 
   const { isLoading: artistLoading, data: artists } = useSWR(
-    {
-      path: "/api/artists",
-      search: "",
-      minimal: true,
-    },
+    `${apiUrls.artists}?minimal=true&batch=100`,
     artistRequest.fetchArtists,
     {
       revalidateOnFocus: false,

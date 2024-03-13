@@ -3,6 +3,7 @@ import { Fetcher } from "swr";
 import { ArtistsDto } from "../types/artists.types";
 import { apiUrls } from "@/constants";
 import { configFetchInterceptor, getDefaultHeaders } from ".";
+import { DB_CONFIG } from "../db/constants/db.constants";
 
 export interface saveArtistsPayloadI {
   name: string;
@@ -16,21 +17,9 @@ class ArtistRequest {
     configFetchInterceptor();
   }
 
-  fetchArtists: Fetcher<
-    ArtistsDto[],
-    { path: string; search: string; minimal?: boolean }
-  > = async ({ search = "", minimal = false, path }) => {
-    let requestUrl = path.toString() + "?";
-    const params = new URLSearchParams();
-
-    if (search?.trim()?.length > 0) {
-      params.set("search", search);
-    }
-    if (minimal) {
-      params.set("minimal", "true");
-    }
-    requestUrl = requestUrl.concat(params.toString());
-    const resp = await fetch(requestUrl, {
+  fetchArtists: Fetcher<ArtistsDto[], string> = async (apiPath) => {
+    console.log({ apiPath });
+    const resp = await fetch(apiPath, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
