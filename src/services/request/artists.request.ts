@@ -3,7 +3,6 @@ import { Fetcher } from "swr";
 import { ArtistsDto } from "../types/artists.types";
 import { apiUrls } from "@/constants";
 import { configFetchInterceptor, getDefaultHeaders } from ".";
-import { DB_CONFIG } from "../db/constants/db.constants";
 
 export interface saveArtistsPayloadI {
   name: string;

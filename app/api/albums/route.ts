@@ -7,14 +7,14 @@ import {
 import { IAlbumDto } from "@/services/types/albums.types";
 import { connectDB } from "@/services/db/connect.db";
 import { ERROR_MSG } from "@/services/db/db.utils";
-import { DB_CONFIG } from "@/services/db/constants/db.constants";
+import { UI_CONFIG } from "@/services/db/constants/db.constants";
 
 export async function GET(req: NextRequest) {
   try {
     const params = req.nextUrl.searchParams;
     const searchTerm = params.get("search") || "";
     const minimal = params.get("minimal") || "";
-    const batch = (params.get("batch") || DB_CONFIG.BATCH_SIZE) as number;
+    const batch = (params.get("batch") || UI_CONFIG.BATCH_SIZE) as number;
     const page = (params.get("page") || 0) as number;
     const fields = [];
     await connectDB();

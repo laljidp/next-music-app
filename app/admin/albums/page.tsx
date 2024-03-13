@@ -12,7 +12,7 @@ import { apiUrls } from "@/constants";
 import { IAlbumDto } from "@/services/types/albums.types";
 import { TWButton } from "@/components/UI/Button";
 import useSWRInfinite from "swr/infinite";
-import { DB_CONFIG } from "@/services/db/constants/db.constants";
+import { UI_CONFIG } from "@/services/db/constants/db.constants";
 
 const AlbumLists = dynamic(() => import("@/components/Albums/AlbumLists"), {
   ssr: false,
@@ -38,7 +38,7 @@ export default function AlbumPage() {
       params.set("search", debouncedSearch);
     }
     params.set("page", pageIndex.toString());
-    params.set("batch", DB_CONFIG.BATCH_SIZE.toString());
+    params.set("batch", UI_CONFIG.BATCH_SIZE.toString());
     // query string for api call
     requestUrl = requestUrl.concat(params.toString());
     return requestUrl;

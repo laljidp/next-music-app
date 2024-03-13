@@ -6,7 +6,7 @@ import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import { apiUrls } from "@/constants";
-import { DB_CONFIG } from "@/services/db/constants/db.constants";
+import { UI_CONFIG } from "@/services/db/constants/db.constants";
 import artistRequest from "@/services/request/artists.request";
 import { ArtistsDto } from "@/services/types/artists.types";
 import useDebounce from "@/utils/useDebouce";
@@ -41,7 +41,7 @@ const ArtistsAdminPage = () => {
       params.set("search", debouncedSearch);
     }
     params.set("page", pageIndex.toString());
-    params.set("batch", DB_CONFIG.BATCH_SIZE.toString());
+    params.set("batch", UI_CONFIG.BATCH_SIZE.toString());
     // query string for api call
     requestUrl = requestUrl.concat(params.toString());
     return requestUrl;
@@ -64,7 +64,7 @@ const ArtistsAdminPage = () => {
       let artists = [] as ArtistsDto[];
       let hasMore = false;
       data.forEach((artistsArr) => {
-        hasMore = artistsArr.length === DB_CONFIG.BATCH_SIZE;
+        hasMore = artistsArr.length === UI_CONFIG.BATCH_SIZE;
         artists.push(...artistsArr);
       });
 

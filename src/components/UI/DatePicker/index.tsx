@@ -85,7 +85,7 @@ export default function TWDatePicker(props: TWDatePickerProps) {
       </div>
       {showPicker && (
         <div
-          className="fixed border-2 left-[50%] top-[20%] bg-transparent backdrop-blur-sm z-20
+          className="absolute border-2 left-[-35px] top-[10] bg-transparent backdrop-blur-sm z-20
            animation-scale-up-tl overflow-hidden ring-1 ring-violet-400 rounded-2xl p-2"
         >
           <div className="flex justify-center items-center h-full w-full relative">

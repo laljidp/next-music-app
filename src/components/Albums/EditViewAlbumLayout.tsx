@@ -25,6 +25,7 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import { apiUrls } from "@/constants";
+import UploadBulkSongs from "../Songs/UploadBulkSongs";
 
 const SongsListsByAlbum = dynamic(() => import("../Songs/SongsListsByAlbum"));
 
@@ -186,17 +187,18 @@ export default function EditViewAlbumLayout({
               </span>
             </div>
             <div className="select-none flex items-center gap-1 text-violet-500 font-medium cursor-pointer hover:scale-105">
-              <IconView Icon={CloudDownloadOutlined} />
-              Upload bulk songs
-            </div>
-            <div className="select-none flex items-center gap-1 text-violet-500 font-medium cursor-pointer hover:scale-105">
               <IconView Icon={PlusCircleOutlined} />
               Add songs
             </div>
           </div>
           <hr className="mt-3" />
           {showSongsLayout && album?._id && (
-            <SongsListsByAlbum albumID={album._id} />
+            <div>
+              <div className="mt-2">
+                <UploadBulkSongs album={album} />
+              </div>
+              <SongsListsByAlbum albumID={album._id} />
+            </div>
           )}
         </div>
       </div>

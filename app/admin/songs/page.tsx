@@ -1,20 +1,18 @@
 "use client";
 
-import useSWR from "swr";
+import dynamic from "next/dynamic";
+import useSWRInfinite from "swr/infinite";
 import RootPageLoader from "../../loading";
 import ListLayout from "@/components/Layouts/List.layout";
 import TWInput from "@/components/UI/Input";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
-
 import songsRequest from "@/services/request/songs.request";
 import useDebounce from "@/utils/useDebouce";
 import { ISongsDto } from "@/services/types/songs.types";
 import { useMemo, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
-import dynamic from "next/dynamic";
-import useSWRInfinite from "swr/infinite";
 import { apiUrls } from "@/constants";
-import { DB_CONFIG } from "@/services/db/constants/db.constants";
+import { UI_CONFIG } from "@/services/db/constants/db.constants";
 import { TWButton } from "@/components/UI/Button";
 
 const SongsLists = dynamic(() => import("@/components/Songs/SongsLists"), {
@@ -41,7 +39,7 @@ export default function SongsPage() {
       params.set("search", debounceSearch);
     }
     params.set("page", pageIndex.toString());
-    params.set("batch", DB_CONFIG.BATCH_SIZE.toString());
+    params.set("batch", UI_CONFIG.BATCH_SIZE.toString());
     // query string for api call
     requestUrl = requestUrl.concat(params.toString());
     return requestUrl;
@@ -70,7 +68,7 @@ export default function SongsPage() {
     let hasMore = false;
     if (data && data?.length > 0) {
       data.forEach((songsArr) => {
-        hasMore = songsArr.length === DB_CONFIG.BATCH_SIZE;
+        hasMore = songsArr.length === UI_CONFIG.BATCH_SIZE;
         songs.push(...songsArr);
       });
       return { songs, hasMore };
