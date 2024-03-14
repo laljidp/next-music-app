@@ -1,8 +1,10 @@
 "use client";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import { PAGES } from "@/constants";
+import { UserContext } from "@/context/user.context";
 import { getDefaultHeaders } from "@/services/request";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 import useSWR, { Fetcher } from "swr";
 
 const fetchStats: Fetcher<Record<string, number>, string> = async (
@@ -17,6 +19,10 @@ const fetchStats: Fetcher<Record<string, number>, string> = async (
 };
 
 export default function AdminStats() {
+  const { user } = useContext(UserContext);
+
+  console.log({ user });
+
   const { isLoading, data: total } = useSWR("/api/stats", fetchStats, {
     revalidateOnFocus: false,
     fallback: {

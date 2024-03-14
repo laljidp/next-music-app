@@ -16,3 +16,7 @@ export const USER_ROLES = Object.freeze({
   admin: "admin",
   superAdmin: "superAdmin",
 });
+
+export const UI_CONFIG = Object.freeze({
+  BATCH_SIZE: 15,
+});

@@ -7,6 +7,7 @@ interface AlbumListsProps {
   className?: string;
   albumSelectedID?: string;
   onSelectAlbum: (album: IAlbumDto) => void;
+  loadMore?: React.ReactNode;
 }
 
 export default function AlbumLists(props: AlbumListsProps) {
@@ -15,6 +16,7 @@ export default function AlbumLists(props: AlbumListsProps) {
     className = "",
     albumSelectedID,
     onSelectAlbum = () => {},
+    loadMore,
   } = props;
   return (
     <div className={`mt-3 h-full ${className}`}>
@@ -33,7 +35,7 @@ export default function AlbumLists(props: AlbumListsProps) {
         <div
           key={album._id}
           role="button"
-          aria-selected={album?._id === props.albumSelectedID}
+          aria-selected={album?._id === albumSelectedID}
           onClick={() => onSelectAlbum(album)}
           className="p-2 border-b-1 border-slate-400 border-1 border-solid
             flex items-center hover:bg-slate-100 rounded-lg cursor-pointer
@@ -53,6 +55,7 @@ export default function AlbumLists(props: AlbumListsProps) {
           </div>
         </div>
       ))}
+      {loadMore && <>{loadMore}</>}
     </div>
   );
 }

@@ -5,34 +5,45 @@ import { configFetchInterceptor, getDefaultHeaders } from ".";
 import { IAlbumDto, IAlbumStatPayload } from "../types/albums.types";
 import { Fetcher } from "swr";
 
+export type AlbumResponse = {
+  hasMore: boolean;
+  data: IAlbumDto[];
+  success: boolean;
+};
+
 class AlbumRequest {
   constructor() {
     configFetchInterceptor();
   }
 
   fetchAlbums: Fetcher<
-    IAlbumDto[],
-    { path: string; search: string; minimal?: boolean }
-  > = async ({ search = "", minimal = false, path }) => {
-    let requestUrl = path.toString() + "?";
-    const params = new URLSearchParams();
-
-    if (search?.trim()?.length > 0) {
-      params.set("search", search);
-    }
-    if (minimal) {
-      params.set("minimal", "true");
-    }
-
-    requestUrl = requestUrl.concat(params.toString());
-    const resp = await fetch(requestUrl, {
+    {
+      data: IAlbumDto[];
+      hasMore: boolean;
+    },
+    string
+  > = async (queryStr) => {
+    const resp = await fetch(queryStr, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    const data = (await resp.json()).data as IAlbumDto[];
-    return data;
+    const albumResp = (await resp.json()) as AlbumResponse;
+    const { data, hasMore } = albumResp;
+    return { data, hasMore };
+  };
+
+  fetchAlbumOptions: Fetcher<IAlbumDto[], string> = async (queryStr) => {
+    const resp = await fetch(queryStr, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const albumResp = (await resp.json()) as AlbumResponse;
+    const { data, hasMore } = albumResp;
+    return data || [];
   };
 
   saveAlbum = async (body: IAlbumStatPayload) => {

@@ -4,6 +4,7 @@ import { AuthOptions } from "next-auth";
 import { config } from "@/constants";
 import { connectDB } from "@/services/db/connect.db";
 import { UserPayloadT } from "@/services/types/users.types";
+import { USER_ROLES } from "@/services/db/schemas/user.schema";
 
 export const authOptions: AuthOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work
@@ -26,7 +27,7 @@ export const authOptions: AuthOptions = {
           picture: user.image || "",
           provider: account?.provider || "",
           providerId: account?.providerAccountId || "",
-          role: "user",
+          role: USER_ROLES.ADMIN,
           type: "oauth",
         };
         const result = await usersFunctions.createUserIfNotExists(payload);

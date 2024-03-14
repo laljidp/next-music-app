@@ -1,4 +1,5 @@
 import { connectDB } from "@/services/db/connect.db";
+import { UI_CONFIG } from "@/services/db/constants/db.constants";
 import { ERROR_MSG } from "@/services/db/db.utils";
 import artistFunction, {
   ArtistPayloadT,
@@ -13,7 +14,7 @@ export const GET = async (request: NextRequest, context: any) => {
   const params = request.nextUrl.searchParams;
   const searchTerm = params.get("search") || "";
   const minimal = params.get("minimal") || "";
-  const batch = (params.get("batch") || 35) as number;
+  const batch = (params.get("batch") || UI_CONFIG.BATCH_SIZE) as number;
   const page = (params.get("page") || 0) as number;
   const fields = [];
   await connectDB();
@@ -23,11 +24,11 @@ export const GET = async (request: NextRequest, context: any) => {
   }
 
   try {
-    const { data } = await artistFunction.getArtists(
+    const { data, hasMore } = await artistFunction.getArtists(
       { batch, page, searchTerm },
       fields
     );
-    return nextResponseSuccess({ data });
+    return nextResponseSuccess({ data, hasMore });
   } catch (err) {
     console.log("Error fetching /api/artists", err);
     return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);

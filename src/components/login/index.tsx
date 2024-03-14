@@ -19,7 +19,6 @@ export default function LoginPage() {
 
   const handleContinueLogin = async () => {
     setProcessLoading(true);
-    console.log("Handle Login");
 
     const payload = {
       email: data?.user?.email || "--",
@@ -27,7 +26,7 @@ export default function LoginPage() {
 
     const resp = await loginAdmin(payload);
 
-    if (resp.isAdmin && resp?.token) {
+    if (resp?.token) {
       localStorage.setItem(USER_TOKEN, resp?.token);
       setProcessLoading(false);
       setIsUserAdmin(true);
@@ -106,7 +105,7 @@ export default function LoginPage() {
                       <span className="font-bold">{data?.user?.name}</span>
                       <span>{data?.user?.email}</span>
                       <span className="text-xs after:content-['>'] after:ml-1 hover:underline">
-                        Continue as Admin
+                        Continue as user
                       </span>
                     </section>
                   </div>

@@ -4,7 +4,6 @@ import RootPageLoader from "@/loading";
 import songsRequest from "@/services/request/songs.request";
 import SongsLists from "./SongsLists";
 import { apiUrls } from "@/constants";
-import { ISongsDto } from "@/services/types/songs.types";
 
 interface SongsListsByAlbumProps {
   albumID: string;

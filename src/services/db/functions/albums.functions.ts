@@ -24,7 +24,7 @@ class AlbumFunctions {
         { description: regex }, // Matches titles containing 'JavaScript' (case insensitive)
         { title: regex }, // Matches authors with the name 'John Doe'
       ];
-      let data: any;
+      let data: any = [];
       if (searchTerm.trim()?.length > 2) {
         data = await Albums.find({ $or: conditions })
           .sort({ createdAt: "desc" })
@@ -38,7 +38,9 @@ class AlbumFunctions {
           .limit(batch)
           .select(fields);
       }
-      return { data };
+      const hasMore = data.length === Number(batch);
+      console.log("hasMore", hasMore);
+      return { data, hasMore };
     } catch (err) {
       console.log("Error fetching albums from db::", err);
       return { error: "Service looks down ! Please try again later." };

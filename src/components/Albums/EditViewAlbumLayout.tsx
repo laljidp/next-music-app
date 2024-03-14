@@ -23,6 +23,8 @@ import {
   PlusCircleOutlined,
   RightOutlined,
 } from "@ant-design/icons";
+import { apiUrls } from "@/constants";
+import UploadBulkSongs from "../Songs/UploadBulkSongs";
 
 const SongsListsByAlbum = dynamic(() => import("../Songs/SongsListsByAlbum"));
 
@@ -60,11 +62,7 @@ export default function EditViewAlbumLayout({
   const { showSnack } = useContext(SnackContext);
 
   const { isLoading: artistLoading, data: artists } = useSWR(
-    {
-      path: "/api/artists",
-      search: "",
-      minimal: true,
-    },
+    `${apiUrls.artists}?minimal=true&batch=100`,
     artistRequest.fetchArtists,
     {
       revalidateOnFocus: false,
@@ -194,7 +192,12 @@ export default function EditViewAlbumLayout({
           </div>
           <hr className="mt-3" />
           {showSongsLayout && album?._id && (
-            <SongsListsByAlbum albumID={album._id} />
+            <div>
+              {/* <div className="mt-2">
+                <UploadBulkSongs album={album} />
+              </div> */}
+              <SongsListsByAlbum albumID={album._id} />
+            </div>
           )}
         </div>
       </div>
