@@ -144,13 +144,15 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
     <form className="w-full" onSubmit={handleSubmitSong}>
       <div className="w-full gap-3 flex flex-col">
         <div className="flex justify-between items-center">
-          <TWSwitch
-            label="Readonly"
-            isDisabled={isNew}
-            checked={readOnly}
-            onChange={setReadOnly}
-            name="switch-song-readonly"
-          />
+          {!isNew && (
+            <TWSwitch
+              label="Readonly"
+              isDisabled={isNew}
+              checked={readOnly}
+              onChange={setReadOnly}
+              name="switch-song-readonly"
+            />
+          )}
           <AddNewButton onClick={handleSetNew} />
         </div>
         <hr />

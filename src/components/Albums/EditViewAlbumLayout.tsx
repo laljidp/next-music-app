@@ -18,7 +18,6 @@ import { IAlbumDto, IAlbumStatPayload } from "@/services/types/albums.types";
 import { albumRequest } from "@/services/request/albums.request";
 import { SnackContext } from "@/context/snack.context";
 import {
-  CloudDownloadOutlined,
   InfoCircleFilled,
   LeftOutlined,
   PlusCircleOutlined,
@@ -194,9 +193,9 @@ export default function EditViewAlbumLayout({
           <hr className="mt-3" />
           {showSongsLayout && album?._id && (
             <div>
-              <div className="mt-2">
+              {/* <div className="mt-2">
                 <UploadBulkSongs album={album} />
-              </div>
+              </div> */}
               <SongsListsByAlbum albumID={album._id} />
             </div>
           )}
