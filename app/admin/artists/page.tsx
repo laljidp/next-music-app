@@ -9,7 +9,7 @@ import { apiUrls } from "@/constants";
 import { UI_CONFIG } from "@/services/db/constants/db.constants";
 import artistRequest from "@/services/request/artists.request";
 import { ArtistsDto } from "@/services/types/artists.types";
-import useDebounce from "@/utils/useDebouce";
+import useDebounce from "@/hooks/useDebouce";
 import { SearchOutlined } from "@ant-design/icons";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";

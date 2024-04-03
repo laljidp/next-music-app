@@ -62,7 +62,6 @@ class ArtistFunction {
         .limit(batch)
         .select(fields);
 
-      console.log(typeof batch);
       const hasMore = data.length === Number(batch);
       return { data, hasMore, error: null };
     } catch (err) {

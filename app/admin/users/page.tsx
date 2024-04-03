@@ -1,6 +1,6 @@
 "use client";
 import useSWR from "swr";
-import useDebounce from "@/utils/useDebouce";
+import useDebounce from "@/hooks/useDebouce";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import userRequests from "@/services/request/users.request";

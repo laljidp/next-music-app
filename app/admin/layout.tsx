@@ -1,8 +1,9 @@
 "use client";
 import SidebarAdminLayout from "@/components/Layouts/SidebarLayout";
+import { cn } from "@/utils/helper.util";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface SharedAdminLayoutI {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface SharedAdminLayoutI {
 
 const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
   const { status } = useSession();
+  const [expand, setExpand] = useState(false);
   const router = useRouter();
 
   const handleAuthFlow = () => {
@@ -18,23 +20,29 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
     }
   };
 
+  const toggleExpand = () => setExpand(!expand);
+
   useEffect(() => {
     handleAuthFlow();
   }, [status]);
 
+  const leftBarClasses = expand ? "w-[210px]" : "w-[75px]";
+  const rightMainClasses = expand ? "ml-[210px]" : "ml-[70px]";
+
   return (
     <>
       <div
-        className="flex text-black fixed top-[45%] bottom-[50%]
-         translate-y-[-50%] translate-x-4 w-[300px]"
+        className={cn("fixed top-0 left-0 h-full", leftBarClasses)}
         id="left-sidebar"
       >
-        <SidebarAdminLayout />
+        <SidebarAdminLayout expand={expand} toggleExpand={toggleExpand} />
       </div>
       <div
         id="main"
-        className="m-8 ml-[300px] rounded-xl bg-white w-full
-         p-6 shadow-md ring-1 ring-violet-400"
+        className={cn(
+          "bg-white p-6 shadow-md h-screen w-screen",
+          rightMainClasses
+        )}
       >
         {children}
       </div>

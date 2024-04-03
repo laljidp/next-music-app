@@ -21,11 +21,6 @@ export default function SongsListsByAlbum(props: SongsListsByAlbumProps) {
     }
   );
 
-  console.log({ data });
-
-  console.log({ error });
-  console.log({ isLoading });
-
   if (isLoading) return <RootPageLoader />;
 
   return (

@@ -1,19 +1,30 @@
 "use client";
 import Image from "next/image";
 import { useCallback } from "react";
-import { TWButton } from "@/components/UI/Button";
-import { useSession } from "next-auth/react";
-import { LEFT_MENUS } from "@/constants";
+import { PAGES } from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
+import {
+  ArtistIcon,
+  MusicAlbumsIcon,
+  MusicIcon,
+  PlaylistsIcon,
+  StatsIcon,
+} from "@/assets/svgs";
+import { cn } from "@/utils/helper.util";
+import { DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
+import UserDropdown from "../UserDropdown";
 
-const SidebarAdminLayout: React.FC = () => {
-  const { data } = useSession();
-  const router = useRouter();
+interface SidebarLayoutProps {
+  expand: boolean;
+  toggleExpand: () => void;
+}
+
+const SidebarAdminLayout: React.FC<SidebarLayoutProps> = ({
+  expand,
+  toggleExpand,
+}) => {
   const pathname = usePathname();
-
-  const logout = () => {
-    router.push("/logout");
-  };
+  const router = useRouter();
 
   const isMenuActive = useCallback(
     (url: string) => {
@@ -23,10 +34,13 @@ const SidebarAdminLayout: React.FC = () => {
   );
 
   return (
-    <div className="grid place-content-center">
+    <div className="grid place-content-center align-middle">
       <div
-        className="border-1 flex h-[510px] w-[250px] flex-col rounded-xl 
-        border-solid bg-white shadow-md ring-1 ring-violet-500"
+        className={cn(
+          `border-1 flex h-screen flex-col
+        border-solid bg-white shadow-md ring-1 ring-violet-500`,
+          expand ? " w-[210px]" : " w-[70px]"
+        )}
         id="left-sidebar"
       >
         <div className="align-center mx-2 my-3 flex justify-center">
@@ -40,50 +54,87 @@ const SidebarAdminLayout: React.FC = () => {
           />
         </div>
         <hr className="mb-4 border-violet-500" />
-        <div className="flex justify-center">
-          <Image
-            src={data?.user?.image || "/no-profile-image.png"}
-            alt="user-pic"
-            loading="lazy"
-            height={40}
-            className="mr-3 h-12 w-12 rounded-full ring-1"
-            width={40}
-          />
-          <div className="flex flex-col place-content-center">
-            <h3 className="text-sm">Hello, {data?.user?.name}</h3>
-            <small>{data?.user?.email?.split("@")[0]}</small>
-          </div>
-          <hr />
-        </div>
-        <div className="mt-5 w-full text-center">
-          <ul className="">
-            {LEFT_MENUS.map((menu) => (
-              <li
-                aria-description={isMenuActive(menu.url)}
-                onClick={() => router.push(menu.url)}
-                className="mx-7 mb-2 cursor-pointer
+        <button
+          onClick={toggleExpand}
+          className="w-[50px] my-[1rem] mx-auto rounded-full py-2 px-2 hover:bg-violet-100"
+        >
+          {expand ? (
+            <DoubleLeftOutlined className="text-2xl" />
+          ) : (
+            <DoubleRightOutlined className="text-2xl" />
+          )}
+        </button>
+        <div className="flex justify-between flex-col h-full">
+          <div className="mt-5 w-full flex justify-center">
+            <ul>
+              {LEFT_MENUS.map(({ Icon, ...menu }) => (
+                <li
+                  aria-description={isMenuActive(menu.url)}
+                  onClick={() => router.push(menu.url)}
+                  className={cn(
+                    `cursor-pointer flex items-center justify-center
                      rounded-full border-b-0 border-violet-500 py-3
-                      hover:bg-violet-100 aria-[description=active]:bg-violet-400
-                       aria-[description=active]:text-white"
-                key={menu.name}
-              >
-                {menu.title}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="flex justify-center">
-          <TWButton
-            className="h-7 mt-2 w-fit px-3 hover:scale-105"
-            variant="outline"
-            onClick={logout}
-          >
-            Logout
-          </TWButton>
+                     hover:bg-violet-100 aria-[description=active]:bg-violet-300
+                     mb-4`,
+                    expand ? "px-5" : "px-3"
+                  )}
+                  key={menu.name}
+                >
+                  {!expand && Icon}
+                  {expand && (
+                    <div className="flex gap-5 items-center">
+                      {Icon}
+                      {expand && menu.title}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="mb-3">
+            <UserDropdown />
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
+const LEFT_MENUS = [
+  {
+    name: "stats",
+    title: "Stats",
+    url: PAGES.adminStats,
+    Icon: <Image alt="songs" className="h-6 w-6" src={StatsIcon} priority />,
+  },
+  {
+    name: "songs",
+    title: "Songs",
+    url: PAGES.adminSongs,
+    Icon: <Image alt="songs" className="h-6 w-6" src={MusicIcon} priority />,
+  },
+  {
+    name: "albums",
+    title: "Albums",
+    url: PAGES.adminAlbums,
+    Icon: (
+      <Image alt="songs" className="h-6 w-6" src={MusicAlbumsIcon} priority />
+    ),
+  },
+  {
+    name: "artists",
+    title: "Artists",
+    url: PAGES.adminArtists,
+    Icon: <Image alt="songs" className="h-6 w-6" src={ArtistIcon} priority />,
+  },
+  {
+    name: "playlists",
+    title: "Playlists",
+    url: PAGES.adminPlaylists,
+    Icon: (
+      <Image alt="songs" className="h-6 w-6" src={PlaylistsIcon} priority />
+    ),
+  },
+];
 
 export default SidebarAdminLayout;

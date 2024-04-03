@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import React, { useMemo, useState } from "react";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
-import useDebounce from "@/utils/useDebouce";
+import useDebounce from "@/hooks/useDebouce";
 import ListLayout from "@/components/Layouts/List.layout";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import { SearchOutlined } from "@ant-design/icons";
