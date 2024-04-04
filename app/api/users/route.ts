@@ -9,13 +9,10 @@ import {
 } from "@/utils/nextResponse.util";
 import { NextRequest } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: FetchUsersParamsT }
-) {
+export async function GET(req: NextRequest) {
+  const params = req.nextUrl.searchParams;
   try {
     await connectDB();
-    const params = req.nextUrl.searchParams;
     const batch = (params.get("batch") || 20) as number;
     const page = (params.get("page") || 0) as number;
     const searchText = params.get("searchText") as string;
