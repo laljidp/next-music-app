@@ -20,7 +20,6 @@ export default function UserListItem(props: UsersListsProps) {
     setProcessing(true);
     try {
       const data = await userRequests.switchUserRole(userId, role);
-      console.log("Data", data);
       if (data && data.status) {
         showSnack("User role has switched.", "success");
         onRefreshUsers();

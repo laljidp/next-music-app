@@ -21,8 +21,6 @@ const fetchStats: Fetcher<Record<string, number>, string> = async (
 export default function AdminStats() {
   const { user } = useContext(UserContext);
 
-  console.log({ user });
-
   const { isLoading, data: total } = useSWR("/api/stats", fetchStats, {
     revalidateOnFocus: false,
     fallback: {
@@ -35,8 +33,6 @@ export default function AdminStats() {
   });
 
   const navigate = useRouter();
-
-  console.log({ isLoading });
 
   if (isLoading) return <PageSpinner />;
 

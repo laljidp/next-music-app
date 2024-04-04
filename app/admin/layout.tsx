@@ -33,7 +33,7 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
     <>
       <div
         className={cn(
-          "fixed top-0 left-0 h-full transition-all",
+          "fixed top-0 left-0 h-full transition-all shadow-lg",
           leftBarClasses
         )}
         id="left-sidebar"

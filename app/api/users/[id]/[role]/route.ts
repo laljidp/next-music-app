@@ -8,7 +8,6 @@ import { NextRequest } from "next/server";
 
 export async function PATCH(req: NextRequest, { params }: any) {
   try {
-    console.log("Params", params);
     const id = params?.id as string;
     const role = params?.role as string;
     if (!id || !role) {

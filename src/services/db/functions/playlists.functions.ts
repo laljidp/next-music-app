@@ -109,7 +109,6 @@ class PlayListsFunctions {
 
   fetchPlaylistSongs = async (playlistID: string) => {
     try {
-      console.log();
       const songs = await Playlists.findOne({ _id: playlistID })
         .populate("songs")
         .limit(1);

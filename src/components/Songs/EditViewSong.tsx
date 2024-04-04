@@ -66,7 +66,6 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
 
   const handleSubmitSong = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log({ songPayload });
     let error = [];
     if (!songPayload?.source || !songPayload.title) {
       const msg = "Please upload a song. its required";
