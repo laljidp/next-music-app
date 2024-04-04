@@ -80,13 +80,10 @@ const SidebarAdminLayout: React.FC<SidebarLayoutProps> = ({
                   )}
                   key={menu.name}
                 >
-                  {!expand && Icon}
-                  {expand && (
-                    <div className="flex gap-5 items-center">
-                      {Icon}
-                      {expand && menu.title}
-                    </div>
-                  )}
+                  <div className="flex gap-5 items-center">
+                    {Icon}
+                    {expand && <span>{menu.title}</span>}
+                  </div>
                 </li>
               ))}
             </ul>

@@ -40,7 +40,7 @@ export default function UserDropdown() {
             ref={sectionRef}
             className={cn(
               `absolute left-[60px] bottom-4 bg-white h-[200px] animation-scale-up-tl w-[280px]
-               ring-2 ring-violet-400 rounded-lg shadow-lg`,
+               ring-2 ring-violet-400 rounded-lg shadow-lg slide-right-animation`,
               showMenu ? "visibility" : "hidden"
             )}
           >

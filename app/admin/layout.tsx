@@ -32,7 +32,10 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
   return (
     <>
       <div
-        className={cn("fixed top-0 left-0 h-full", leftBarClasses)}
+        className={cn(
+          "fixed top-0 left-0 h-full transition-all",
+          leftBarClasses
+        )}
         id="left-sidebar"
       >
         <SidebarAdminLayout expand={expand} toggleExpand={toggleExpand} />
@@ -40,7 +43,7 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
       <div
         id="main"
         className={cn(
-          "bg-white p-6 shadow-md h-screen w-screen -z-10",
+          "bg-white p-6 shadow-md h-screen w-screen -z-10 transition-all",
           rightMainClasses
         )}
       >

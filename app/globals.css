@@ -110,6 +110,10 @@
   animation: hide-out 0.5s 0 ease-out normal;
 }
 
+.slide-right-animation {
+  animation: 0.2s slideRight;
+}
+
 /**
  * ----------------------------------------
  * css::@keyframes
@@ -143,6 +147,17 @@
     -webkit-transform-origin: 50% 100%;
     transform-origin: 50% 100%;
     opacity: 1;
+  }
+}
+
+@keyframes slideRight {
+  0% {
+    margin-left: -100%;
+    white-space: none;
+    display: none;
+  }
+  100% {
+    margin-left: 0;
   }
 }
 

@@ -4,6 +4,7 @@ import { useContext, useMemo, useState } from "react";
 import { TWButton } from "../UI/Button";
 import { SnackContext } from "@/context/snack.context";
 import userRequests from "@/services/request/users.request";
+import { maskEmail } from "@/utils/helper.util";
 
 interface UsersListsProps {
   user: IUserShortDto;
@@ -50,7 +51,7 @@ export default function UserListItem(props: UsersListsProps) {
           />
           <div className="text-sm flex flex-col gap-0.5">
             <span className="capitalize">{user.name}</span>
-            <span className="text-xs">{user.email}</span>
+            <span className="text-xs">{maskEmail(user.email)}</span>
           </div>
         </div>
       </div>
