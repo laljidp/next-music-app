@@ -17,7 +17,6 @@ class ArtistRequest {
   }
 
   fetchArtists: Fetcher<ArtistsDto[], string> = async (apiPath) => {
-    console.log({ apiPath });
     const resp = await fetch(apiPath, {
       method: "GET",
       headers: {

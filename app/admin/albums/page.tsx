@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import useDebounce from "@/hooks/useDebouce";
-import ListLayout from "@/components/Layouts/List.layout";
+import ListLayout from "@/components/Layouts/ListLayout";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import { SearchOutlined } from "@ant-design/icons";
 import { albumRequest } from "@/services/request/albums.request";

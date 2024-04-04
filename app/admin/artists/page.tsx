@@ -1,7 +1,7 @@
 "use client";
 
 import useSWRInfinite from "swr/infinite";
-import ListLayout from "@/components/Layouts/List.layout";
+import ListLayout from "@/components/Layouts/ListLayout";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
@@ -73,8 +73,6 @@ const ArtistsAdminPage = () => {
       return { artists: [], hasMore: false };
     }
   }, [data]);
-
-  console.log({ artists, hasMore });
 
   const handleSearchTextChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;

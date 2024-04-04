@@ -45,6 +45,7 @@ export default function AdminStats() {
       <div className="flex gap-5 grow items-center">
         {STAT_CARDS.map((card) => (
           <div
+            key={card.keyIndex}
             role="button"
             aria-disabled={!card?.path}
             onClick={() => (card?.path ? navigate.push(card.path) : {})}

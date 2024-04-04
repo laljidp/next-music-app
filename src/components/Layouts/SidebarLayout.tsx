@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { PAGES } from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  ArtistIcon,
+  ArtistsIcon,
   MusicAlbumsIcon,
   MusicIcon,
   PlaylistsIcon,
@@ -39,7 +39,7 @@ const SidebarAdminLayout: React.FC<SidebarLayoutProps> = ({
         className={cn(
           `border-1 flex h-screen flex-col
         border-solid bg-white shadow-md ring-1 ring-violet-500`,
-          expand ? " w-[210px]" : " w-[70px]"
+          expand ? " w-[210px]" : ""
         )}
         id="left-sidebar"
       >
@@ -125,7 +125,7 @@ const LEFT_MENUS = [
     name: "artists",
     title: "Artists",
     url: PAGES.adminArtists,
-    Icon: <Image alt="songs" className="h-6 w-6" src={ArtistIcon} priority />,
+    Icon: <Image alt="songs" className="h-6 w-6" src={ArtistsIcon} priority />,
   },
   {
     name: "playlists",

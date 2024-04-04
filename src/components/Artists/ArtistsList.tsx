@@ -24,27 +24,25 @@ export default function ArtistsList(props: IArtistsListProps) {
         </span>
       </div>
       {artists.map((artist) => (
-        <>
-          <div
-            key={artist._id}
-            role="button"
-            aria-selected={artist._id === props.artistSelectedID}
-            onClick={() => onSelectArtist(artist)}
-            className="card-layout"
-          >
-            <Image
-              alt="artist-pic"
-              src={artist.image || "/no-profile-image.png"}
-              height={40}
-              width={40}
-              className="rounded-lg mr-3 h-12 w-12 object-cover"
-            />
-            <div className="flex flex-col">
-              <span>{artist.name}</span>
-              <span className="text-xs">{artist.bio}</span>
-            </div>
+        <div
+          key={artist._id}
+          role="button"
+          aria-selected={artist._id === props.artistSelectedID}
+          onClick={() => onSelectArtist(artist)}
+          className="card-layout"
+        >
+          <Image
+            alt="artist-pic"
+            src={artist.image || "/no-profile-image.png"}
+            height={40}
+            width={40}
+            className="rounded-lg mr-3 h-12 w-12 object-cover"
+          />
+          <div className="flex flex-col">
+            <span>{artist.name}</span>
+            <span className="text-xs">{artist.bio}</span>
           </div>
-        </>
+        </div>
       ))}
       {loadMore && <div className="p-2 text-center">{loadMore}</div>}
     </div>

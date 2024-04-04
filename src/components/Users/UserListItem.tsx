@@ -61,7 +61,7 @@ export default function UserListItem(props: UsersListsProps) {
           aria-[role=admin]:text-violet-500
           aria-[role=user]:text-pink-500"
       >
-        <TWButton
+        {/* <TWButton
           loading={processing}
           variant={isAdmin ? "primary" : "secondary"}
           className={`group-hover:visible py-1 px-2 text-xs`}
@@ -70,7 +70,7 @@ export default function UserListItem(props: UsersListsProps) {
           }
         >
           {isAdmin ? "Revoke admin" : "Switch to Admin"}
-        </TWButton>
+        </TWButton> */}
       </div>
     </div>
   );

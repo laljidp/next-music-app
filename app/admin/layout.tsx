@@ -40,7 +40,7 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
       <div
         id="main"
         className={cn(
-          "bg-white p-6 shadow-md h-screen w-screen",
+          "bg-white p-6 shadow-md h-screen w-screen -z-10",
           rightMainClasses
         )}
       >
