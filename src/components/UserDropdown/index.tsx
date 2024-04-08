@@ -1,12 +1,11 @@
 "use client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { TWButton } from "../UI/Button";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import useClickOutside from "@/hooks/useClickOutside";
 import { cn } from "@/utils/helper.util";
-import { UserSwitchOutlined } from "@ant-design/icons";
+import { LogoutOutlined, UserSwitchOutlined } from "@ant-design/icons";
 
 export default function UserDropdown() {
   const { data } = useSession();
@@ -56,19 +55,21 @@ export default function UserDropdown() {
                   }}
                   role="button"
                   className="flex items-center gap-2 cursor-pointer bg-violet-50
-                 hover:bg-violet-100 py-1 px-2 rounded-md"
+                 hover:bg-violet-100 py-1 px-2 rounded-md text-sm font-medium"
                 >
                   <UserSwitchOutlined />
                   <span> Users</span>
                 </div>
               </div>
-              <TWButton
-                className="h-7 mt-2 mx-auto w-fit px-3 hover:scale-105"
-                variant="outline"
+              <div
                 onClick={logout}
+                role="button"
+                className="flex items-center gap-2 cursor-pointer bg-violet-100
+                 hover:bg-violet-500 hover:text-white py-2 px-3 rounded-md text-sm font-medium"
               >
+                <LogoutOutlined />
                 Logout
-              </TWButton>
+              </div>
             </div>
           </div>
         </div>

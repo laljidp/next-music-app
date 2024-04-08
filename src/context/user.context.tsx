@@ -1,8 +1,10 @@
 "use client";
 import { USER_TOKEN, apiUrls } from "@/constants";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { USER_ROLES } from "@/services/db/schemas/user.schema";
+import userRequests from "@/services/request/users.request";
 
 export type StatusT = "init" | "processing" | "done";
 export type LoginAdminPayloadT = {
@@ -14,6 +16,7 @@ export type InitialStateT = {
   loading: boolean;
   user: UserT | null;
   loginAdmin: (payload: LoginAdminPayloadT) => any;
+  updateRoleInformation: (email: string) => void;
   logout: () => void;
 };
 
@@ -22,7 +25,7 @@ export type UserT = {
   name: string;
   email: string;
   picture: string;
-  role: "user" | "admin";
+  role: USER_ROLES;
 };
 
 const initialState: InitialStateT = {
@@ -30,6 +33,7 @@ const initialState: InitialStateT = {
   loading: false,
   user: null,
   loginAdmin: () => {},
+  updateRoleInformation: () => {},
   logout: () => {},
 };
 
@@ -74,8 +78,31 @@ export default function UserProvider({
     await signOut();
   };
 
+  const updateRoleInformation = async (email: string) => {
+    try {
+      const data = await userRequests.checkIfUserSuperAdmin(email);
+      if (data && user) {
+        setUser({
+          ...user,
+          role: USER_ROLES.SUPER_ADMIN,
+        });
+      }
+    } catch (err) {
+      console.log("ERROR updateRoleInformation::", err);
+    }
+  };
+
   return (
-    <UserContext.Provider value={{ user, loginAdmin, status, loading, logout }}>
+    <UserContext.Provider
+      value={{
+        user,
+        loginAdmin,
+        status,
+        loading,
+        logout,
+        updateRoleInformation,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

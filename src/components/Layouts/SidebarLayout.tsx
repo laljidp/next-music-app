@@ -56,12 +56,12 @@ const SidebarAdminLayout: React.FC<SidebarLayoutProps> = ({
         <hr className="mb-4 border-violet-500" />
         <button
           onClick={toggleExpand}
-          className="w-[50px] my-[1rem] mx-auto rounded-full py-2 px-2 hover:bg-violet-100"
+          className="w-[45px] my-[1rem] mx-auto rounded-full py-2 px-2 hover:bg-violet-100"
         >
           {expand ? (
-            <DoubleLeftOutlined className="text-2xl" />
+            <DoubleLeftOutlined className="text-xl" />
           ) : (
-            <DoubleRightOutlined className="text-2xl" />
+            <DoubleRightOutlined className="text-xl" />
           )}
         </button>
         <div className="flex justify-between flex-col h-full">

@@ -5,6 +5,7 @@ export const apiUrls = Object.freeze({
   playlists: "api/playlist",
   artists: "/api/artists",
   users: "/api/users",
+  isUserSuperAdmin: "/api/users/isSuperAdmin",
 });
 
 export const PAGES = Object.freeze({
