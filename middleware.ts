@@ -16,11 +16,9 @@ export async function middleware(request: NextRequest, response: NextResponse) {
       } else {
         return nextResponseError("Unauthorized user", 401);
       }
-
-      // TODO: validate token & redirect accordingly
     } else {
       // needs to redirect to root page
-      return NextResponse.next();
+      return NextResponse.redirect("/");
     }
   } catch (err) {
     console.log("Error executing middleware:", err);

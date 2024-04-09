@@ -12,6 +12,7 @@ export default async function UsersPage() {
   const session = await getServerSession(authOptions);
   const isSuperAdmin = await usersFunctions.isUserSuperAdmin(
     session?.user?.email || "--",
+    true,
   );
 
   if (!isSuperAdmin) {
