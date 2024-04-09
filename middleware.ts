@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
       }
     } else {
       // needs to redirect to root page
-      return NextResponse.redirect("/");
+      return NextResponse.next();
     }
   } catch (err) {
     console.log("Error executing middleware:", err);
