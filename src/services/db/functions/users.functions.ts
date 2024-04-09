@@ -1,5 +1,6 @@
 import { UserPayloadT } from "@/services/types/users.types";
 import Users, { USER_ROLES } from "../schemas/user.schema";
+import { connectDB } from "../connect.db";
 
 export type FetchUsersParamsT = {
   batch: number;
@@ -41,7 +42,7 @@ class UsersFunctions {
       email: true,
       picture: true,
       role: true,
-    }
+    },
   ) => {
     const user = await Users.findOne({ email }).select(select);
     if (!user) {
@@ -57,7 +58,10 @@ class UsersFunctions {
     return true;
   };
 
-  isUserSuperAdmin = async (email: string) => {
+  isUserSuperAdmin = async (email: string, shouldConnectDB?: boolean) => {
+    if (shouldConnectDB) {
+      await connectDB();
+    }
     const user = await Users.findOne({ email, role: USER_ROLES.SUPER_ADMIN });
     console.log("user", user);
     if (user) return true;
@@ -76,7 +80,7 @@ class UsersFunctions {
   };
 
   createUserIfNotExists = async (
-    payload: UserPayloadT
+    payload: UserPayloadT,
   ): Promise<UserProcessStat> => {
     try {
       const user = await this.getUserByEmail(payload.email);
@@ -114,7 +118,7 @@ class UsersFunctions {
         {
           role: role,
         },
-        { returnDocument: "after" }
+        { returnDocument: "after" },
       );
       return { data: user };
     } catch (err) {
