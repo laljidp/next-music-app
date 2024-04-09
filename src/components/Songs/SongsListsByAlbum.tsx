@@ -12,7 +12,7 @@ interface SongsListsByAlbumProps {
 export default function SongsListsByAlbum(props: SongsListsByAlbumProps) {
   const { albumID } = props;
 
-  const { isLoading, data, error } = useSWR(
+  const { isLoading, data } = useSWR(
     { path: apiUrls.songs, id: albumID },
     songsRequest.fetchSongsByAlbum,
     {
@@ -21,16 +21,11 @@ export default function SongsListsByAlbum(props: SongsListsByAlbumProps) {
     }
   );
 
-  console.log({ data });
-
-  console.log({ error });
-  console.log({ isLoading });
-
   if (isLoading) return <RootPageLoader />;
 
   return (
     <div>
-      <SongsLists songs={data || []} onSelectSong={() => {}} />
+      <SongsLists songs={data || []} />
     </div>
   );
 }

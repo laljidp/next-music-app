@@ -29,7 +29,17 @@ class PlayListsFunctions {
         finder = { $or: conditions };
       }
       const skip = Number(batch) * Number(page);
-      const data = await Playlists.find(finder).skip(skip).limit(batch);
+      let data = await Playlists.find(finder, {
+        name: true,
+        songs: true,
+      })
+        .skip(skip)
+        .limit(batch);
+      data = data.map((doc) => ({
+        id: doc._id,
+        name: doc.name,
+        totalSongs: doc.total_songs,
+      }));
       return data || [];
     } catch (err) {
       console.log("Error executing getPlaylists function::", err);
@@ -98,7 +108,7 @@ class PlayListsFunctions {
         },
         {
           returnDocument: "after",
-        }
+        },
       );
       return { data: playlist };
     } catch (err) {
@@ -109,7 +119,6 @@ class PlayListsFunctions {
 
   fetchPlaylistSongs = async (playlistID: string) => {
     try {
-      console.log();
       const songs = await Playlists.findOne({ _id: playlistID })
         .populate("songs")
         .limit(1);

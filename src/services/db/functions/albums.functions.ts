@@ -39,7 +39,6 @@ class AlbumFunctions {
           .select(fields);
       }
       const hasMore = data.length === Number(batch);
-      console.log("hasMore", hasMore);
       return { data, hasMore };
     } catch (err) {
       console.log("Error fetching albums from db::", err);

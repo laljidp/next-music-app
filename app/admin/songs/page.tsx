@@ -3,11 +3,11 @@
 import dynamic from "next/dynamic";
 import useSWRInfinite from "swr/infinite";
 import RootPageLoader from "../../loading";
-import ListLayout from "@/components/Layouts/List.layout";
+import ListLayout from "@/components/Layouts/ListLayout";
 import TWInput from "@/components/UI/Input";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import songsRequest from "@/services/request/songs.request";
-import useDebounce from "@/utils/useDebouce";
+import useDebounce from "@/hooks/useDebouce";
 import { ISongsDto } from "@/services/types/songs.types";
 import { useMemo, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";

@@ -11,14 +11,12 @@ class SongsRequest {
   fetchSongsByAlbum: Fetcher<ISongsDto[], { id: string; path: string }> =
     async ({ id }) => {
       console.log("Calling fetchSongsByAlbum::");
-      console.log({ id });
       try {
         const resp = await fetch(`${apiUrls.songs}/${id}`, {
           method: "GET",
           headers: getDefaultHeaders(),
         });
         const data = await resp.json();
-        console.log("resp data::", data.songs);
         return data?.songs || [];
       } catch (err) {
         console.log("Error fetching songs by albums", err);

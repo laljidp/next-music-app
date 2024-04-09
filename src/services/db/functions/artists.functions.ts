@@ -42,7 +42,7 @@ class ArtistFunction {
 
   getArtists = async (
     payload: GetArtistsPayloadT,
-    fields: string[] = []
+    fields: string[] = [],
   ): TFuncResponse<ArtistsDto> => {
     try {
       const { batch, page, searchTerm } = payload;
@@ -62,7 +62,6 @@ class ArtistFunction {
         .limit(batch)
         .select(fields);
 
-      console.log(typeof batch);
       const hasMore = data.length === Number(batch);
       return { data, hasMore, error: null };
     } catch (err) {
@@ -73,7 +72,7 @@ class ArtistFunction {
 
   updateArtist = async (
     _id: string,
-    payload: ArtistPayloadT
+    payload: ArtistPayloadT,
   ): TFuncResponse<ArtistsDto> => {
     try {
       const artist = await Artists.findOneAndUpdate({ _id }, payload);

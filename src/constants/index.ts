@@ -19,39 +19,6 @@ const config = Object.freeze({
   mongoUri: process.env.NEXT_PUBLIC_MONGO_URL || null,
 });
 
-const LEFT_MENUS = [
-  {
-    name: "stats",
-    title: "Stats",
-    url: PAGES.adminStats,
-    icon: null,
-  },
-  {
-    name: "songs",
-    title: "Songs",
-    url: PAGES.adminSongs,
-    icon: null,
-  },
-  {
-    name: "albums",
-    title: "Albums",
-    url: PAGES.adminAlbums,
-    icon: null,
-  },
-  {
-    name: "artists",
-    title: "Artists",
-    url: PAGES.adminArtists,
-    icon: null,
-  },
-  {
-    name: "playlists",
-    title: "Playlists",
-    url: PAGES.adminPlaylists,
-    icon: null,
-  },
-];
-
 const COLORS = Object.freeze({
   brand: "#8b5cf6",
   primary: "#818cf8",
@@ -60,4 +27,4 @@ const COLORS = Object.freeze({
   primaryExtraLight: "#c4b5fd",
 });
 
-export { apiUrls, config, PAGES, LEFT_MENUS, COLORS };
+export { apiUrls, config, PAGES, COLORS };

@@ -9,6 +9,7 @@ import { USER_ROLES } from "@/services/db/schemas/user.schema";
 export const authOptions: AuthOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work
   secret: config.jwtSecretKey,
+
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
@@ -17,6 +18,9 @@ export const authOptions: AuthOptions = {
     }),
     // ...add more providers here
   ],
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     signIn: async ({ user, account }) => {
       try {

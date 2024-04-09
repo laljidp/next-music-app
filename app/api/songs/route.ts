@@ -25,7 +25,7 @@ export const GET = async (request: NextRequest) => {
 
     const { data, error } = await songsFunction.fetchSongs(
       { batch, page, searchText },
-      fields
+      fields,
     );
     const hasMore = data?.length === batch;
     if (data) {

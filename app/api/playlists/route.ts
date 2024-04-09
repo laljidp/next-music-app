@@ -1,3 +1,4 @@
+import { connectDB } from "@/services/db/connect.db";
 import { ERROR_MSG } from "@/services/db/db.utils";
 import playListsFunction, {
   UpdatePlayListPayload,
@@ -12,6 +13,7 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest, { params }: any) {
   try {
     console.log({ params });
+    await connectDB();
     const {
       search = "" as string,
       batch = 20 as number,

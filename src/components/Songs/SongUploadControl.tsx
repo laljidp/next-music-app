@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
 import PageSpinner from "../UI/Spinner/PageSpinner";
-import IconView from "../Layouts/IconView.layout";
+import IconView from "../Layouts/IconViewLayout";
 import { ISongsMetadata } from "@/services/types/songs.types";
 import SongPlayer from "../SongPlayer";
 

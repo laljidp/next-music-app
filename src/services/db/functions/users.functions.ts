@@ -57,6 +57,14 @@ class UsersFunctions {
     return true;
   };
 
+  isUserSuperAdmin = async (email: string) => {
+    const user = await Users.findOne({ email, role: USER_ROLES.SUPER_ADMIN });
+    console.log("user", user);
+    if (user) return true;
+
+    return false;
+  };
+
   fetchUserByEmail = async (email: string) => {
     try {
       const users = await Users.findOne({ email });

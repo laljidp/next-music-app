@@ -1,7 +1,7 @@
 "use client";
 
 import useSWRInfinite from "swr/infinite";
-import ListLayout from "@/components/Layouts/List.layout";
+import ListLayout from "@/components/Layouts/ListLayout";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
@@ -9,7 +9,7 @@ import { apiUrls } from "@/constants";
 import { UI_CONFIG } from "@/services/db/constants/db.constants";
 import artistRequest from "@/services/request/artists.request";
 import { ArtistsDto } from "@/services/types/artists.types";
-import useDebounce from "@/utils/useDebouce";
+import useDebounce from "@/hooks/useDebouce";
 import { SearchOutlined } from "@ant-design/icons";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
@@ -73,8 +73,6 @@ const ArtistsAdminPage = () => {
       return { artists: [], hasMore: false };
     }
   }, [data]);
-
-  console.log({ artists, hasMore });
 
   const handleSearchTextChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;

@@ -17,9 +17,7 @@ class SongsFunctions {
 
   fetchSongsByAlbum = async (albumId: string) => {
     try {
-      console.log({ albumId });
       const album = await Albums.findById(albumId).populate("songs");
-      console.log("Albums", album);
       return { data: album.songs || [] };
     } catch (err) {
       console.log("Error fetching songs by album::", err);

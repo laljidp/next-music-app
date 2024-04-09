@@ -13,7 +13,7 @@ const PlaylistSchema = new mongoose.Schema(
     songs: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: COLLECTION.PLAYLIST,
+        ref: COLLECTION.SONGS,
       },
     ],
     createdBy: {
@@ -23,8 +23,12 @@ const PlaylistSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
+
+PlaylistSchema.virtual("total_songs").get(function () {
+  return this?.songs?.length || 0;
+});
 
 const Playlists =
   mongoose.models?.[COLLECTION.PLAYLIST] ||

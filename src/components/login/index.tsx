@@ -28,15 +28,14 @@ export default function LoginPage() {
 
     if (resp?.token) {
       localStorage.setItem(USER_TOKEN, resp?.token);
-      setProcessLoading(false);
       setIsUserAdmin(true);
       router.push(PAGES.adminAlbums);
     } else {
       // TODO: handle unauthorized user
       setIsUserAdmin(false);
+      setProcessLoading(false);
       console.log("Unauthorized user");
     }
-    setProcessLoading(false);
   };
 
   const handleSignOut = (e: React.MouseEvent<HTMLElement>) => {

@@ -44,6 +44,16 @@ class UsersRequests {
       return null;
     }
   };
+
+  checkIfUserSuperAdmin = async (email: string) => {
+    const resp = await fetch(`${apiUrls.isUserSuperAdmin}/${email}`, {
+      method: "GET",
+      headers: getDefaultHeaders(),
+    });
+    const data = await resp.json();
+    console.log({ userAdmin: data });
+    return data;
+  };
 }
 
 const userRequests = new UsersRequests();

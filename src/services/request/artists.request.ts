@@ -17,12 +17,9 @@ class ArtistRequest {
   }
 
   fetchArtists: Fetcher<ArtistsDto[], string> = async (apiPath) => {
-    console.log({ apiPath });
     const resp = await fetch(apiPath, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: getDefaultHeaders(),
     });
     const data = (await resp.json()).data as ArtistsDto[];
     return data;
