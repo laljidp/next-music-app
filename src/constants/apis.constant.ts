@@ -2,7 +2,7 @@ export const apiUrls = Object.freeze({
   login: "/api/login",
   albums: "/api/albums",
   songs: "/api/songs",
-  playlists: "api/playlist",
+  playlists: "/api/playlists",
   artists: "/api/artists",
   users: "/api/users",
   isUserSuperAdmin: "/api/users/isSuperAdmin",

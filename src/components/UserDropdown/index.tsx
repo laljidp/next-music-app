@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import useClickOutside from "@/hooks/useClickOutside";
 import { cn } from "@/utils/helper.util";
 import { LogoutOutlined, UserSwitchOutlined } from "@ant-design/icons";
+import { PAGES } from "@/constants";
 
 export default function UserDropdown() {
   const { data } = useSession();
@@ -23,7 +24,7 @@ export default function UserDropdown() {
 
   return (
     <>
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         <div className="relative">
           <Image
             role="button"
@@ -38,24 +39,24 @@ export default function UserDropdown() {
           <div
             ref={sectionRef}
             className={cn(
-              `absolute left-[60px] bottom-4 bg-white h-[200px] animation-scale-up-tl w-[280px]
-               ring-2 ring-violet-400 rounded-lg shadow-lg slide-right-animation`,
-              showMenu ? "visibility" : "hidden"
+              `animation-scale-up-tl slide-right-animation absolute bottom-4 left-[60px] h-[200px] w-[280px]
+               rounded-lg bg-white shadow-xl ring-1 ring-violet-400`,
+              showMenu ? "visibility" : "hidden",
             )}
           >
-            <div className="arrow-left flex-col flex justify-between p-3 h-full">
+            <div className="arrow-left flex h-full flex-col justify-between p-3">
               <div className="flex flex-col gap-1">
                 <h3 className="text-sm font-bold">{data?.user?.name}</h3>
                 <small>{data?.user?.email}</small>
                 <hr />
                 <div
                   onClick={() => {
-                    router.push("/admin/users");
+                    router.push(PAGES.adminUsers);
                     setShowMenu(false);
                   }}
                   role="button"
-                  className="flex items-center gap-2 cursor-pointer bg-violet-50
-                 hover:bg-violet-100 py-1 px-2 rounded-md text-sm font-medium"
+                  className="flex cursor-pointer items-center gap-2 rounded-md
+                 bg-violet-50 px-2 py-1 text-sm font-medium hover:bg-violet-100"
                 >
                   <UserSwitchOutlined />
                   <span> Users</span>
@@ -64,8 +65,8 @@ export default function UserDropdown() {
               <div
                 onClick={logout}
                 role="button"
-                className="flex items-center gap-2 cursor-pointer bg-violet-100
-                 hover:bg-violet-500 hover:text-white py-2 px-3 rounded-md text-sm font-medium"
+                className="flex cursor-pointer items-center gap-2 rounded-md
+                 bg-violet-100 px-3 py-2 text-sm font-medium hover:bg-violet-500 hover:text-white"
               >
                 <LogoutOutlined />
                 Logout

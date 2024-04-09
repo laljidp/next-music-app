@@ -3,7 +3,7 @@ import { nextResponseError } from "@/utils/nextResponse.util";
 import { NextRequest, NextResponse } from "next/server";
 
 // This function can be marked `async` if using `await` inside
-export async function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest, response: NextResponse) {
   try {
     console.log("Middleware running.");
     const token = request.headers.get("Authorization");

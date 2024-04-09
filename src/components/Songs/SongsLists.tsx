@@ -6,7 +6,7 @@ interface SongsListsProps {
   songs: ISongsDto[];
   selectedSong?: ISongsDto | null;
   loadMore?: React.ReactNode;
-  onSelectSong: (song: ISongsDto) => void;
+  onSelectSong?: (song: ISongsDto) => void;
 }
 
 export default function SongsLists(props: SongsListsProps) {

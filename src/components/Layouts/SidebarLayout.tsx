@@ -30,7 +30,7 @@ const SidebarAdminLayout: React.FC<SidebarLayoutProps> = ({
     (url: string) => {
       return pathname.includes(url) ? "active" : "non-active";
     },
-    [pathname]
+    [pathname],
   );
 
   return (
@@ -39,7 +39,7 @@ const SidebarAdminLayout: React.FC<SidebarLayoutProps> = ({
         className={cn(
           `border-1 flex h-screen flex-col
         border-solid bg-white shadow-md ring-1 ring-violet-500`,
-          expand ? " w-[210px]" : ""
+          expand ? " w-[210px]" : "",
         )}
         id="left-sidebar"
       >
@@ -56,7 +56,7 @@ const SidebarAdminLayout: React.FC<SidebarLayoutProps> = ({
         <hr className="mb-4 border-violet-500" />
         <button
           onClick={toggleExpand}
-          className="w-[45px] my-[1rem] mx-auto rounded-full py-2 px-2 hover:bg-violet-100"
+          className="mx-auto my-[1rem] w-[45px] rounded-full px-2 py-2 hover:bg-violet-100"
         >
           {expand ? (
             <DoubleLeftOutlined className="text-xl" />
@@ -64,23 +64,23 @@ const SidebarAdminLayout: React.FC<SidebarLayoutProps> = ({
             <DoubleRightOutlined className="text-xl" />
           )}
         </button>
-        <div className="flex justify-between flex-col h-full">
-          <div className="mt-5 w-full flex justify-center">
+        <div className="flex h-full flex-col justify-between">
+          <div className="mt-5 flex w-full justify-center">
             <ul>
               {LEFT_MENUS.map(({ Icon, ...menu }) => (
                 <li
                   aria-description={isMenuActive(menu.url)}
                   onClick={() => router.push(menu.url)}
                   className={cn(
-                    `cursor-pointer flex items-center justify-center
-                     rounded-full border-b-0 border-violet-500 py-3
-                     hover:bg-violet-100 aria-[description=active]:bg-violet-300
-                     mb-4`,
-                    expand ? "px-5" : "px-3"
+                    `mb-4 flex cursor-pointer items-center
+                     justify-center rounded-full border-b-0 border-violet-500
+                     py-3 hover:bg-violet-100
+                     aria-[description=active]:bg-violet-300`,
+                    expand ? "px-5" : "px-3",
                   )}
                   key={menu.name}
                 >
-                  <div className="flex gap-5 items-center">
+                  <div className="flex items-center gap-5">
                     {Icon}
                     {expand && <span>{menu.title}</span>}
                   </div>

@@ -67,7 +67,7 @@ export default function EditViewAlbumLayout({
     {
       revalidateOnFocus: false,
       fallbackData: [],
-    }
+    },
   );
 
   const handleAddAlbum = () => {
@@ -156,7 +156,7 @@ export default function EditViewAlbumLayout({
 
   if (!album && !isNew) {
     return (
-      <div className="flex flex-col gap-4 items-center justify-center h-[65vh]">
+      <div className="flex h-[65vh] flex-col items-center justify-center gap-4">
         <AddNewButton onClick={handleAddAlbum} />
         <p className="text-sm">
           Select an album or click the '+' button to switch to{" "}
@@ -174,18 +174,18 @@ export default function EditViewAlbumLayout({
         className="anim-scale-out-top"
       >
         <div className="flex flex-col">
-          <div className="flex items-center gap-1 justify-between">
+          <div className="flex items-center justify-between gap-1">
             <div className="flex items-center gap-1">
               <LeftOutlined className="[&>svg]:fill-violet-500" />
               <span
                 role="button"
                 onClick={() => setShowSongsLayout(false)}
-                className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110"
+                className="cursor-pointer select-none font-medium text-violet-500 hover:scale-110"
               >
                 Back
               </span>
             </div>
-            <div className="select-none flex items-center gap-1 text-violet-500 font-medium cursor-pointer hover:scale-105">
+            <div className="flex cursor-pointer select-none items-center gap-1 font-medium text-violet-500 hover:scale-105">
               <IconView Icon={PlusCircleOutlined} />
               Add songs
             </div>
@@ -207,20 +207,20 @@ export default function EditViewAlbumLayout({
         className={`anim-scale-out-right`}
       >
         <form onSubmit={handleSubmit} className="w-full">
-          <div className="flex flex-col gap-5 w-full">
+          <div className="flex w-full flex-col gap-5">
             <div>
               <div className="flex justify-between">
                 {isNew ? (
-                  <span className="text-violet-500 font-medium">New Album</span>
+                  <span className="font-medium text-violet-500">New Album</span>
                 ) : (
                   <div
-                    className="flex items-center gap-1 aria-hide"
+                    className="aria-hide flex items-center gap-1"
                     aria-hidden={isNew}
                   >
                     <span
                       role="button"
                       onClick={() => setShowSongsLayout(true)}
-                      className="select-none text-violet-500 font-medium cursor-pointer hover:scale-110 "
+                      className="cursor-pointer select-none font-medium text-violet-500 hover:scale-110 "
                     >
                       Songs
                     </span>
@@ -230,7 +230,7 @@ export default function EditViewAlbumLayout({
                 <div className="flex items-center gap-4">
                   <div
                     aria-hidden={isChangesSaved}
-                    className="flex items-center gap-2 aria-hide"
+                    className="aria-hide flex items-center gap-2"
                   >
                     <InfoCircleFilled className="[&>svg]:fill-yellow-500 [&>svg]:font-bold" />
                     <span className="text-xs">Unsaved changes.</span>
@@ -247,8 +247,8 @@ export default function EditViewAlbumLayout({
               </div>
               <hr className="mt-3" />
             </div>
-            <div className="w-[100%] flex-grow justify-between flex gap-[2rem]">
-              <div className="flex flex-col gap-3 w-[100%]">
+            <div className="flex w-[100%] flex-grow justify-between gap-[2rem]">
+              <div className="flex w-[100%] flex-col gap-3">
                 <ImageUpload
                   previewMode={isReadOnly}
                   name="coverImage"
@@ -280,7 +280,7 @@ export default function EditViewAlbumLayout({
                   }
                 />
               </div>
-              <div className="flex flex-col w-[100%] gap-3">
+              <div className="flex w-[100%] flex-col gap-3">
                 <TWDatePicker
                   isReadOnly={isReadOnly}
                   label="Release Date"

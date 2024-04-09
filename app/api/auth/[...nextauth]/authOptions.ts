@@ -18,6 +18,9 @@ export const authOptions: AuthOptions = {
     }),
     // ...add more providers here
   ],
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     signIn: async ({ user, account }) => {
       try {

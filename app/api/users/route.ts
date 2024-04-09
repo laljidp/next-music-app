@@ -1,15 +1,14 @@
+import { getServerSession } from "next-auth/next";
 import { connectDB } from "@/services/db/connect.db";
 import { ERROR_MSG } from "@/services/db/db.utils";
-import usersFunction, {
-  FetchUsersParamsT,
-} from "@/services/db/functions/users.functions";
+import usersFunction from "@/services/db/functions/users.functions";
 import {
   nextResponseError,
   nextResponseSuccess,
 } from "@/utils/nextResponse.util";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const params = req.nextUrl.searchParams;
   try {
     await connectDB();

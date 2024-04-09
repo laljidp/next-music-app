@@ -33,8 +33,8 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
     <>
       <div
         className={cn(
-          "fixed top-0 left-0 h-full transition-all shadow-lg",
-          leftBarClasses
+          "slide-right-animation fixed left-0 top-0 h-full shadow-lg transition-all",
+          leftBarClasses,
         )}
         id="left-sidebar"
       >
@@ -43,8 +43,8 @@ const SharedAdminLayout: React.FC<SharedAdminLayoutI> = ({ children }) => {
       <div
         id="main"
         className={cn(
-          "bg-white p-6 shadow-md h-screen w-screen -z-10 transition-all",
-          rightMainClasses
+          "-z-10 h-screen w-screen bg-white p-6 shadow-md transition-all",
+          rightMainClasses,
         )}
       >
         {children}
