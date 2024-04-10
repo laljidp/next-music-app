@@ -8,7 +8,7 @@ import { useContext } from "react";
 import useSWR, { Fetcher } from "swr";
 
 const fetchStats: Fetcher<Record<string, number>, string> = async (
-  path: string
+  path: string,
 ) => {
   const resp = await fetch("/api/stats", {
     method: "GET",
@@ -38,16 +38,16 @@ export default function AdminStats() {
 
   return (
     <div className="flex justify-center">
-      <div className="flex gap-5 grow items-center">
+      <div className="flex grow items-center gap-5">
         {STAT_CARDS.map((card) => (
           <div
             key={card.keyIndex}
             role="button"
             aria-disabled={!card?.path}
             onClick={() => (card?.path ? navigate.push(card.path) : {})}
-            className="p-3 text-white ring-1 grow bg-violet-400
-            aria-[disabled=true]:opacity-70 aria-[disabled=true]:select-none
-             rounded-lg cursor-pointer hover:scale-105"
+            className="grow cursor-pointer rounded-lg bg-violet-400 p-3
+            text-white ring-1 transition-all hover:scale-105  hover:bg-violet-500
+            aria-[disabled=true]:select-none aria-[disabled=true]:opacity-70"
           >
             <section className="text-4xl">
               {total?.[card.keyIndex] || 0}

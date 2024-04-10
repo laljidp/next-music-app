@@ -62,7 +62,7 @@ class SongsFunctions {
 
   updateSong = async (
     _id: string,
-    payload: ISongsDto
+    payload: ISongsDto,
   ): TFuncResponse<ISongsDto> => {
     try {
       const song = (await Songs.findByIdAndUpdate({ _id }, payload, {

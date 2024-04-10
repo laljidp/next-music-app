@@ -193,9 +193,6 @@ export default function EditViewAlbumLayout({
           <hr className="mt-3" />
           {showSongsLayout && album?._id && (
             <div>
-              {/* <div className="mt-2">
-                <UploadBulkSongs album={album} />
-              </div> */}
               <SongsListsByAlbum albumID={album._id} />
             </div>
           )}

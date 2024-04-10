@@ -22,22 +22,22 @@ export default function TWSwitch(props: TWSwitchProps) {
         aria-disabled={isDisabled}
         htmlFor={id}
         onClick={toggleSwitch}
-        className={`ring-2 ring-violet-400 px-1 py-2 w-[40px] h-[20px]
-        aria-[disabled=true]:opacity-40 aria-[disabled=true]:cursor-not-allowed 
-        aria-[disabled=true]:pointer-events-none
-       flex items-center rounded-full hover:cursor-pointer ${
+        className={`flex h-[20px] w-[40px] items-center rounded-full px-1
+        py-2 ring-2 
+        ring-violet-400
+       hover:cursor-pointer aria-[disabled=true]:pointer-events-none aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-40 ${
          checked ? "justify-end bg-violet-400" : "justify-start"
        }`}
       >
         <span
-          className={`h-3 w-3 rounded-full ${
+          className={`h-3 w-3 rounded-full transition-all ${
             checked
-              ? "ring-2 ring-white bg-white"
-              : "ring-2 ring-violet-400 bg-violet-400"
+              ? "bg-white ring-2 ring-white"
+              : "bg-violet-400 ring-2 ring-violet-400"
           }`}
         />
       </label>
-      <span className="ml-2 text-sm align-middle font-=sm">{label}</span>
+      <span className="font-=sm ml-2 align-middle text-sm">{label}</span>
     </div>
   );
 }

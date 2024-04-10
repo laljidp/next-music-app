@@ -3,6 +3,7 @@ import { ERROR_MSG } from "@/services/db/db.utils";
 import playListsFunction, {
   UpdatePlayListPayload,
 } from "@/services/db/functions/playlists.functions";
+import { GetParamsT } from "@/services/types/common.types";
 import { IPlaylistPayload } from "@/services/types/playlists.types";
 import {
   nextResponseError,
@@ -10,19 +11,17 @@ import {
 } from "@/utils/nextResponse.util";
 import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest, { params }: any) {
+export async function GET(req: NextRequest) {
   try {
-    console.log({ params });
+    const params = req.nextUrl.searchParams;
+    const search = params.get("search") || "";
+    const batch = params.get("batch");
+    const page = params.get("page");
     await connectDB();
-    const {
-      search = "" as string,
-      batch = 20 as number,
-      page = 0 as Number,
-    } = params || {};
     const playlists = await playListsFunction.getPlaylists({
       search,
-      batch,
-      page,
+      batch: Number(batch),
+      page: Number(page),
     });
     return nextResponseSuccess({ playlists });
   } catch (err) {
