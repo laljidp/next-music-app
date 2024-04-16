@@ -55,6 +55,7 @@ class SongsRequest {
       }
     } catch (err) {
       console.log("Failed to process saving song::", err);
+      return null;
     }
   }
 

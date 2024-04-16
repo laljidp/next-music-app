@@ -1,16 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   CloseCircleOutlined,
-  CloudDownloadOutlined,
   CloudUploadOutlined,
-  DownloadOutlined,
   PlayCircleOutlined,
 } from "@ant-design/icons";
 import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
 import PageSpinner from "../UI/Spinner/PageSpinner";
 import IconView from "../Layouts/IconViewLayout";
 import { ISongsMetadata } from "@/services/types/songs.types";
-import SongPlayer from "../SongPlayer";
+import { SONGS_UPLOAD_PATH } from "@/services/db/constants/db.constants";
 
 interface SongUploadControlProps {
   source?: string;
@@ -43,7 +41,7 @@ export default function SongUploadControl(props: SongUploadControlProps) {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { files } = event.currentTarget;
     if (files && files.length) {
@@ -57,7 +55,7 @@ export default function SongUploadControl(props: SongUploadControlProps) {
       };
 
       try {
-        const source = await uploadFileToFireStorage(file, "/songs");
+        const source = await uploadFileToFireStorage(file, SONGS_UPLOAD_PATH);
         onFileUpload(source, metadata);
         setSongSource(source);
       } catch (err) {
@@ -92,26 +90,26 @@ export default function SongUploadControl(props: SongUploadControlProps) {
         role="button"
         aria-invalid={error}
         id="song-upload-container"
-        className={`ring-1 ring-slate-300 px-3 py-2 rounded-lg
-        h-[${height}px] flex items-center justify-center hover:ring-violet-68
-        aria-[invalid=true]:ring-red-400 relative ${className}`}
+        className={`rounded-lg px-3 py-2 ring-1 ring-slate-300
+        h-[${height}px] hover:ring-violet-68 relative flex items-center
+        justify-center aria-[invalid=true]:ring-red-400 ${className}`}
       >
-        <div aria-hidden={!isUploading} className="opacity-60 aria-hide">
+        <div aria-hidden={!isUploading} className="aria-hide opacity-60">
           <PageSpinner />
         </div>
         <div
           aria-hidden={!!songSource || isUploading}
-          className="flex flex-col gap-1 aria-hide"
+          className="aria-hide flex flex-col gap-1"
         >
           <div
             onClick={openFileExplorer}
-            className="ring-1 ring-violet-400 rounded-full flex items-center gap-1
-            px-3 py-1 text-xs hover:bg-violet-400 hover:text-white"
+            className="flex items-center gap-1 rounded-full px-3 py-1
+            text-xs ring-1 ring-violet-400 hover:bg-violet-400 hover:text-white"
           >
-            <CloudUploadOutlined className="[&>svg]:fill-violet-600 [&>svg]:text-md" />
+            <CloudUploadOutlined className="[&>svg]:text-md [&>svg]:fill-violet-600" />
             <span>{labelText}</span>
           </div>
-          <span className=" text-[10px] ml-2">mp3, aac, wav, ogg</span>
+          <span className=" ml-2 text-[10px]">mp3, aac, wav, ogg</span>
         </div>
         <div
           className="aria-hide"
@@ -119,13 +117,13 @@ export default function SongUploadControl(props: SongUploadControlProps) {
           onClick={() => setLoadSong(true)}
           role="button"
         >
-          <div className="flex bg-slate-100 px-4 py-2 items-center gap-2 rounded-full hover:bg-violet-200">
+          <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 hover:bg-violet-200">
             <IconView Icon={PlayCircleOutlined} fill="fill-violet-400" />{" "}
             <span className="text-sm">Load song</span>
           </div>
         </div>
         {songSource && loadSong && (
-          <div className="w-[100%] relative [audio::-webkit-media-controls-panel]:bg-violet-400">
+          <div className="[audio::-webkit-media-controls-panel]:bg-violet-400 relative w-[100%]">
             <audio
               onDurationChange={({ currentTarget }) =>
                 onDurationChange(currentTarget.duration)
@@ -139,7 +137,7 @@ export default function SongUploadControl(props: SongUploadControlProps) {
             {/* <SongPlayer src={songSource} /> */}
             <i
               aria-hidden={readOnly}
-              className="absolute right-[-10px] top-[-20px] hover:scale-125 aria-hide"
+              className="aria-hide absolute right-[-10px] top-[-20px] hover:scale-125"
               role="button"
               onClick={handleClear}
             >
@@ -153,7 +151,7 @@ export default function SongUploadControl(props: SongUploadControlProps) {
         )}
         <span
           aria-hidden={!errorText && !error}
-          className="text-red-400 text-xs absolute left-1 bottom-[-20px]"
+          className="absolute bottom-[-20px] left-1 text-xs text-red-400"
         >
           {errorText}
         </span>

@@ -56,14 +56,6 @@ export default function SelectMultiple(props: SelectMultipleProps) {
   };
 
   useEffect(() => {
-    if (showOption) {
-      setTimeout(() => {
-        optionRef?.current?.scrollIntoView({ behavior: "smooth" });
-      }, 250);
-    }
-  }, [showOption]);
-
-  useEffect(() => {
     setSelectedOption(selected);
   }, [selected]);
 
@@ -81,7 +73,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
       <label
         aria-hidden={!label}
         htmlFor={"label-multiple"}
-        className="text-medium text-sm aria-hide"
+        className="text-medium aria-hide text-sm"
       >
         {label}
       </label>
@@ -90,22 +82,22 @@ export default function SelectMultiple(props: SelectMultipleProps) {
         aria-readonly={isReadOnly}
         aria-disabled={loading}
         onClick={() => setShowOption(true)}
-        className={`border-1 relative rounded-lg border-solid px-1 py-1.5
-         ring-1 ring-slate-300 hover:ring-violet-400 mt-1
-         aria-[readonly=true]:border-none aria-[readonly=true]:pointer-events-none
-          ${loading && "pointer-events-none opacity-30]"}
+        className={`border-1 relative mt-1 rounded-lg border-solid px-1
+         py-1.5 ring-1 ring-slate-300 hover:ring-violet-400
+         aria-[readonly=true]:pointer-events-none aria-[readonly=true]:border-none
+          ${loading && "opacity-30] pointer-events-none"}
          `}
       >
         <div
-          className="flex items-center justify-start gap-2 
-          flex-wrap cursor-pointer relative"
+          className="relative flex cursor-pointer flex-wrap 
+          items-center justify-start gap-2"
         >
           {!!selectedOption?.length ? (
             <>
               {selectedOption.map((opt, index) => (
                 <div
                   key={(opt + index).toString()}
-                  className="px-3 py-1 ring-1 bg-violet-400 text-white rounded-lg"
+                  className="rounded-lg bg-violet-400 px-3 py-1 text-white ring-1"
                 >
                   <span className="rounded-xl text-sm font-medium">
                     {getTitle(opt)}
@@ -114,8 +106,8 @@ export default function SelectMultiple(props: SelectMultipleProps) {
               ))}
             </>
           ) : (
-            <div className="flex justify-between items-center w-[98%]">
-              <span className="text-slate-500 pl-2 text-sm p-1">
+            <div className="flex w-[98%] items-center justify-between">
+              <span className="p-1 pl-2 text-sm text-slate-500">
                 {(!isReadOnly && placeholder) || "N/A"}
               </span>
             </div>
@@ -123,34 +115,34 @@ export default function SelectMultiple(props: SelectMultipleProps) {
           <CaretDownFilled
             aria-hidden={isReadOnly || loading}
             aria-checked={showOption}
-            className={`[&>svg]:fill-violet-500 absolute right-3
-             aria-hide aria-[checked=true]:rotate-180`}
+            className={`aria-hide absolute right-3
+             aria-[checked=true]:rotate-180 [&>svg]:fill-violet-500`}
           />
-          <div aria-hidden={!loading} className="absolute right-3 aria-hide">
+          <div aria-hidden={!loading} className="aria-hide absolute right-3">
             <Spinner color="violet" />
           </div>
         </div>
         <div
           aria-hidden={!showOption}
-          className={`absolute left-0 top-11 z-10 w-full rounded-lg
-         bg-white p-2 px-5 py-4 shadow-lg ring-1 ring-violet-400 aria-hide
-           overflow-auto anim-scale-down anim-scale-down-reverse max-h-[250px]
+          className={`aria-hide anim-scale-down anim-scale-down-reverse absolute left-0 top-11
+         z-10 max-h-[250px] w-full overflow-auto rounded-lg bg-white p-2 px-5
+           py-4 shadow-lg ring-1 ring-violet-400
          `}
         >
           <div className="aria-hide" aria-hidden={!!options.length}>
-            <span className="text-slate-400 select-none text-sm">
+            <span className="select-none text-sm text-slate-400">
               No options available
             </span>
           </div>
-          <div className="mb-1 aria-hide" aria-hidden={!showSearch}>
+          <div className="aria-hide mb-1" aria-hidden={!showSearch}>
             <TWInput placeholder="Search options" />
           </div>
           {options.map(({ name, value }, i) => (
             <div
               ref={optionRef}
               key={value}
-              className="flex items-center border-b-1 last:border-b-0 p-2
-             hover:bg-violet-200 rounded-lg shadow-xl shadow-violet-50"
+              className="border-b-1 flex items-center rounded-lg p-2
+             shadow-xl shadow-violet-50 last:border-b-0 hover:bg-violet-200"
             >
               <input
                 type="checkbox"
@@ -162,7 +154,7 @@ export default function SelectMultiple(props: SelectMultipleProps) {
                 className="mr-4 h-5 w-5 cursor-pointer"
               />
               <label
-                className="cursor-pointer w-full select-none"
+                className="w-full cursor-pointer select-none"
                 htmlFor={id + i}
               >
                 {name}

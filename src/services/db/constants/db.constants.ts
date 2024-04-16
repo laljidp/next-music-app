@@ -12,6 +12,8 @@ export const MONGO_ERROR_CODES = Object.freeze({
   CAST_ERROR: "Cast to ObjectId failed",
 });
 
+export const SONGS_UPLOAD_PATH = "/songs";
+
 export const USER_ROLES = Object.freeze({
   admin: "admin",
   superAdmin: "superAdmin",

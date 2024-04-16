@@ -1,8 +1,10 @@
 "use client";
+import UploadBulkSongs from "@/components/Songs/UploadBulkSongs";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import { PAGES } from "@/constants";
 import { UserContext } from "@/context/user.context";
 import { getDefaultHeaders } from "@/services/request";
+import { CloudServerOutlined, UploadOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import useSWR, { Fetcher } from "swr";
@@ -37,8 +39,8 @@ export default function AdminStats() {
   if (isLoading) return <PageSpinner />;
 
   return (
-    <div className="flex justify-center">
-      <div className="flex grow items-center gap-5">
+    <div className="flex flex-col justify-center gap-5">
+      <div className="mt-5 flex grow items-center gap-5">
         {STAT_CARDS.map((card) => (
           <div
             key={card.keyIndex}
@@ -55,6 +57,13 @@ export default function AdminStats() {
             <span className="text-sm font-medium">{card.name}</span>
           </div>
         ))}
+      </div>
+      <div>
+        <div className="flex items-center gap-2">
+          <CloudServerOutlined className="text-lg text-violet-400" />
+          <span className="text-violet-500">Bulk upload songs</span>
+        </div>
+        <UploadBulkSongs />
       </div>
     </div>
   );

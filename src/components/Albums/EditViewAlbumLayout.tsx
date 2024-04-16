@@ -156,7 +156,7 @@ export default function EditViewAlbumLayout({
 
   if (!album && !isNew) {
     return (
-      <div className="flex h-[65vh] flex-col items-center justify-center gap-4">
+      <div className="flex h-full flex-col items-center justify-center gap-4">
         <AddNewButton onClick={handleAddAlbum} />
         <p className="text-sm">
           Select an album or click the '+' button to switch to{" "}
@@ -207,9 +207,7 @@ export default function EditViewAlbumLayout({
           <div className="flex w-full flex-col gap-5">
             <div>
               <div className="flex justify-between">
-                {isNew ? (
-                  <span className="font-medium text-violet-500">New Album</span>
-                ) : (
+                {!isNew && (
                   <div
                     className="aria-hide flex items-center gap-1"
                     aria-hidden={isNew}
@@ -232,14 +230,16 @@ export default function EditViewAlbumLayout({
                     <InfoCircleFilled className="[&>svg]:fill-yellow-500 [&>svg]:font-bold" />
                     <span className="text-xs">Unsaved changes.</span>
                   </div>
-                  <TWSwitch
-                    name="isReadOnly"
-                    label="ReadOnly"
-                    isDisabled={isNew}
-                    checked={isReadOnly}
-                    onChange={setReadOnly}
-                  />
-                  {!isNew && <AddNewButton onClick={handleAddAlbum} />}
+                  {!isNew && (
+                    <TWSwitch
+                      name="isReadOnly"
+                      label="ReadOnly"
+                      isDisabled={isNew}
+                      checked={isReadOnly}
+                      onChange={setReadOnly}
+                    />
+                  )}
+                  <AddNewButton onClick={handleAddAlbum} />
                 </div>
               </div>
               <hr className="mt-3" />
