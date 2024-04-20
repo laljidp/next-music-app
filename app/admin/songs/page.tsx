@@ -142,7 +142,7 @@ export default function SongsPage() {
             />
           </div>
           <TWModal isOpen={!!deleteId} onClose={() => setDeleteId("")}>
-            <div className="">Are you sure, you want to delete?</div>
+            <div className="">Are you sure, you want to delete this song?</div>
             <div className="mt-4 flex justify-end gap-2">
               <TWButton
                 onClick={() => setDeleteId("")}

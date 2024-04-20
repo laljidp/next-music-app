@@ -1,4 +1,5 @@
 "use client";
+import UploadBulkMedia from "@/components/MediaUpload/BulkMediaUpload";
 import UploadBulkSongs from "@/components/Songs/UploadBulkSongs";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import { PAGES } from "@/constants";
@@ -58,12 +59,21 @@ export default function AdminStats() {
           </div>
         ))}
       </div>
-      <div>
-        <div className="flex items-center gap-2">
-          <CloudServerOutlined className="text-lg text-violet-400" />
-          <span className="text-violet-500">Bulk upload songs</span>
+      <div className="flex flex-1 gap-4">
+        <div className="mt-2 w-full">
+          <div className="mb-2 flex items-center gap-2">
+            <CloudServerOutlined className="text-lg text-violet-400" />
+            <span className="text-violet-500">Bulk upload songs</span>
+          </div>
+          <UploadBulkSongs />
         </div>
-        <UploadBulkSongs />
+        <div className="mt-2 w-full">
+          <div className="mb-2 flex items-center gap-2">
+            <CloudServerOutlined className="text-lg text-violet-400" />
+            <span className="text-violet-500">Upload bulk media Images</span>
+          </div>
+          <UploadBulkMedia />
+        </div>
       </div>
     </div>
   );

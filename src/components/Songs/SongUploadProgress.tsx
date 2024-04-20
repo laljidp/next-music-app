@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Spinner from "../UI/Spinner";
 import { CheckCircleFilled } from "@ant-design/icons";
+import { SONGS_UPLOAD_PATH } from "@/services/db/constants/db.constants";
 
 interface SongUploadProgressProps {
   file: File;
@@ -18,6 +19,8 @@ export default function SongUploadProgress(props: SongUploadProgressProps) {
   const { file, onUploadCompleted = () => {} } = props;
   const [isLoading, setLoading] = useState(true);
   const [isUploadFinished, setUploadFinished] = useState(false);
+
+  console.log("isLoading", isLoading);
 
   const getDurationAndUpload = () => {
     const reader = new FileReader();
@@ -33,7 +36,10 @@ export default function SongUploadProgress(props: SongUploadProgressProps) {
           // Obtain the duration in seconds of the audio file (with milliseconds as well, a float value)
           const duration = buffer.duration;
           // Upload file to google storage.
-          const audioPath = await uploadFileToFireStorage(file);
+          const audioPath = await uploadFileToFireStorage(
+            file,
+            SONGS_UPLOAD_PATH,
+          );
           if (audioPath) {
             const payload: ISongsDto = {
               duration,
@@ -51,11 +57,8 @@ export default function SongUploadProgress(props: SongUploadProgressProps) {
             console.log({ _song });
             onUploadCompleted(file.name);
             setUploadFinished(true);
+            setLoading(false);
           }
-          setLoading(false);
-          console.log(
-            "The duration of the song is of: " + duration + " seconds",
-          );
         });
       };
 
@@ -68,8 +71,6 @@ export default function SongUploadProgress(props: SongUploadProgressProps) {
       reader.readAsArrayBuffer(file);
     } catch (err) {
       console.log("Error uploading bulk mp3 file::", err);
-    } finally {
-      setLoading(false);
     }
     // When the file has been successfully read
   };
@@ -81,7 +82,7 @@ export default function SongUploadProgress(props: SongUploadProgressProps) {
   return (
     <div
       className={cn(
-        "flex items-center justify-between rounded-md  px-5 py-3 shadow-md ring-1",
+        "flex items-center justify-between rounded-md px-5 py-3 shadow-md ring-1",
         isUploadFinished
           ? "bg-violet-200 ring-violet-200"
           : "bg-slate-100 ring-slate-100",
@@ -105,7 +106,9 @@ export default function SongUploadProgress(props: SongUploadProgressProps) {
           <Spinner color="slate" />
         </div>
       )}
-      {isUploadFinished && <CheckCircleFilled className="text-violet-500" />}
+      {!isLoading && isUploadFinished && (
+        <CheckCircleFilled className="text-violet-500" />
+      )}
     </div>
   );
 }

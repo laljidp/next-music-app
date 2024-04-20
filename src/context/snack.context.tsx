@@ -80,7 +80,7 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
         createPortal(
           <div
             className={cn(
-              `border-1 anim-scale-down shadow-m fixed right-2 top-5
+              `border-1 animation-model shadow-m fixed right-2 top-5
              z-10 max-w-[350px] rounded-2xl px-4 py-3 transition-all`,
               getSnackTypeColor(snack.type),
             )}
