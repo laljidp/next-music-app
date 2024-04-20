@@ -100,6 +100,10 @@
   animation: scale-up-tl 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
+.animation-model {
+  animation: modal_animation 0.5s ease 0s 1 normal both;
+}
+
 .slide-out-blurred-top {
   -webkit-animation: slide-out-blurred-top 0.45s
     cubic-bezier(0.755, 0.05, 0.855, 0.06) both;
@@ -125,6 +129,18 @@
  * css::@keyframes
  * --------------------------------------
  */
+
+@keyframes modal_animation {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 @keyframes hide-out {
   0% {

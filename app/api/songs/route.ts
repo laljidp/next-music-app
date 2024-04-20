@@ -118,11 +118,11 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const body = await request.json();
-    const id = body.id;
-    if (!id) {
+    const id = body.id as string[];
+    if (!id?.length) {
       return nextResponseError(ERROR_MSG.BAD_REQUEST, 403);
     }
-    const { data, error } = await songsFunction.deleteSongs([id]);
+    const { data, error } = await songsFunction.deleteSongs(id);
     if (error) {
       return nextResponseError(ERROR_MSG.BAD_REQUEST, 503);
     }
