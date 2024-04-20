@@ -57,14 +57,14 @@ export default function TWDatePicker(props: TWDatePickerProps) {
       <div
         role="button"
         aria-readonly={isReadOnly}
-        className="ring-1 hover:cursor-pointer ring-slate-300 px-4
-       text-slate-500 rounded-lg hover:ring-violet-400 mt-1       
-       aria-[readonly=true]:pointer-events-none read-only:ring-0 
+        className="mt-1 rounded-lg px-4 text-slate-500
+       ring-1 ring-slate-300 read-only:ring-0 hover:cursor-pointer       
+       hover:ring-violet-400 aria-[readonly=true]:pointer-events-none 
        "
       >
-        <div className="text-slate-800 flex justify-between items-center">
+        <div className="flex items-center justify-between text-slate-800">
           <span
-            className={`py-2 w-full ${!localDate && "text-slate-500"}`}
+            className={`w-full py-2 ${!localDate && "text-slate-500"}`}
             onClick={() => setShowPicker(true)}
           >
             {localDate
@@ -77,7 +77,7 @@ export default function TWDatePicker(props: TWDatePickerProps) {
             <CloseCircleOutlined
               aria-hidden={isReadOnly}
               onClick={handleClearSelection}
-              className="hover:[&>svg]:fill-violet-700 hover:[&>svg]:scale-125 aria-[hidden=true]:hidden"
+              className="aria-[hidden=true]:hidden hover:[&>svg]:scale-125 hover:[&>svg]:fill-violet-700"
             />
             <CalendarOutlined className="[&>svg]:fill-violet-600" />
           </div>
@@ -85,10 +85,10 @@ export default function TWDatePicker(props: TWDatePickerProps) {
       </div>
       {showPicker && (
         <div
-          className="absolute border-2 left-[-35px] top-[10] bg-transparent backdrop-blur-sm z-20
-           animation-scale-up-tl overflow-hidden ring-1 ring-violet-400 rounded-2xl p-2"
+          className="animation-scale-up-tl absolute left-[-35px] top-[10] z-20 overflow-hidden rounded-2xl
+           border-2 bg-transparent p-2 ring-1 ring-violet-400 backdrop-blur-sm"
         >
-          <div className="flex justify-center items-center h-full w-full relative">
+          <div className="relative flex h-full w-full items-center justify-center">
             <div className="" ref={sectionRef}>
               <InfiniteCalendar
                 width={400}

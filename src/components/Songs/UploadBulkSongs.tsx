@@ -1,7 +1,9 @@
 import { useDropzone } from "react-dropzone";
 import { IAlbumDto } from "@/services/types/albums.types";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import SongUploadProgress from "./SongUploadProgress";
+import { TWButton } from "../UI/Button";
+import { SnackContext } from "@/context/snack.context";
 
 interface UploadBulkSongsProps {
   album?: IAlbumDto;
@@ -34,7 +36,9 @@ const rejectStyle = {
 };
 
 export default function UploadBulkSongs(props: UploadBulkSongsProps) {
+  const { showSnack } = useContext(SnackContext);
   const [files, setFiles] = useState<File[]>([]);
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // Do something with the files
     console.log("Files", acceptedFiles);
@@ -55,8 +59,8 @@ export default function UploadBulkSongs(props: UploadBulkSongsProps) {
   );
 
   const handleUploadComplete = (fileName: string) => {
-    const _files = files.slice().filter((file) => file.name !== fileName);
-    setFiles(_files);
+    // TODO: show toast message..
+    showSnack(`${fileName} audio has been uploaded.`, "success");
   };
 
   return (
@@ -68,15 +72,22 @@ export default function UploadBulkSongs(props: UploadBulkSongsProps) {
         <input {...getInputProps()} />
         <p>Drag 'n' drop audio files here, or click to select files</p>
       </div>
-      <div className="mt-3">
+      {files.length > 0 && (
+        <TWButton
+          onClick={() => setFiles([])}
+          variant="outline"
+          className="my-3 py-1"
+        >
+          Clear all
+        </TWButton>
+      )}
+      <div className="mt-3 grid grid-cols-2 gap-3">
         {files.map((file, index) => (
-          <div className="my-3">
-            <SongUploadProgress
-              key={file.name + index}
-              file={file}
-              onUploadCompleted={handleUploadComplete}
-            />
-          </div>
+          <SongUploadProgress
+            key={file.name + index}
+            file={file}
+            onUploadCompleted={handleUploadComplete}
+          />
         ))}
       </div>
     </div>

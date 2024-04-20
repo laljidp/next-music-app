@@ -4,7 +4,7 @@ import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import { PAGES } from "@/constants";
 import { UserContext } from "@/context/user.context";
 import { getDefaultHeaders } from "@/services/request";
-import { CloudServerOutlined, UploadOutlined } from "@ant-design/icons";
+import { CloudServerOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import useSWR, { Fetcher } from "swr";

@@ -135,7 +135,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
       };
       setReadOnly(true);
       setNew(false);
-      setSongPayload(payload);
+      setSongPayload({ ...payload });
     }
   }, [song]);
 
@@ -205,7 +205,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
             options={GENRES.map((genre) => ({ name: genre, value: genre }))}
             selected={songPayload.genre}
             name="genre"
-            label="Select Genre"
+            label="Genre"
             isReadOnly={readOnly}
             onSelect={(selected) => handleChange("genre", selected)}
             placeholder="Select Genre"
@@ -213,7 +213,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
         </div>
         <div>
           <SelectMultiple
-            label="Select Artists"
+            label="Artists"
             options={
               artists?.map((ar) => ({ name: ar.name, value: ar._id })) || []
             }

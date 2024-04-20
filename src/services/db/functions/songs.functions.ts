@@ -35,6 +35,7 @@ class SongsFunctions {
         finder = { $or: conditions };
       }
       const _songs = (await Songs.find(finder)
+        .sort({ createdAt: "desc" })
         .select(fields)
         .limit(batch)
         .skip(page * batch)) as ISongsDto[];
@@ -82,7 +83,7 @@ class SongsFunctions {
   deleteSongs = async (_ids: string[]) => {
     try {
       const resp = await Songs.deleteMany({
-        id: {
+        _id: {
           $in: _ids,
         },
       });

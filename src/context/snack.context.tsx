@@ -1,4 +1,5 @@
 "use client";
+import { cn } from "@/utils/helper.util";
 import {
   CheckCircleOutlined,
   CloseOutlined,
@@ -6,6 +7,7 @@ import {
   WarningOutlined,
 } from "@ant-design/icons";
 import { createContext, useState } from "react";
+import { createPortal } from "react-dom";
 
 export type SnackSType = "success" | "info" | "warning" | "error";
 
@@ -23,10 +25,10 @@ interface InitialStateI {
 
 const initialState: InitialStateI = {
   snack: {
-    show: true,
+    show: false,
     type: "success",
     text: "",
-    timing: 3000,
+    timing: 5000,
   },
   showSnack: () => {},
 };
@@ -73,28 +75,39 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <SnackContext.Provider value={{ snack, showSnack }}>
       {children}
-      {snack.show && snack.text && (
-        <div
-          className={`fixed top-2 left-[45%] translate-x-[-50%] border-1 border-solid rounded-2xl px-4 py-2
-           anim-scale-down ${getSnackTypeColor(snack.type)}`}
-        >
-          <div className="text-white text-sm flex justify-evenly items-center gap-3">
-            {snack.type === "info" && <InfoCircleFilled />}
-            {snack.type === "success" && <CheckCircleOutlined />}
-            {snack.type === "warning" && <WarningOutlined />}
+      {snack.show &&
+        snack.text &&
+        createPortal(
+          <div
+            className={cn(
+              `border-1 anim-scale-down shadow-m fixed right-2 top-5
+             z-10 max-w-[350px] rounded-2xl px-4 py-3 transition-all`,
+              getSnackTypeColor(snack.type),
+            )}
+          >
+            <div className="flex items-center justify-evenly gap-3 text-sm text-white">
+              {snack.type === "info" && (
+                <InfoCircleFilled className="text-lg" />
+              )}
+              {snack.type === "success" && (
+                <CheckCircleOutlined className="text-lg" />
+              )}
+              {snack.type === "warning" && (
+                <WarningOutlined className="text-lg" />
+              )}
 
-            <span>{snack.text}</span>
-            <span
-              role="button"
-              onClick={hideSnackbar}
-              className="hover:scale-125"
-            >
-              <CloseOutlined className="font-medium [&>svg]:text-xs [&>svg]:flex" />
-            </span>
-          </div>
-        </div>
-      )}
-      <div></div>
+              <span>{snack.text}</span>
+              <span
+                role="button"
+                onClick={hideSnackbar}
+                className="hover:scale-125"
+              >
+                <CloseOutlined className="text-md flex font-extrabold" />
+              </span>
+            </div>
+          </div>,
+          document.body,
+        )}
     </SnackContext.Provider>
   );
 };
