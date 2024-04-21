@@ -5,6 +5,7 @@ export const COLLECTION = {
   PLAYLIST: "Playlist",
   SETTINGS: "Settings",
   ARTISTS: "Artists",
+  MEDIA: "Media",
 };
 
 export const MONGO_ERROR_CODES = Object.freeze({

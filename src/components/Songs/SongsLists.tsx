@@ -37,62 +37,42 @@ export default function SongsLists(props: SongsListsProps) {
         </span>
       </div>
       {songs.map((song) => (
-        <SongItem
-          song={song}
+        <li
+          role="button"
           key={song._id}
-          onDeleteSong={onDeleteSong}
-          onSelectSong={onSelectSong}
-          selectedSong={selectedSong || null}
-        />
+          onClick={() => onSelectSong(song)}
+          aria-selected={selectedSong?._id === song._id ? true : false}
+          className={cn("card-layout group/item relative")}
+        >
+          <a
+            href="void:"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteSong(song._id || "--");
+            }}
+            role="button"
+            className={cn(
+              "invisible absolute right-5 top-3 hover:scale-125 group-hover/item:visible",
+            )}
+          >
+            <DeleteFilled className="text-lg text-red-500" />
+          </a>
+          <Image
+            height={40}
+            width={40}
+            className="mr-3 h-10 w-10 rounded-lg object-cover"
+            src={song.coverImage || "/no-image.png"}
+            alt="cover-song"
+          />
+          <div className="flex flex-col">
+            <span>{song.title}</span>
+            <span className="text-xs">
+              Duration: {Number(song.duration / 60).toFixed(2)}m
+            </span>
+          </div>
+        </li>
       ))}
       {loadMore}
     </div>
-  );
-}
-
-interface SongItemProps {
-  song: ISongsDto;
-  onDeleteSong: (songId: string) => void;
-  onSelectSong: (song: ISongsDto) => void;
-  selectedSong: ISongsDto | null;
-}
-
-export function SongItem(props: SongItemProps) {
-  const { onDeleteSong, onSelectSong, selectedSong, song } = props;
-
-  return (
-    <li
-      role="button"
-      onClick={() => onSelectSong(song)}
-      aria-selected={selectedSong?._id === song._id ? true : false}
-      className={cn("card-layout group/item relative")}
-    >
-      <a
-        href="void:"
-        onClick={(e) => {
-          e.stopPropagation();
-          onDeleteSong(song._id || "--");
-        }}
-        role="button"
-        className={cn(
-          "invisible absolute right-5 top-3 hover:scale-125 group-hover/item:visible",
-        )}
-      >
-        <DeleteFilled className="text-lg text-red-500" />
-      </a>
-      <Image
-        height={40}
-        width={40}
-        className="mr-3 h-10 w-10 rounded-lg object-cover"
-        src={song.coverImage || "/no-image.png"}
-        alt="cover-song"
-      />
-      <div className="flex flex-col">
-        <span>{song.title}</span>
-        <span className="text-xs">
-          Duration: {Number(song.duration / 60).toFixed(2)}m
-        </span>
-      </div>
-    </li>
   );
 }

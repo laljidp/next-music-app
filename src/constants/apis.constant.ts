@@ -13,6 +13,7 @@ export const PAGES = Object.freeze({
   adminSongs: "/admin/songs",
   adminPlaylists: "/admin/playlists",
   adminArtists: "/admin/artists",
-  adminStats: "/admin/stats",
+  adminHome: "/admin/home",
   adminUsers: "/admin/users",
+  adminMedia: "/admin/media",
 });

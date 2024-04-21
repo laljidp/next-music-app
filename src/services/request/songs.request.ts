@@ -73,7 +73,7 @@ class SongsRequest {
     }
   }
 
-  async deleteSong(id: string) {
+  async deleteSong(id: string[]) {
     try {
       const resp = await fetch(apiUrls.songs, {
         method: "DELETE",

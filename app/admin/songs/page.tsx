@@ -72,7 +72,7 @@ export default function SongsPage() {
     // TODO: Call api to delete song
     try {
       setProcessDelete(true);
-      const data = await songsRequest.deleteSong(id);
+      const data = await songsRequest.deleteSong([id]);
       if (data?.success) {
         showSnack("Song deleted.", "success");
         setDeleteId("");
