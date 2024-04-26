@@ -114,3 +114,21 @@ export async function PUT(request: NextRequest) {
     return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const id = body.id as string[];
+    if (!id?.length) {
+      return nextResponseError(ERROR_MSG.BAD_REQUEST, 403);
+    }
+    const { data, error } = await songsFunction.deleteSongs(id);
+    if (error) {
+      return nextResponseError(ERROR_MSG.BAD_REQUEST, 503);
+    }
+    return nextResponseSuccess(data);
+  } catch (err) {
+    console.log("Error executing /songs DELETE::", err);
+    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
+  }
+}

@@ -5,12 +5,16 @@ export const COLLECTION = {
   PLAYLIST: "Playlist",
   SETTINGS: "Settings",
   ARTISTS: "Artists",
+  MEDIA: "Media",
 };
 
 export const MONGO_ERROR_CODES = Object.freeze({
   DUPLICATE: "E11000",
   CAST_ERROR: "Cast to ObjectId failed",
 });
+
+export const SONGS_UPLOAD_PATH = "/songs";
+export const MEDIA_UPLOAD_PATH = "/media";
 
 export const USER_ROLES = Object.freeze({
   admin: "admin",

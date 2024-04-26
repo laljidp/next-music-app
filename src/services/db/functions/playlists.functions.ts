@@ -23,7 +23,7 @@ class PlayListsFunctions {
   getPlaylists = async ({ search, batch, page }: PlaylistsParamsT) => {
     try {
       let finder = {};
-      if (!!search?.trim?.()) {
+      if (search?.trim()?.length) {
         const regex = new RegExp(search, "i");
         const conditions = [{ name: regex }, { description: regex }];
         finder = { $or: conditions };
@@ -34,7 +34,8 @@ class PlayListsFunctions {
         songs: true,
       })
         .skip(skip)
-        .limit(batch);
+        .limit(batch)
+        .sort({ createdAt: "desc" });
       data = data.map((doc) => ({
         id: doc._id,
         name: doc.name,

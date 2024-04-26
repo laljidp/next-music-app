@@ -1,7 +1,8 @@
 import React from "react";
 import Spinner from "../Spinner";
+import { cn } from "@/utils/helper.util";
 
-export type BtnVariants = "primary" | "secondary" | "outline";
+export type BtnVariants = "primary" | "secondary" | "outline" | "error-outline";
 
 export type ButtonSize = "sm" | "md" | "lg";
 
@@ -19,6 +20,7 @@ const variants: Record<BtnVariants, string> = {
   primary: "btn-primary",
   secondary: "btn-secondary",
   outline: "btn-outline",
+  "error-outline": "btn-error-outline",
 };
 
 export const TWButton: React.FC<TWButtonI> = ({
@@ -32,9 +34,13 @@ export const TWButton: React.FC<TWButtonI> = ({
 }): React.ReactElement => {
   return (
     <button
-      className={`btn ${variants[variant]} ${
-        loading ? "justify-evenly" : "justify-center"
-      } flex items-center gap-2 ${className}`}
+      className={cn(
+        "btn",
+        variants[variant],
+        loading ? "justify-evenly" : "justify-center",
+        "flex items-center gap-2",
+        className,
+      )}
       disabled={loading}
       type={type}
       onClick={onClick}

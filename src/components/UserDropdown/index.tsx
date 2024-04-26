@@ -33,13 +33,13 @@ export default function UserDropdown() {
             alt="user-pic"
             loading="lazy"
             height={40}
-            className="my-auto h-12 w-12 rounded-full ring-1 hover:scale-105"
+            className="my-auto h-10 w-10 rounded-full ring-1 ring-violet-500 transition-all hover:scale-105"
             width={40}
           />
           <div
             ref={sectionRef}
             className={cn(
-              `animation-scale-up-tl slide-right-animation absolute bottom-4 left-[60px] h-[200px] w-[280px]
+              `animation-scale-up-tl slide-right-animation absolute bottom-4 left-[55px] h-[200px] w-[280px]
                rounded-lg bg-white shadow-xl ring-1 ring-violet-400`,
               showMenu ? "visibility" : "hidden",
             )}

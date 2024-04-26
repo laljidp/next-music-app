@@ -1,9 +1,6 @@
 import { IUserShortDto } from "@/services/types/users.types";
 import Image from "next/image";
-import { useContext, useMemo, useState } from "react";
-import { TWButton } from "../UI/Button";
-import { SnackContext } from "@/context/snack.context";
-import userRequests from "@/services/request/users.request";
+import { useMemo } from "react";
 import { maskEmail } from "@/utils/helper.util";
 
 interface UsersListsProps {
@@ -12,26 +9,7 @@ interface UsersListsProps {
 }
 
 export default function UserListItem(props: UsersListsProps) {
-  const { user, onRefreshUsers = () => {} } = props;
-  // const [processing, setProcessing] = useState(false);
-  // const { showSnack } = useContext(SnackContext);
-
-  // const handleSwitchToAdmin = async (userId: string, role: string) => {
-  //   setProcessing(true);
-  //   try {
-  //     const data = await userRequests.switchUserRole(userId, role);
-  //     if (data && data.status) {
-  //       showSnack("User role has switched.", "success");
-  //       onRefreshUsers();
-  //     }
-  //     // TODO: Call api to switch user to admin
-  //   } catch (err) {
-  //     console.log("ERROR handle switching admin::", err);
-  //     showSnack("Failed to switch role. Please try again later.", "error");
-  //   } finally {
-  //     setProcessing(false);
-  //   }
-  // };
+  const { user } = props;
 
   const isAdmin = useMemo(() => user.role === "admin", [user]);
 

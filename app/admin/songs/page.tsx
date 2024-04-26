@@ -9,11 +9,13 @@ import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import songsRequest from "@/services/request/songs.request";
 import useDebounce from "@/hooks/useDebouce";
 import { ISongsDto } from "@/services/types/songs.types";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { apiUrls } from "@/constants";
 import { UI_CONFIG } from "@/services/db/constants/db.constants";
 import { TWButton } from "@/components/UI/Button";
+import TWModal from "@/components/UI/Modal";
+import { SnackContext } from "@/context/snack.context";
 
 const SongsLists = dynamic(() => import("@/components/Songs/SongsLists"), {
   ssr: false,
@@ -21,12 +23,15 @@ const SongsLists = dynamic(() => import("@/components/Songs/SongsLists"), {
 
 const EditViewSongSection = dynamic(
   () => import("@/components/Songs/EditViewSong"),
-  { ssr: false }
+  { ssr: false },
 );
 
 export default function SongsPage() {
   const [searchText, setSearchText] = useState("");
   const [selectedSong, setSelectedSong] = useState<ISongsDto | null>(null);
+  const [deleteId, setDeleteId] = useState("");
+  const [processDelete, setProcessDelete] = useState(false);
+  const { showSnack } = useContext(SnackContext);
   const debounceSearch = useDebounce(searchText, 1000);
 
   const getKey = (pageIndex: number, previousPageData: any) => {
@@ -63,6 +68,23 @@ export default function SongsPage() {
     setSearchText(value);
   };
 
+  const handleDeleteSong = async (id: string) => {
+    // TODO: Call api to delete song
+    try {
+      setProcessDelete(true);
+      const data = await songsRequest.deleteSong([id]);
+      if (data?.success) {
+        showSnack("Song deleted.", "success");
+        setDeleteId("");
+        refetchSongs();
+      }
+      setProcessDelete(false);
+    } catch (err) {
+      console.log("Error calling handleDeleteSong::", err);
+      setProcessDelete(false);
+    }
+  };
+
   const { songs, hasMore } = useMemo(() => {
     let songs = [] as ISongsDto[];
     let hasMore = false;
@@ -80,7 +102,7 @@ export default function SongsPage() {
   return (
     <MainRightLayout>
       <MainRightLayout.Left>
-        <div className="rounded-md text-center gap-3">
+        <div className="gap-3 rounded-md text-center">
           <TWInput
             placeholder="Search songs"
             name="search"
@@ -95,7 +117,7 @@ export default function SongsPage() {
         <ListLayout>
           <div
             aria-hidden={!isLoading}
-            className="aria-hide flex items-center justify-center h-full"
+            className="aria-hide flex h-full items-center justify-center"
           >
             <RootPageLoader />
           </div>
@@ -103,10 +125,11 @@ export default function SongsPage() {
             <SongsLists
               onSelectSong={setSelectedSong}
               songs={songs || []}
+              onDeleteSong={setDeleteId}
               selectedSong={selectedSong}
               loadMore={
                 hasMore && (
-                  <div className="py-2 flex justify-center">
+                  <div className="flex justify-center py-2">
                     <TWButton
                       loading={isValidating}
                       onClick={() => setSize(size + 1)}
@@ -118,6 +141,26 @@ export default function SongsPage() {
               }
             />
           </div>
+          <TWModal isOpen={!!deleteId} onClose={() => setDeleteId("")}>
+            <div className="">Are you sure, you want to delete this song?</div>
+            <div className="mt-4 flex justify-end gap-2">
+              <TWButton
+                onClick={() => setDeleteId("")}
+                variant="outline"
+                className="py-1"
+              >
+                Cancel
+              </TWButton>
+              <TWButton
+                loading={processDelete}
+                onClick={() => handleDeleteSong(deleteId)}
+                variant="error-outline"
+                className="py-1"
+              >
+                Delete
+              </TWButton>
+            </div>
+          </TWModal>
         </ListLayout>
       </MainRightLayout.Left>
       <MainRightLayout.Separator />

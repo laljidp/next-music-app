@@ -5,6 +5,7 @@ import { PAGES } from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
 import {
   ArtistsIcon,
+  GallaryIcon,
   MusicAlbumsIcon,
   MusicIcon,
   PlaylistsIcon,
@@ -101,7 +102,7 @@ const LEFT_MENUS = [
   {
     name: "stats",
     title: "Stats",
-    url: PAGES.adminStats,
+    url: PAGES.adminHome,
     Icon: <Image alt="songs" className="h-6 w-6" src={StatsIcon} priority />,
   },
   {
@@ -131,6 +132,12 @@ const LEFT_MENUS = [
     Icon: (
       <Image alt="songs" className="h-6 w-6" src={PlaylistsIcon} priority />
     ),
+  },
+  {
+    name: "media",
+    title: "Media",
+    url: PAGES.adminMedia,
+    Icon: <Image alt="songs" className="h-6 w-6" src={GallaryIcon} priority />,
   },
 ];
 

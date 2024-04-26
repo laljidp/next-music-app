@@ -49,7 +49,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
     {
       fallbackData: [],
       revalidateOnFocus: false,
-    }
+    },
   );
 
   const handleChange = useCallback(
@@ -61,7 +61,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
         });
       }
     },
-    [songPayload]
+    [songPayload],
   );
 
   const handleSubmitSong = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -135,14 +135,14 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
       };
       setReadOnly(true);
       setNew(false);
-      setSongPayload(payload);
+      setSongPayload({ ...payload });
     }
   }, [song]);
 
   return (
     <form className="w-full" onSubmit={handleSubmitSong}>
-      <div className="w-full gap-3 flex flex-col">
-        <div className="flex justify-between items-center">
+      <div className="flex w-full flex-col gap-3">
+        <div className="flex items-center justify-between">
           {!isNew && (
             <TWSwitch
               label="Readonly"
@@ -155,15 +155,15 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
           <AddNewButton onClick={handleSetNew} />
         </div>
         <hr />
-        <div className="flex flex-row gap-4 w-full">
-          <div className="w-[40%] flex flex-col gap-4">
+        <div className="flex w-full flex-row gap-4">
+          <div className="flex w-[40%] flex-col gap-4">
             <ImageUpload
               name="coverImage"
               onChange={(src) => handleChange("coverImage", src)}
               src={songPayload?.coverImage}
               previewMode={readOnly}
               text="Cover Image"
-              className="[height:150px] w-full"
+              className="w-full [height:150px]"
             />
             <SongUploadControl
               className="h-20"
@@ -176,7 +176,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
               onFileUpload={handleSourceChange}
             />
           </div>
-          <div className="w-[60%] flex flex-col gap-4">
+          <div className="flex w-[60%] flex-col gap-4">
             <TWInput
               placeholder="Song Title"
               name="title"
@@ -205,7 +205,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
             options={GENRES.map((genre) => ({ name: genre, value: genre }))}
             selected={songPayload.genre}
             name="genre"
-            label="Select Genre"
+            label="Genre"
             isReadOnly={readOnly}
             onSelect={(selected) => handleChange("genre", selected)}
             placeholder="Select Genre"
@@ -213,7 +213,7 @@ export default function EditViewSongSection(props: EditViewSongSectionProps) {
         </div>
         <div>
           <SelectMultiple
-            label="Select Artists"
+            label="Artists"
             options={
               artists?.map((ar) => ({ name: ar.name, value: ar._id })) || []
             }

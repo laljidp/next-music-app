@@ -10,7 +10,7 @@ class UsersRequests {
   }
 
   getUsers: Fetcher<IUserShortDto[], FetchUsersParamsT> = async (
-    payload: FetchUsersParamsT
+    payload: FetchUsersParamsT,
   ) => {
     try {
       console.log("Payload", payload);

@@ -22,7 +22,7 @@ const EditViewArtist = dynamic(
   () => import("@/components/Artists/EditViewArtist"),
   {
     ssr: false,
-  }
+  },
 );
 
 const ArtistsAdminPage = () => {
@@ -42,7 +42,6 @@ const ArtistsAdminPage = () => {
     }
     params.set("page", pageIndex.toString());
     params.set("batch", UI_CONFIG.BATCH_SIZE.toString());
-    // query string for api call
     requestUrl = requestUrl.concat(params.toString());
     return requestUrl;
   };
@@ -87,7 +86,7 @@ const ArtistsAdminPage = () => {
   return (
     <MainRightLayout>
       <MainRightLayout.Left>
-        <div className="rounded-md text-center gap-3">
+        <div className="gap-3 rounded-md text-center">
           <TWInput
             placeholder="Search artists"
             name="search"
@@ -101,7 +100,7 @@ const ArtistsAdminPage = () => {
         </div>
         <ListLayout>
           {isLoading ? (
-            <div className="flex items-center justify-center h-full">
+            <div className="flex h-full items-center justify-center">
               <PageSpinner />
             </div>
           ) : (

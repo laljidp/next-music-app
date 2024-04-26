@@ -36,7 +36,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
   const [isNew, setIsNew] = useState(false);
   const [isProcessing, setProcessing] = useState(false);
   const [animClass, setAnimClass] = useState<"animation-scale-up-tl" | "">(
-    "animation-scale-up-tl"
+    "animation-scale-up-tl",
   );
 
   const { showSnack } = useContext(SnackContext);
@@ -88,7 +88,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
           image: artistPayload.image || null,
         };
         const newArtist = (await artistRequest.saveArtistsRequest(
-          payload
+          payload,
         )) as ArtistsDto;
         if (newArtist) {
           // show notification and refetch artists
@@ -135,7 +135,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
 
   if (!artist && !isNew) {
     return (
-      <div className="flex flex-col gap-4 items-center justify-center text-center h-[65vh]">
+      <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
         <AddNewButton onClick={handleAddArtist} />
         <p className="text-sm">
           Select an artist or click the '+' button to switch to{" "}
@@ -151,18 +151,19 @@ export default function EditViewArtist(props: EditViewArtistProps) {
         className={`flex w-[100%] flex-col
         justify-center gap-3 ${animClass}`}
       >
-        <div className="flex justify-between flex-row-reverse">
+        <div className="flex flex-row-reverse justify-between">
           <AddNewButton onClick={handleAddArtist} />
-          <TWSwitch
-            name="isReadOnly"
-            label="Read Only"
-            isDisabled={isNew}
-            checked={isReadOnly}
-            onChange={setIsReadOnly}
-          />
+          {!isNew && (
+            <TWSwitch
+              name="isReadOnly"
+              label="Read Only"
+              checked={isReadOnly}
+              onChange={setIsReadOnly}
+            />
+          )}
         </div>
-        <hr className="p-0 m-0" />
-        <div className="text-slate-600 text-xs">
+        <hr className="m-0 p-0" />
+        <div className="text-xs text-slate-600">
           Artists /{" "}
           <span className="text-violet-600">
             {artistPayload?.name || "Add New"}
@@ -227,7 +228,7 @@ export default function EditViewArtist(props: EditViewArtistProps) {
         <TWButton
           aria-hidden={isReadOnly}
           loading={isProcessing}
-          className="w-[115px] aria-hide"
+          className="aria-hide w-[115px]"
           type="submit"
         >
           Save

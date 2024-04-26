@@ -1,8 +1,15 @@
+import useClickOutside from "@/hooks/useClickOutside";
+import { cn } from "@/utils/helper.util";
+import { CloseCircleFilled } from "@ant-design/icons";
+import { useRef } from "react";
+import { createPortal } from "react-dom";
+
 export enum ModelSize {
   SM = "sm",
   MD = "md",
   XL = "xl",
   FULL = "full",
+  NONE = "none",
 }
 
 interface TWModalProps {
@@ -17,41 +24,50 @@ const sizeClasses: Record<ModelSize, string> = {
   md: "h-[450px] w-[650px]",
   xl: "h-[510px] w-[600px]",
   full: "h-screen w-screen",
+  none: "",
 };
 
 export default function TWModal(props: TWModalProps) {
-  const { isOpen, onClose, size = ModelSize.MD } = props;
+  const { isOpen, onClose, size = ModelSize.NONE } = props;
+  const sectionRef = useRef(null);
+
+  useClickOutside(sectionRef, () => {
+    onClose();
+  });
 
   const classes = sizeClasses[size];
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div
-      className={`absolute top-0 left-0 border-2 bg-transparent backdrop-blur-sm z-20
-           animation-scale-up-tl overflow-hidden ring-1 ring-violet-400 h-screen w-screen`}
+      className={`animation-model absolute left-0 top-0 z-20 h-screen w-screen
+           overflow-hidden border-2 bg-transparent backdrop-blur-sm`}
     >
       <div className="relative h-full w-full">
         <div
-          className={`${classes} border-2 border-violet-300 absolute bg-white p-2 transform top-[40%] left-[50%]
-           -translate-y-[50%] -translate-x-[50%] rounded-md shadow-md`}
+          ref={sectionRef}
+          className={cn(
+            `absolute left-[50%] top-[40%] -translate-x-[50%] -translate-y-[50%] transform rounded-lg border-2
+           border-violet-300 bg-white p-2 shadow-lg`,
+            classes,
+          )}
           id="tw-model"
         >
-          <div className="relative">
-            <div
-              className="absolute right-1 justify-center text-gray-500 bg-violet-50 hover:bg-violet-200
-               text-center flex w-[2rem] items-center p-1 rounded-xl"
-              role="button"
-              onClick={onClose}
-            >
-              x
-            </div>
-            <div className="" id="modal-body">
-              {props.children}
-            </div>
+          <div
+            className="absolute right-1 top-0 flex items-center justify-center
+               rounded-xl p-1 text-center hover:scale-125"
+            role="button"
+            onClick={onClose}
+          >
+            <CloseCircleFilled className="text-lg text-violet-500" />
+          </div>
+          <div className="px-4 py-5" id="modal-body">
+            {props.children}
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

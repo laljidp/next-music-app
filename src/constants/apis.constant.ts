@@ -6,6 +6,7 @@ export const apiUrls = Object.freeze({
   artists: "/api/artists",
   users: "/api/users",
   isUserSuperAdmin: "/api/users/isSuperAdmin",
+  media: "/api/media",
 });
 
 export const PAGES = Object.freeze({
@@ -13,6 +14,7 @@ export const PAGES = Object.freeze({
   adminSongs: "/admin/songs",
   adminPlaylists: "/admin/playlists",
   adminArtists: "/admin/artists",
-  adminStats: "/admin/stats",
+  adminHome: "/admin/home",
   adminUsers: "/admin/users",
+  adminMedia: "/admin/media",
 });

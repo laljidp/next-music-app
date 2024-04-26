@@ -55,6 +55,7 @@ class SongsRequest {
       }
     } catch (err) {
       console.log("Failed to process saving song::", err);
+      return null;
     }
   }
 
@@ -68,6 +69,20 @@ class SongsRequest {
       return data?.song || null;
     } catch (err) {
       console.log("Error requesting PUT /songs", err);
+      return Promise.reject(err);
+    }
+  }
+
+  async deleteSong(id: string[]) {
+    try {
+      const resp = await fetch(apiUrls.songs, {
+        method: "DELETE",
+        body: JSON.stringify({ id }),
+      });
+      const data = await resp.json();
+      return data;
+    } catch (err) {
+      console.log("Error requesting DELETE /songs", err);
       return Promise.reject(err);
     }
   }
