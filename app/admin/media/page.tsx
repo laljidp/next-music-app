@@ -53,9 +53,6 @@ export default function MediaPage() {
     return { media, hasMore };
   }, [data]);
 
-  console.log(data);
-  console.log({ isLoading });
-
   return (
     <div>
       <TWInput
@@ -66,6 +63,11 @@ export default function MediaPage() {
         icon={<SearchOutlined className="text-slate-400" />}
       />
       <div className="mt-4">
+        {isLoading && (
+          <div className="mt-5">
+            <Spinner color="violet" />
+          </div>
+        )}
         <MediaLists data={media} />
       </div>
       {hasMore && (
