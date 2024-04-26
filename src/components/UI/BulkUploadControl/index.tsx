@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { TWButton } from "../Button";
+import { CloudServerOutlined } from "@ant-design/icons";
 
 const baseStyle = {
   padding: "20px",
@@ -49,7 +50,6 @@ export default function UploadBulkControl(props: UploadBulkControlProps) {
 
     if (!acceptedFiles.length) return;
 
-    console.log("Files", acceptedFiles);
     setFiles((_files) => [..._files, ...acceptedFiles]);
     onFileSelect(acceptedFiles);
   }, []);
@@ -74,6 +74,7 @@ export default function UploadBulkControl(props: UploadBulkControlProps) {
         className="flex items-center justify-center"
       >
         <input {...getInputProps()} />
+        <CloudServerOutlined className="mr-2 text-lg" />
         <p>{title || "Drag 'n' drop files here, or click to select files"}</p>
       </div>
       {files.length > 0 && (

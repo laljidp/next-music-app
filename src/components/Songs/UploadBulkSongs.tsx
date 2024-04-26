@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import SongUploadProgress from "./SongUploadProgress";
 import { SnackContext } from "@/context/snack.context";
 import UploadBulkControl from "../UI/BulkUploadControl";
+import { TWButton } from "../UI/Button";
 
 interface UploadBulkSongsProps {
   album?: IAlbumDto;
@@ -25,7 +26,7 @@ export default function UploadBulkSongs(props: UploadBulkSongsProps) {
         title="Please upload audio files or drag & drop here.."
         acceptedFile="audio/*"
       />
-      <div className="grid-col-1 mt-3 grid gap-3 2xl:grid-cols-2">
+      <div className="grid-col-1 mt-3 grid gap-3">
         {files.map((file, index) => (
           <SongUploadProgress
             key={file.name + index}

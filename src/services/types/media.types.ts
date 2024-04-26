@@ -12,3 +12,8 @@ export type MediaDto = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type AddMediaPayloadT = Pick<
+  MediaDto,
+  "name" | "description" | "source"
+>;

@@ -1,5 +1,5 @@
 "use client";
-import UploadBulkMedia from "@/components/MediaUpload/BulkMediaUpload";
+import UploadBulkMedia from "@/components/Media/MediaUpload/BulkMediaUpload";
 import UploadBulkSongs from "@/components/Songs/UploadBulkSongs";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import { PAGES } from "@/constants";

@@ -6,6 +6,7 @@ export const apiUrls = Object.freeze({
   artists: "/api/artists",
   users: "/api/users",
   isUserSuperAdmin: "/api/users/isSuperAdmin",
+  media: "/api/media",
 });
 
 export const PAGES = Object.freeze({

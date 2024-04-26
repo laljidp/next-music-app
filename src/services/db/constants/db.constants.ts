@@ -14,6 +14,7 @@ export const MONGO_ERROR_CODES = Object.freeze({
 });
 
 export const SONGS_UPLOAD_PATH = "/songs";
+export const MEDIA_UPLOAD_PATH = "/media";
 
 export const USER_ROLES = Object.freeze({
   admin: "admin",

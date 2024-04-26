@@ -20,8 +20,6 @@ export default function SongUploadProgress(props: SongUploadProgressProps) {
   const [isLoading, setLoading] = useState(true);
   const [isUploadFinished, setUploadFinished] = useState(false);
 
-  console.log("isLoading", isLoading);
-
   const getDurationAndUpload = () => {
     const reader = new FileReader();
     setLoading(true);
@@ -54,7 +52,6 @@ export default function SongUploadProgress(props: SongUploadProgressProps) {
               },
             };
             const _song = await songsRequest.saveNewSong(payload);
-            console.log({ _song });
             onUploadCompleted(file.name);
             setUploadFinished(true);
             setLoading(false);
