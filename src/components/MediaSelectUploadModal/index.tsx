@@ -20,8 +20,9 @@ export default function MediaSelectUploadModal(
     onClose();
   };
 
-  const onClear = () => {
+  const handleClose = () => {
     setMediaUrl("");
+    onClose();
   };
 
   return (
@@ -35,16 +36,19 @@ export default function MediaSelectUploadModal(
         <div>
           <MediaPlaceholder allowSelect onSelectMedia={setMediaUrl} />
         </div>
-        {mediaUrl && (
-          <div className="absolute bottom-5 right-5 flex gap-3">
-            <TWButton small variant="outline" onClick={handleSubmit}>
-              Select photo
-            </TWButton>
-            <TWButton onClick={onClear} variant="secondary" small>
-              Clear
-            </TWButton>
-          </div>
-        )}
+        <div className="absolute bottom-5 right-5 flex gap-3">
+          <TWButton
+            disabled={!mediaUrl}
+            small
+            variant="outline"
+            onClick={handleSubmit}
+          >
+            Select photo
+          </TWButton>
+          <TWButton onClick={handleClose} variant="secondary" small>
+            Close
+          </TWButton>
+        </div>
       </div>
     </TWModal>
   );

@@ -62,12 +62,11 @@ export default function SongsListsByAlbum(props: SongsListsByAlbumProps) {
 
       {processImporting && (
         <div className="my-2">
-          {" "}
           <Spinner color="violet" size="xl" />
         </div>
       )}
-      <div>
-        <SongsLists songs={data || []} />
+      <div className="scrollbar-md h-[calc(100vh-120px)] overflow-auto shadow-md">
+        <SongsLists showActions={false} songs={data || []} />
       </div>
       <SongSelectionModal
         isOpen={showImportSongs}
