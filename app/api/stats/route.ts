@@ -2,6 +2,7 @@ import { connectDB } from "@/services/db/connect.db";
 import { ERROR_MSG } from "@/services/db/db.utils";
 import Albums from "@/services/db/schemas/album.schema";
 import Artists from "@/services/db/schemas/artists.schema";
+import Media from "@/services/db/schemas/media.schema";
 import Playlists from "@/services/db/schemas/playlist.schema";
 import Songs from "@/services/db/schemas/songs.schema";
 import Users from "@/services/db/schemas/user.schema";
@@ -14,13 +15,13 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
-    const users = await Users.countDocuments();
+    const media = await Media.countDocuments();
     const songs = await Songs.countDocuments();
     const albums = await Albums.countDocuments();
     const artists = await Artists.countDocuments();
     const playlists = await Playlists.countDocuments();
     const responsePayload = {
-      users,
+      media,
       songs,
       albums,
       artists,

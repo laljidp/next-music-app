@@ -36,6 +36,7 @@ class MediaFunctions {
       }
       const skip = Number(batch) * Number(page);
       const media = (await Media.find(finder)
+        .sort({ createdAt: "desc" })
         .skip(skip)
         .limit(batch)) as MediaDto[];
 

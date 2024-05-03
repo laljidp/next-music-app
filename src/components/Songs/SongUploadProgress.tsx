@@ -2,7 +2,7 @@ import { MusicIcon } from "@/assets/svgs";
 import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
 import songsRequest from "@/services/request/songs.request";
 import { ISongsDto } from "@/services/types/songs.types";
-import { cn } from "@/utils/helper.util";
+import { cleanAudioFileName, cn } from "@/utils/helper.util";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Spinner from "../UI/Spinner";
@@ -34,25 +34,27 @@ export default function SongUploadProgress(props: SongUploadProgressProps) {
           // Obtain the duration in seconds of the audio file (with milliseconds as well, a float value)
           const duration = buffer.duration;
           // Upload file to google storage.
+          const fileName = cleanAudioFileName(file.name);
           const audioPath = await uploadFileToFireStorage(
             file,
             SONGS_UPLOAD_PATH,
+            fileName,
           );
           if (audioPath) {
             const payload: ISongsDto = {
               duration,
-              title: file.name,
+              title: fileName,
               artists: [],
               genre: [],
               source: audioPath,
               metadata: {
                 kind: file.type,
                 size: file.size,
-                name: file.name,
+                name: fileName,
               },
             };
             const _song = await songsRequest.saveNewSong(payload);
-            onUploadCompleted(file.name);
+            onUploadCompleted(fileName);
             setUploadFinished(true);
             setLoading(false);
           }

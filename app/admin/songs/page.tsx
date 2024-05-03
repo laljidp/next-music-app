@@ -59,7 +59,6 @@ export default function SongsPage() {
     mutate: refetchSongs,
   } = useSWRInfinite<ISongsDto[]>(getKey, songsRequest.fetchSongs, {
     revalidateOnFocus: false,
-    revalidateIfStale: false,
     fallback: [],
   });
 

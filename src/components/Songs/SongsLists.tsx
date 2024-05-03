@@ -1,12 +1,7 @@
 import Image from "next/image";
 import { ISongsDto } from "@/services/types/songs.types";
-import {
-  DeleteFilled,
-  DeleteOutlined,
-  SolutionOutlined,
-} from "@ant-design/icons";
+import { DeleteFilled, SolutionOutlined } from "@ant-design/icons";
 import { cn } from "@/utils/helper.util";
-import { useState } from "react";
 
 interface SongsListsProps {
   songs: ISongsDto[];
@@ -44,8 +39,7 @@ export default function SongsLists(props: SongsListsProps) {
           aria-selected={selectedSong?._id === song._id ? true : false}
           className={cn("card-layout group/item relative")}
         >
-          <a
-            href="void:"
+          <div
             onClick={(e) => {
               e.stopPropagation();
               onDeleteSong(song._id || "--");
@@ -56,12 +50,12 @@ export default function SongsLists(props: SongsListsProps) {
             )}
           >
             <DeleteFilled className="text-lg text-red-500" />
-          </a>
+          </div>
           <Image
             height={40}
             width={40}
             className="mr-3 h-10 w-10 rounded-lg object-cover"
-            src={song.coverImage || "/no-image.png"}
+            src={song.coverImage || "/next-streaming-192x192.png"}
             alt="cover-song"
           />
           <div className="flex flex-col">

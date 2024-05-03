@@ -310,6 +310,16 @@
     width: 1px;
   }
 
+  .scrollbar-md::-webkit-scrollbar {
+    visibility: visible;
+    width: 3px;
+  }
+
+  .scrollbar-md::-webkit-scrollbar-thumb {
+    background-color: #a0aec0;
+    border-radius: 3px;
+  }
+
   .scrollbar-thin::-webkit-scrollbar-thumb {
     background-color: #a0aec0;
     border-radius: 3px;
