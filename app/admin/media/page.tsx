@@ -11,7 +11,7 @@ export default function MediaPage() {
     <div>
       <HeadingLayout
         title="Photo Media"
-        description="All media photos for songs cover, albums & artists."
+        description="All media photos for songs cover, albums & artists"
         showAddButton
         handleAddClick={() => setShowUploadModal(true)}
       />

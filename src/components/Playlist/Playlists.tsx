@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useState } from "react";
 import useSWR from "swr";
 import TWInput from "../UI/Input";
-import useDebounce from "@/hooks/useDebouce";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function Playlists() {
   const [search, setSearch] = useState("");

@@ -96,8 +96,7 @@ export default function EditViewAlbumLayout({
       if (isNew) {
         _album = await albumRequest.saveAlbum(albumPayload);
       } else {
-        _album = await albumRequest.updateAlbum({
-          _id: album?._id,
+        _album = await albumRequest.updateAlbum(album?._id || "--", {
           ...albumPayload,
         });
       }
@@ -185,16 +184,10 @@ export default function EditViewAlbumLayout({
                 Back
               </span>
             </div>
-            <div className="flex cursor-pointer select-none items-center gap-1 font-medium text-violet-500 hover:scale-105">
-              <IconView Icon={PlusCircleOutlined} />
-              Add songs
-            </div>
           </div>
           <hr className="mt-3" />
           {showSongsLayout && album?._id && (
-            <div>
-              <SongsListsByAlbum albumID={album._id} />
-            </div>
+            <SongsListsByAlbum albumID={album._id} />
           )}
         </div>
       </div>

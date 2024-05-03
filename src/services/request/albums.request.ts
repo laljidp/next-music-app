@@ -63,9 +63,18 @@ class AlbumRequest {
     }
   };
 
-  updateAlbum = async (body: IAlbumStatPayload) => {
+  appendSongs = async (id: string, songIds: string[]) => {
+    const resp = await fetch(`${apiUrls.albums}/${id}/songs`, {
+      method: "PUT",
+      body: JSON.stringify(songIds),
+    });
+    const data = await resp.json();
+    return data;
+  };
+
+  updateAlbum = async (id: string, body: IAlbumStatPayload) => {
     try {
-      const resp = await fetch(apiUrls.albums, {
+      const resp = await fetch(`${apiUrls.albums}/${id}`, {
         method: "PUT",
         body: JSON.stringify(body),
         headers: getDefaultHeaders(),

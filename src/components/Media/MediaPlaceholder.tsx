@@ -2,7 +2,7 @@
 import TWInput from "@/components/UI/Input";
 import Spinner from "@/components/UI/Spinner";
 import { BC_MEDIA_CHANNEL, apiUrls } from "@/constants";
-import useDebounce from "@/hooks/useDebouce";
+import useDebounce from "@/hooks/useDebounce";
 import mediaRequests from "@/services/request/media.request";
 import { MediaDto } from "@/services/types/media.types";
 import { cn } from "@/utils/helper.util";
