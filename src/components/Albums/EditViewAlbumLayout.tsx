@@ -9,7 +9,6 @@ import GradientColorPicker from "../GradientColorPicker";
 import artistRequest from "@/services/request/artists.request";
 import TWSwitch from "../UI/Switch";
 import AddNewButton from "../UI/Button/AddNewButton";
-import IconView from "../Layouts/IconViewLayout";
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { GENRES } from "@/services/types/artists.types";
@@ -20,11 +19,9 @@ import { SnackContext } from "@/context/snack.context";
 import {
   InfoCircleFilled,
   LeftOutlined,
-  PlusCircleOutlined,
   RightOutlined,
 } from "@ant-design/icons";
 import { apiUrls } from "@/constants";
-import UploadBulkSongs from "../Songs/UploadBulkSongs";
 
 const SongsListsByAlbum = dynamic(() => import("../Songs/SongsListsByAlbum"));
 

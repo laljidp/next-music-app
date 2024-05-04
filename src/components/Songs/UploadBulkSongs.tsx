@@ -26,7 +26,11 @@ export default function UploadBulkSongs(props: UploadBulkSongsProps) {
         title="Please upload audio files or drag & drop here.."
         acceptedFile="audio/*"
       />
-      <div className="grid-col-1 mt-3 grid gap-3">
+      <div
+        aria-hidden={files.length < 1}
+        className="height-[calc(100vh-390px)] scrollbar-md aria-hide
+          mt-2 flex flex-col gap-1 overflow-auto px-2 py-2 shadow-md"
+      >
         {files.map((file, index) => (
           <SongUploadProgress
             key={file.name + index}

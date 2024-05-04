@@ -10,7 +10,7 @@ interface HeadingLayoutProps {
 export default function HeadingLayout({
   title,
   description,
-  showAddButton,
+  showAddButton = false,
   handleAddClick = () => {},
 }: HeadingLayoutProps) {
   return (

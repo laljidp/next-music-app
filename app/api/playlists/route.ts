@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const payload = (await req.json()) as IPlaylistPayload;
-    if (!payload?.name || !payload?.description) {
+    if (!payload?.name) {
       return nextResponseError(ERROR_MSG.BAD_REQUEST, 403);
     }
     const { data } = await playListsFunction.saveNewPlaylist(payload);
@@ -69,7 +69,6 @@ export async function PUT(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     const { _id, songs = [] } = await req.json();
-    console.log("Sings", songs);
     if (!songs?.length) {
       return nextResponseError(ERROR_MSG.BAD_REQUEST, 403);
     }

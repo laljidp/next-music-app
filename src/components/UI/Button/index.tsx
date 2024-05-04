@@ -40,7 +40,7 @@ export const TWButton: React.FC<TWButtonI> = ({
       className={cn(
         "btn",
         variants[variant],
-        loading ? "justify-evenly" : "justify-center",
+        "justify-center",
         "flex items-center gap-2",
         className,
         smallClasses,

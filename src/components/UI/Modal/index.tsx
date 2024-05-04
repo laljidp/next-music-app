@@ -22,9 +22,9 @@ interface TWModalProps {
 }
 
 const sizeClasses: Record<ModelSize, string> = {
-  sm: "h-[320px] w-[320px]",
-  md: "h-[450px] w-[650px]",
-  xl: "h-[510px] w-[600px]",
+  sm: "max-h-[320px] w-[320px]",
+  md: "max-h-[450px] w-[650px]",
+  xl: "max-h-[510px] w-[600px]",
   full: "h-screen w-screen",
   none: "",
 };

@@ -24,7 +24,7 @@ export default function SongSelectionModal(props: SongsSelectionModalProps) {
   const debounceSearch = useDebounce(search, 1000);
 
   const { isLoading, data } = useSWR(
-    `${apiUrls.songs}?search=${debounceSearch}&batch=35&minimal=true`,
+    `${apiUrls.songs}?search=${debounceSearch}&batch=50&minimal=true`,
     songsRequest.fetchSongs,
     {
       revalidateOnMount: true,
@@ -75,7 +75,7 @@ export default function SongSelectionModal(props: SongsSelectionModalProps) {
             No songs found !
           </div>
         )}
-        <div className="mt-2 grid h-[calc(100vh-400px)] grid-cols-2 gap-2 overflow-auto px-2 py-2">
+        <div className="scrollbar-md mt-2 grid max-h-[calc(100vh-450px)] grid-cols-2 gap-2 overflow-auto px-2 py-2">
           {!isLoading &&
             data.map((song) => (
               <div
