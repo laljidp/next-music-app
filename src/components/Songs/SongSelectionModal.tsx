@@ -75,7 +75,7 @@ export default function SongSelectionModal(props: SongsSelectionModalProps) {
             No songs found !
           </div>
         )}
-        <div className="scrollbar-md mt-2 grid max-h-[calc(100vh-450px)] grid-cols-2 gap-2 overflow-auto px-2 py-2">
+        <div className="scrollbar-md max-h-[calc(100vh-42 0px)] mt-2 grid grid-cols-2 gap-2 overflow-auto px-2 py-2 shadow-md">
           {!isLoading &&
             data.map((song) => (
               <div

@@ -97,6 +97,8 @@ export default function MediaPlaceholder({
           allowSelect={allowSelect}
           onSelectMedia={onSelectMedia}
           data={media}
+          onMediaDeleted={mutate}
+          allowDelete
         />
       </div>
       {hasMore && (

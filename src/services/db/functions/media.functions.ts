@@ -1,6 +1,6 @@
 import { MediaDto, MediaPayloadT } from "@/services/types/media.types";
 import Media from "../schemas/media.schema";
-import { TFuncResponse } from "../db.utils";
+import { ERROR_MSG, TFuncResponse } from "../db.utils";
 
 export type getMediaPayloadT = {
   page: number;
@@ -44,6 +44,26 @@ class MediaFunctions {
     } catch (err) {
       console.log("ERROR getMedia function:", err);
       return { error: "Failed to fetch media" };
+    }
+  };
+
+  deleteMedia = async (
+    _id: string,
+  ): TFuncResponse<{ deletedCount: number }> => {
+    try {
+      const media = await Media.deleteOne({ _id });
+      console.log(media);
+      if (media.deletedCount) {
+        return {
+          data: {
+            deletedCount: media.deletedCount,
+          },
+        };
+      }
+      return { error: "No record found to deleted." };
+    } catch (err) {
+      console.log("ERROR executing deleteMedia function::", err);
+      return { error: ERROR_MSG.UNDER_MAINTENANCE };
     }
   };
 }

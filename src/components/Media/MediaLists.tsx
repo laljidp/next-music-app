@@ -1,21 +1,28 @@
 "use client";
 
 import { MediaDto } from "@/services/types/media.types";
+import { DeleteFilled, DeleteOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { useState } from "react";
+import DeleteMediaModal from "./DeleteMediaModal";
 
 interface MediaListsProps {
   data: MediaDto[];
   allowSelect?: boolean;
+  allowDelete?: boolean;
   onSelectMedia?: (url: string) => void;
+  onMediaDeleted?: () => void;
 }
 
 export default function MediaLists({
   data,
   allowSelect = false,
+  allowDelete = false,
   onSelectMedia = () => {},
+  onMediaDeleted = () => {},
 }: MediaListsProps) {
   const [selectedMediaID, setSelectedMediaID] = useState("");
+  const [deleteMediaId, setDeleteMediaId] = useState<string | null>(null);
 
   const handleSelectMedia = (id: string, url: string) => {
     setSelectedMediaID(id);
@@ -30,10 +37,15 @@ export default function MediaLists({
       >
         {data.map((media) => (
           <div
-            className="flex flex-col items-center gap-2 rounded-md p-2 ring-1
-             ring-violet-300 aria-[selected=true]:bg-violet-200"
+            key={media._id}
+            className="group/item relative flex flex-col items-center gap-2 rounded-md
+             p-2 ring-1 ring-violet-300 aria-[selected=true]:bg-violet-200"
             aria-selected={selectedMediaID === media._id}
-            onClick={() => handleSelectMedia(media._id, media.source)}
+            onClick={() => {
+              allowSelect
+                ? handleSelectMedia(media._id, media.source)
+                : () => {};
+            }}
           >
             <Image
               src={media.source}
@@ -44,9 +56,24 @@ export default function MediaLists({
               loading="lazy"
             />
             <div className="text-xs">{media.name}</div>
+            {allowDelete && (
+              <div
+                role="button"
+                onClick={() => setDeleteMediaId(media._id)}
+                className="invisible absolute right-3 top-3 hover:scale-110 group-hover/item:visible"
+              >
+                <DeleteFilled className="text-red-500" />
+              </div>
+            )}
           </div>
         ))}
       </div>
+      <DeleteMediaModal
+        isOpen={!!deleteMediaId}
+        onClose={() => setDeleteMediaId(null)}
+        id={deleteMediaId}
+        onMediaDeleted={onMediaDeleted}
+      />
     </div>
   );
 }
