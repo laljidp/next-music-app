@@ -53,7 +53,7 @@ export default function DeleteMediaModal({
   return (
     <TWModal isOpen={isOpen} onClose={handleClose}>
       <div className="flex flex-col gap-4">
-        <div className="font-medium text-violet-500">Delete Media</div>
+        <div className="text-lg font-medium text-violet-500">Delete Media</div>
         <div>Are you sure you want delete this media?</div>
         <div className="flex justify-end gap-3">
           <TWButton onClick={handleClose} variant="secondary" small>

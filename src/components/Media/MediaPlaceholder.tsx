@@ -97,7 +97,7 @@ export default function MediaPlaceholder({
           allowSelect={allowSelect}
           onSelectMedia={onSelectMedia}
           data={media}
-          onMediaDeleted={mutate}
+          onMediaModified={mutate}
           allowDelete
         />
       </div>

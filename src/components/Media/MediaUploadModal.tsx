@@ -19,7 +19,7 @@ export default function MediaUploadModal({
     >
       <div className="mt-3">
         <div className="my-2">
-          <span className="font-medium text-violet-500">
+          <span className="text-lg font-medium text-violet-500">
             Upload Media photos
           </span>
         </div>

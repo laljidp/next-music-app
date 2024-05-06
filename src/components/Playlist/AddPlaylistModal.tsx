@@ -46,7 +46,7 @@ export default function AddPlaylistsModal({
 
   return (
     <TWModal isOpen={isOpen} onClose={handleClose} size={ModelSize.SM}>
-      <div className="my-2 font-bold text-violet-500">Add Playlist</div>
+      <div className="my-2 text-lg font-bold text-violet-500">Add Playlist</div>
       <div className="mt-3 flex flex-col gap-4">
         <TWInput
           value={name}

@@ -46,6 +46,16 @@ class MediaRequests {
     const data = await resp.json();
     return data;
   };
+
+  renameMedia = async (id: string, name: string) => {
+    const resp = await fetch(`${apiUrls.media}/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ name }),
+      headers: getDefaultHeaders(),
+    });
+    const data = await resp.json();
+    return data;
+  };
 }
 
 const mediaRequests = new MediaRequests();

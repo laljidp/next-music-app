@@ -23,4 +23,6 @@ export const ERROR_MSG = {
   BAD_REQUEST: "Bad request ! Required Parameter missing.",
   UNAUTHORIZED_ACCESS: "Unauthorized Access.",
   USER_NOT_EXISTS: "User does not exists.",
+  SERVICE_UNAVAILABLE: "Service not available, Please try again later",
+  SERVICE_BUSY: "Service looks busy, Please try again later.",
 };

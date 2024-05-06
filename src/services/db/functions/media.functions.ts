@@ -66,6 +66,31 @@ class MediaFunctions {
       return { error: ERROR_MSG.UNDER_MAINTENANCE };
     }
   };
+
+  updateMediaName = async (
+    id: string,
+    name: string,
+  ): TFuncResponse<MediaDto> => {
+    try {
+      const media = (await Media.findByIdAndUpdate(
+        id,
+        {
+          name: name,
+        },
+        {
+          returnDocument: "after",
+          lean: true,
+        },
+      )) as MediaDto;
+      if (media) {
+        return { data: media };
+      }
+      return { error: "Service failed to update name" };
+    } catch (err) {
+      console.log("ERROR executing updateMediaName::", err);
+      return { error: ERROR_MSG.SERVICE_BUSY };
+    }
+  };
 }
 
 const mediaFunctions = new MediaFunctions();

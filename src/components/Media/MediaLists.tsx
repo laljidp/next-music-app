@@ -1,17 +1,22 @@
 "use client";
 
-import { MediaDto } from "@/services/types/media.types";
-import { DeleteFilled, DeleteOutlined } from "@ant-design/icons";
-import Image from "next/image";
-import { useState } from "react";
 import DeleteMediaModal from "./DeleteMediaModal";
+import TWModal from "../UI/Modal";
+import TWInput from "../UI/Input";
+import mediaRequests from "@/services/request/media.request";
+import Image from "next/image";
+import { MediaDto } from "@/services/types/media.types";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import { useContext, useState } from "react";
+import { TWButton } from "../UI/Button";
+import { SnackContext } from "@/context/snack.context";
 
 interface MediaListsProps {
   data: MediaDto[];
   allowSelect?: boolean;
   allowDelete?: boolean;
   onSelectMedia?: (url: string) => void;
-  onMediaDeleted?: () => void;
+  onMediaModified?: () => void;
 }
 
 export default function MediaLists({
@@ -19,14 +24,41 @@ export default function MediaLists({
   allowSelect = false,
   allowDelete = false,
   onSelectMedia = () => {},
-  onMediaDeleted = () => {},
+  onMediaModified = () => {},
 }: MediaListsProps) {
   const [selectedMediaID, setSelectedMediaID] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const [deleteMediaId, setDeleteMediaId] = useState<string | null>(null);
+  const [editMedia, setEditMedia] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
+  const { showSnack } = useContext(SnackContext);
 
   const handleSelectMedia = (id: string, url: string) => {
     setSelectedMediaID(id);
     onSelectMedia(url);
+  };
+
+  const handleRename = async () => {
+    try {
+      setLoading(true);
+      if (!editMedia?.id || !editMedia?.name) return;
+      // TODO: call API to rename the media name
+      const data = await mediaRequests.renameMedia(
+        editMedia?.id,
+        editMedia?.name,
+      );
+      showSnack(`${data?.name} has been updated.`, "success");
+      onMediaModified(); // To update
+    } catch (err) {
+      console.log("ERROR handleRename::", err);
+      showSnack("Failed to rename the media", "error");
+    } finally {
+      setLoading(false);
+      setEditMedia(null);
+    }
   };
 
   return (
@@ -57,13 +89,27 @@ export default function MediaLists({
             />
             <div className="text-xs">{media.name}</div>
             {allowDelete && (
-              <div
-                role="button"
-                onClick={() => setDeleteMediaId(media._id)}
-                className="invisible absolute right-3 top-3 hover:scale-110 group-hover/item:visible"
-              >
-                <DeleteFilled className="text-red-500" />
-              </div>
+              <>
+                <div
+                  role="button"
+                  onClick={() => setDeleteMediaId(media._id)}
+                  className="invisible absolute right-2 top-1 hover:scale-110 group-hover/item:visible"
+                >
+                  <DeleteFilled className="text-red-500" />
+                </div>
+                <div
+                  role="button"
+                  onClick={() =>
+                    setEditMedia({
+                      id: media._id || "",
+                      name: media.name,
+                    })
+                  }
+                  className="invisible absolute bottom-2 right-2 hover:scale-110 group-hover/item:visible"
+                >
+                  <EditFilled className="text-violet-500" />
+                </div>
+              </>
             )}
           </div>
         ))}
@@ -72,8 +118,47 @@ export default function MediaLists({
         isOpen={!!deleteMediaId}
         onClose={() => setDeleteMediaId(null)}
         id={deleteMediaId}
-        onMediaDeleted={onMediaDeleted}
+        onMediaDeleted={onMediaModified}
       />
+      <TWModal
+        isOpen={!!editMedia}
+        onClose={() => setEditMedia(null)}
+        className="w-[450px]"
+      >
+        <div className="flex flex-col gap-4">
+          <div className="text-lg font-medium text-violet-500">
+            Edit media name
+          </div>
+          <TWInput
+            placeholder="Enter photo name"
+            value={editMedia?.name || ""}
+            name={"name"}
+            onChange={({ currentTarget }) =>
+              setEditMedia({
+                id: editMedia?.id || "",
+                name: currentTarget.value,
+              })
+            }
+          />
+          <div className="flex justify-end gap-2">
+            <TWButton
+              onClick={() => setEditMedia(null)}
+              variant="secondary"
+              small
+            >
+              Close
+            </TWButton>
+            <TWButton
+              loading={loading}
+              onClick={handleRename}
+              variant="outline"
+              small
+            >
+              Submit
+            </TWButton>
+          </div>
+        </div>
+      </TWModal>
     </div>
   );
 }

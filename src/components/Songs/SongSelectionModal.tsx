@@ -54,7 +54,7 @@ export default function SongSelectionModal(props: SongsSelectionModalProps) {
       onClose={handleClose}
       className="relative h-[75%] w-[70%]"
     >
-      <h1 className="font-medium text-violet-500">Select songs</h1>
+      <h1 className="text-lg font-medium text-violet-500">Select songs</h1>
       <div className="pt-2">
         <TWInput
           placeholder="Search songs"
