@@ -92,11 +92,11 @@ interface SnackBarProps {
 }
 
 export function SnackBar({ sn, hideSnackbar = () => {} }: SnackBarProps) {
-  return (
+  return createPortal(
     <div
       className={cn(
-        `border-1 animation-model shadow-m fixed right-2 top-5
-           z-10 max-w-[350px] rounded-2xl px-4 py-3 transition-all`,
+        `border-1 animation-model shadow-m fixed right-2 top-5 z-20
+           max-h-[250px] max-w-[350px] rounded-2xl px-4 py-3 transition-all`,
         getSnackTypeColor(sn.type),
       )}
     >
@@ -110,6 +110,7 @@ export function SnackBar({ sn, hideSnackbar = () => {} }: SnackBarProps) {
           <CloseOutlined className="text-md flex font-extrabold" />
         </span>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

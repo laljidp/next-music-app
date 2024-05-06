@@ -16,7 +16,7 @@ export default function MediaPage() {
         handleAddClick={() => setShowUploadModal(true)}
       />
       <div className="mt-4 shadow-md">
-        <MediaPlaceholder />
+        <MediaPlaceholder allowActions />
       </div>
       <MediaUploadModal
         isOpen={showUploadModal}

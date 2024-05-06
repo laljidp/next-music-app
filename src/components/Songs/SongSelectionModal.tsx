@@ -75,15 +75,15 @@ export default function SongSelectionModal(props: SongsSelectionModalProps) {
             No songs found !
           </div>
         )}
-        <div className="scrollbar-md max-h-[calc(100vh-42 0px)] mt-2 grid grid-cols-2 gap-2 overflow-auto px-2 py-2 shadow-md">
+        <div className="scrollbar-md mt-2 grid max-h-[calc(100vh-420px)] grid-cols-2 gap-2 overflow-auto rounded-md px-2 py-2 shadow-md">
           {!isLoading &&
             data.map((song) => (
               <div
                 onClick={() => handleSelectDeselectSong(song?._id || "")}
                 role="button"
                 aria-selected={selectedSongIds.includes(song._id || "")}
-                className="h-[45px] rounded-lg p-2 ring-1 ring-violet-300 hover:bg-violet-100
-                 aria-[selected=true]:bg-violet-400"
+                className="h-[45px] rounded-lg p-2 shadow-md shadow-violet-200 ring-1 ring-violet-300
+                 hover:bg-violet-100 aria-[selected=true]:bg-violet-400"
                 key={song._id}
               >
                 <div className="flex items-center gap-2">

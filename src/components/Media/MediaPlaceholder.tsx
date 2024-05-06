@@ -20,11 +20,13 @@ const BATCH_SIZE = 30;
 
 interface MediaPlaceholderProps {
   allowSelect?: boolean;
+  allowActions?: boolean;
   onSelectMedia?: (url: string) => void;
 }
 
 export default function MediaPlaceholder({
   allowSelect = false,
+  allowActions = false,
   onSelectMedia,
 }: MediaPlaceholderProps) {
   const [search, setSearch] = useState("");
@@ -93,14 +95,17 @@ export default function MediaPlaceholder({
             <Spinner color="violet" />
           </div>
         )}
+        {!isLoading && media.length === 0 && <div>No media found.</div>}
+
         <MediaLists
           allowSelect={allowSelect}
           onSelectMedia={onSelectMedia}
           data={media}
           onMediaModified={mutate}
-          allowDelete
+          allowActions={allowActions}
         />
       </div>
+
       {hasMore && (
         <div
           role="button"
