@@ -30,7 +30,7 @@ export default function AdminStats() {
       albums: 0,
       artists: 0,
       songs: 0,
-      users: 0,
+      media: 0,
       playlist: 0,
     },
   });
@@ -81,11 +81,6 @@ export default function AdminStats() {
 
 const STAT_CARDS = [
   {
-    name: "Users",
-    keyIndex: "users",
-    path: PAGES.adminUsers,
-  },
-  {
     name: "Songs",
     keyIndex: "songs",
     path: PAGES.adminSongs,
@@ -104,5 +99,10 @@ const STAT_CARDS = [
     name: "Playlists",
     keyIndex: "playlists",
     path: PAGES.adminPlaylists,
+  },
+  {
+    name: "Media",
+    keyIndex: "media",
+    path: PAGES.adminMedia,
   },
 ];

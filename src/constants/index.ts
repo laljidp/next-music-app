@@ -27,4 +27,7 @@ const COLORS = Object.freeze({
   primaryExtraLight: "#c4b5fd",
 });
 
+export const BC_MEDIA_CHANNEL = "BC_MEDIA_CHANNEL";
+export const NEW_MEDIA_DETECTED = "NEW_MEDIA_DETECTED";
+
 export { apiUrls, config, PAGES, COLORS };

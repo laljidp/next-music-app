@@ -20,14 +20,14 @@ export const GET = async (request: NextRequest) => {
 
     if (!!minimal && minimal === "true") {
       // configuring selection fields in return
-      fields.push("_id", "name");
+      fields.push("_id", "title", "coverImage");
     }
 
     const { data, error } = await songsFunction.fetchSongs(
-      { batch, page, searchText },
+      { batch: Number(batch), page, searchText },
       fields,
     );
-    const hasMore = data?.length === batch;
+    const hasMore = data?.length === Number(batch);
     if (data) {
       return nextResponseSuccess({ songs: data, hasMore });
     }

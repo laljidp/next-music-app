@@ -17,22 +17,30 @@ interface TWModalProps {
   size?: ModelSize;
   isOpen: boolean;
   onClose: () => void;
+  className?: string;
+  allowBackdrop?: boolean;
 }
 
 const sizeClasses: Record<ModelSize, string> = {
-  sm: "h-[320px] w-[320px]",
-  md: "h-[450px] w-[650px]",
-  xl: "h-[510px] w-[600px]",
+  sm: "max-h-[320px] w-[320px]",
+  md: "max-h-[450px] w-[650px]",
+  xl: "max-h-[510px] w-[600px]",
   full: "h-screen w-screen",
   none: "",
 };
 
 export default function TWModal(props: TWModalProps) {
-  const { isOpen, onClose, size = ModelSize.NONE } = props;
+  const {
+    isOpen,
+    onClose,
+    size = ModelSize.NONE,
+    className = "",
+    allowBackdrop = false,
+  } = props;
   const sectionRef = useRef(null);
 
   useClickOutside(sectionRef, () => {
-    onClose();
+    allowBackdrop && onClose();
   });
 
   const classes = sizeClasses[size];
@@ -51,6 +59,7 @@ export default function TWModal(props: TWModalProps) {
             `absolute left-[50%] top-[40%] -translate-x-[50%] -translate-y-[50%] transform rounded-lg border-2
            border-violet-300 bg-white p-2 shadow-lg`,
             classes,
+            className,
           )}
           id="tw-model"
         >

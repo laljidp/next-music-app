@@ -6,17 +6,23 @@ import RootPageLoader from "@/loading";
 import playlistRequest from "@/services/request/playlist.request";
 import { SearchOutlined } from "@ant-design/icons";
 import Image from "next/image";
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import useSWR from "swr";
 import TWInput from "../UI/Input";
-import useDebounce from "@/hooks/useDebouce";
+import useDebounce from "@/hooks/useDebounce";
 
-export default function Playlists() {
+interface PlaylistProps {}
+
+export default forwardRef(function Playlists(props: PlaylistProps, ref) {
   const [search, setSearch] = useState("");
 
   const debounceSearch = useDebounce(search, 1000);
 
-  const { isLoading, data } = useSWR(
+  const {
+    isLoading,
+    data,
+    mutate: refreshPlaylists,
+  } = useSWR(
     `${apiUrls.playlists}?search=${debounceSearch}&batch=30`,
     playlistRequest.fetchPlaylists,
     {
@@ -24,6 +30,10 @@ export default function Playlists() {
       fallbackData: [],
     },
   );
+
+  useImperativeHandle(ref, () => {
+    return { refreshPlaylists };
+  });
 
   return (
     <div>
@@ -43,13 +53,13 @@ export default function Playlists() {
         </div>
       )}
       {!isLoading && !data?.length && <div>No Playlists found.</div>}
-      <div className="grid grid-flow-col grid-cols-3 gap-4">
+      <div className="grid max-h-[calc(100vh-180px)] grid-cols-3 gap-4 overflow-auto">
         {data.map((playlist) => (
           <div
             key={playlist.id}
             role="button"
-            className="cursor-pointer rounded-md bg-violet-400 text-white shadow-lg
-           shadow-violet-200 transition-all hover:scale-105 hover:bg-violet-500"
+            className="cursor-pointer rounded-md bg-violet-400 p-1 text-white
+           shadow-lg shadow-violet-200 transition-all hover:bg-violet-500"
           >
             <div className="flex items-center justify-between rounded-md p-3 ring-violet-300">
               <span className="text-sm">{playlist.name}</span>
@@ -67,4 +77,4 @@ export default function Playlists() {
       </div>
     </div>
   );
-}
+});

@@ -3,7 +3,7 @@ import { uploadFileToFireStorage } from "@/services/firebase/storage.firebase";
 import mediaRequests from "@/services/request/media.request";
 import { useCallback, useEffect, useState } from "react";
 import Spinner from "../../UI/Spinner";
-import { cn } from "@/utils/helper.util";
+import { cleanAudioFileName, cn } from "@/utils/helper.util";
 import { CheckCircleFilled } from "@ant-design/icons";
 
 interface ImageUploadItemProps {
@@ -27,7 +27,6 @@ export default function ImageUploadItem(props: ImageUploadItemProps) {
         name: imgFile.name,
         source,
       });
-      console.log({ resp });
       onUploadComplete(imgFile.name);
       setLoading(false);
       setIsUploaded(true);
@@ -48,16 +47,13 @@ export default function ImageUploadItem(props: ImageUploadItemProps) {
       className={cn(
         "rounded-lg px-4 py-2 ring-1 ring-violet-400",
         !isLoading ? "bg-slate-200" : "",
-        !isLoading ? "ring-slate-400" : "ring-violet-400",
+        isUploaded ? "bg-violet-400" : "bg-white",
       )}
     >
       <div className="flex justify-between">
-        <div>
-          {image.name}{" "}
-          <small>
-            {" "}
-            ( Size: {Math.round(image.size / 1000).toPrecision(2)}kb )
-          </small>
+        <div className={cn(isUploaded ? "text-white" : "")}>
+          {cleanAudioFileName(image.name)}
+          <small>( Size: {Math.round(image.size / 1000)}kb )</small>
         </div>
         <div className="flex items-center">
           {isLoading && (
@@ -67,7 +63,7 @@ export default function ImageUploadItem(props: ImageUploadItemProps) {
             </div>
           )}
           {!isLoading && isUploaded && (
-            <CheckCircleFilled className="text-violet-500" />
+            <CheckCircleFilled className="text-white" />
           )}
         </div>
       </div>

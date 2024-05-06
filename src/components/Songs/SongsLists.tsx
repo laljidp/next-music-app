@@ -1,12 +1,7 @@
 import Image from "next/image";
 import { ISongsDto } from "@/services/types/songs.types";
-import {
-  DeleteFilled,
-  DeleteOutlined,
-  SolutionOutlined,
-} from "@ant-design/icons";
+import { DeleteFilled, SolutionOutlined } from "@ant-design/icons";
 import { cn } from "@/utils/helper.util";
-import { useState } from "react";
 
 interface SongsListsProps {
   songs: ISongsDto[];
@@ -15,12 +10,14 @@ interface SongsListsProps {
   onDeleteSong?: (songId: string) => void;
   onSelectSong?: (song: ISongsDto) => void;
   showDeleteIcon?: boolean;
+  showActions?: boolean;
 }
 
 export default function SongsLists(props: SongsListsProps) {
   const {
     songs,
     selectedSong,
+    showActions = true,
     onSelectSong = () => {},
     onDeleteSong = () => {},
     loadMore,
@@ -44,24 +41,26 @@ export default function SongsLists(props: SongsListsProps) {
           aria-selected={selectedSong?._id === song._id ? true : false}
           className={cn("card-layout group/item relative")}
         >
-          <a
-            href="void:"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDeleteSong(song._id || "--");
-            }}
-            role="button"
-            className={cn(
-              "invisible absolute right-5 top-3 hover:scale-125 group-hover/item:visible",
-            )}
-          >
-            <DeleteFilled className="text-lg text-red-500" />
-          </a>
+          {showActions && (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                onDeleteSong(song._id || "--");
+              }}
+              role="button"
+              className={cn(
+                "invisible absolute right-5 top-3 hover:scale-125 group-hover/item:visible",
+              )}
+            >
+              <DeleteFilled className="text-lg text-red-500" />
+            </div>
+          )}
+
           <Image
             height={40}
             width={40}
             className="mr-3 h-10 w-10 rounded-lg object-cover"
-            src={song.coverImage || "/no-image.png"}
+            src={song.coverImage || "/next-streaming-192x192.png"}
             alt="cover-song"
           />
           <div className="flex flex-col">

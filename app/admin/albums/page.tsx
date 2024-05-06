@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import React, { useMemo, useState } from "react";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import TWInput from "@/components/UI/Input";
-import useDebounce from "@/hooks/useDebouce";
+import useDebounce from "@/hooks/useDebounce";
 import ListLayout from "@/components/Layouts/ListLayout";
 import PageSpinner from "@/components/UI/Spinner/PageSpinner";
 import { SearchOutlined } from "@ant-design/icons";
@@ -19,7 +19,7 @@ const AlbumLists = dynamic(() => import("@/components/Albums/AlbumLists"), {
 });
 const EditViewAlbumLayout = dynamic(
   () => import("@/components/Albums/EditViewAlbumLayout"),
-  { ssr: false }
+  { ssr: false },
 );
 
 export default function AlbumPage() {
@@ -86,7 +86,7 @@ export default function AlbumPage() {
   return (
     <MainRightLayout>
       <MainRightLayout.Left>
-        <div className="rounded-md text-center gap-3">
+        <div className="gap-3 rounded-md text-center">
           <TWInput
             placeholder="Search albums"
             name="search"
@@ -100,7 +100,7 @@ export default function AlbumPage() {
         </div>
         <ListLayout>
           {isLoading ? (
-            <div className="flex items-center justify-center h-full">
+            <div className="flex h-full items-center justify-center">
               <PageSpinner />
             </div>
           ) : (

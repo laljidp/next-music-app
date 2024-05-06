@@ -1,6 +1,6 @@
 import { IAlbumDto } from "@/services/types/albums.types";
 import Albums from "../schemas/album.schema";
-import { TFuncResponse, getMongoConstraintError } from "../db.utils";
+import { ERROR_MSG, TFuncResponse, getMongoConstraintError } from "../db.utils";
 
 export type GetAlbumPayloadT = {
   page: number;
@@ -15,7 +15,7 @@ class AlbumFunctions {
 
   getAlbums = async (
     payload: GetAlbumPayloadT,
-    fields: string[] = []
+    fields: string[] = [],
   ): TFuncResponse<IAlbumDto> => {
     const { batch, page, searchTerm } = payload;
     try {
@@ -59,6 +59,32 @@ class AlbumFunctions {
     }
   };
 
+  appendSongsToAlbums = async (
+    albumId: string,
+    songIds: string[],
+  ): TFuncResponse<IAlbumDto> => {
+    try {
+      const _album = (await Albums.findOneAndUpdate(
+        { _id: albumId },
+        {
+          $addToSet: {
+            songs: songIds || [],
+          },
+        },
+        {
+          returnDocument: "after",
+        },
+      )) as IAlbumDto;
+      if (!_album) {
+        throw new Error("Album not saved!");
+      }
+      return { data: _album };
+    } catch (err) {
+      console.log("ERROR append songs to albums::", err);
+      return { error: "Failed to append songs." };
+    }
+  };
+
   updateAlbum = async (_id: string, payload: IAlbumDto) => {
     try {
       const { artists, ...restPayload } = payload;
@@ -70,7 +96,7 @@ class AlbumFunctions {
         },
         {
           returnDocument: "after",
-        }
+        },
       );
       if (!_album) {
         throw new Error("Album not saved");

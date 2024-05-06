@@ -11,12 +11,12 @@ export const metadata: Metadata = {
   title: "Next Music",
   description: "Stream music & upload albums",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-32x32.png",
-    apple: "/apple-touch-icon.png",
+    icon: "./favicon-32x32.png",
+    shortcut: "./favicon-32x32.png",
+    apple: "./apple-touch-icon.png",
     other: {
-      rel: "./next-streaming-192x192.png",
-      url: "./next-streaming-512x512.png",
+      rel: "/next-streaming-192x192.png",
+      url: "/next-streaming-512x512.png",
     },
   },
 };

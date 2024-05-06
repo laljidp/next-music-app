@@ -14,3 +14,15 @@ export const maskEmail = (email: string) => {
   }
   return email;
 };
+
+export const cleanAudioFileName = (name: string) => {
+  if (!name) return "";
+
+  const regexNum = new RegExp(/\d+./);
+  return name
+    .replace("(PagalWorld.com.pe)", "")
+    .replace(regexNum, "")
+    .replace(".mp3", "")
+    .replace("Kbps", "")
+    .trim();
+};

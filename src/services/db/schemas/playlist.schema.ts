@@ -9,6 +9,7 @@ const PlaylistSchema = new mongoose.Schema(
     },
     description: {
       type: String,
+      default: null,
     },
     songs: [
       {

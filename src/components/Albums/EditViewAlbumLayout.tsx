@@ -9,7 +9,6 @@ import GradientColorPicker from "../GradientColorPicker";
 import artistRequest from "@/services/request/artists.request";
 import TWSwitch from "../UI/Switch";
 import AddNewButton from "../UI/Button/AddNewButton";
-import IconView from "../Layouts/IconViewLayout";
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { GENRES } from "@/services/types/artists.types";
@@ -20,11 +19,9 @@ import { SnackContext } from "@/context/snack.context";
 import {
   InfoCircleFilled,
   LeftOutlined,
-  PlusCircleOutlined,
   RightOutlined,
 } from "@ant-design/icons";
 import { apiUrls } from "@/constants";
-import UploadBulkSongs from "../Songs/UploadBulkSongs";
 
 const SongsListsByAlbum = dynamic(() => import("../Songs/SongsListsByAlbum"));
 
@@ -96,8 +93,7 @@ export default function EditViewAlbumLayout({
       if (isNew) {
         _album = await albumRequest.saveAlbum(albumPayload);
       } else {
-        _album = await albumRequest.updateAlbum({
-          _id: album?._id,
+        _album = await albumRequest.updateAlbum(album?._id || "--", {
           ...albumPayload,
         });
       }
@@ -185,16 +181,10 @@ export default function EditViewAlbumLayout({
                 Back
               </span>
             </div>
-            <div className="flex cursor-pointer select-none items-center gap-1 font-medium text-violet-500 hover:scale-105">
-              <IconView Icon={PlusCircleOutlined} />
-              Add songs
-            </div>
           </div>
           <hr className="mt-3" />
           {showSongsLayout && album?._id && (
-            <div>
-              <SongsListsByAlbum albumID={album._id} />
-            </div>
+            <SongsListsByAlbum albumID={album._id} />
           )}
         </div>
       </div>

@@ -7,7 +7,7 @@ import ListLayout from "@/components/Layouts/ListLayout";
 import TWInput from "@/components/UI/Input";
 import MainRightLayout from "@/components/Layouts/MainRightLayout";
 import songsRequest from "@/services/request/songs.request";
-import useDebounce from "@/hooks/useDebouce";
+import useDebounce from "@/hooks/useDebounce";
 import { ISongsDto } from "@/services/types/songs.types";
 import { useContext, useMemo, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
@@ -59,7 +59,6 @@ export default function SongsPage() {
     mutate: refetchSongs,
   } = useSWRInfinite<ISongsDto[]>(getKey, songsRequest.fetchSongs, {
     revalidateOnFocus: false,
-    revalidateIfStale: false,
     fallback: [],
   });
 

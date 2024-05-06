@@ -13,7 +13,7 @@ interface TWButtonI extends React.HTMLProps<HTMLButtonElement> {
   loading?: boolean;
   className?: string;
   type?: "button" | "submit";
-  // size?: ButtonSize;
+  small?: boolean;
 }
 
 const variants: Record<BtnVariants, string> = {
@@ -30,16 +30,20 @@ export const TWButton: React.FC<TWButtonI> = ({
   loading = false,
   type = "button",
   className = "",
+  small,
   ...rest
 }): React.ReactElement => {
+  const smallClasses = small ? "px-3 py-1" : "";
+
   return (
     <button
       className={cn(
         "btn",
         variants[variant],
-        loading ? "justify-evenly" : "justify-center",
+        "justify-center",
         "flex items-center gap-2",
         className,
+        smallClasses,
       )}
       disabled={loading}
       type={type}

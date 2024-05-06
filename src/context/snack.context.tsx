@@ -80,7 +80,7 @@ export const SnackContextProvider: React.FC<{ children: React.ReactNode }> = ({
     <SnackContext.Provider value={{ snack, showSnack }}>
       {children}
       {snack.map((sn) => (
-        <SnackBar key={sn.text} sn={sn} hideSnackbar={() => {}} />
+        <SnackBar key={sn.text} sn={sn} hideSnackbar={hideSnackbar} />
       ))}
     </SnackContext.Provider>
   );
