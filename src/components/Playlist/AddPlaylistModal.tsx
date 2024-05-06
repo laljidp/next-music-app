@@ -28,6 +28,13 @@ export default function AddPlaylistsModal({
 
   const handleSubmit = async () => {
     try {
+      if (name?.trim()?.length < 3) {
+        showSnack(
+          "Minimum 3 character required for the playlist name.",
+          "error",
+        );
+        return;
+      }
       setLoading(true);
       const data = await playlistRequest.addPlaylist({ name });
       // TODO: Call api to save playlist

@@ -49,7 +49,7 @@ export default function TWModal(props: TWModalProps) {
 
   return createPortal(
     <div
-      className={`animation-model absolute left-0 top-0 z-20 h-screen w-screen
+      className={`animation-model absolute left-0 top-0 z-0 h-screen w-screen
            overflow-hidden border-2 bg-transparent backdrop-blur-sm`}
     >
       <div className="relative h-full w-full">

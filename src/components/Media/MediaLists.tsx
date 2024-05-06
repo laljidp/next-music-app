@@ -1,5 +1,4 @@
 "use client";
-
 import DeleteMediaModal from "./DeleteMediaModal";
 import TWModal from "../UI/Modal";
 import TWInput from "../UI/Input";
@@ -14,7 +13,7 @@ import { SnackContext } from "@/context/snack.context";
 interface MediaListsProps {
   data: MediaDto[];
   allowSelect?: boolean;
-  allowDelete?: boolean;
+  allowActions?: boolean;
   onSelectMedia?: (url: string) => void;
   onMediaModified?: () => void;
 }
@@ -22,7 +21,7 @@ interface MediaListsProps {
 export default function MediaLists({
   data,
   allowSelect = false,
-  allowDelete = false,
+  allowActions = false,
   onSelectMedia = () => {},
   onMediaModified = () => {},
 }: MediaListsProps) {
@@ -88,7 +87,7 @@ export default function MediaLists({
               loading="lazy"
             />
             <div className="text-xs">{media.name}</div>
-            {allowDelete && (
+            {allowActions && (
               <>
                 <div
                   role="button"

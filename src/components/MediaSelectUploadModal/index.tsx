@@ -37,6 +37,9 @@ export default function MediaSelectUploadModal(
           <MediaPlaceholder allowSelect onSelectMedia={setMediaUrl} />
         </div>
         <div className="absolute bottom-5 right-5 flex gap-3">
+          <TWButton onClick={handleClose} variant="secondary" small>
+            Close
+          </TWButton>
           <TWButton
             disabled={!mediaUrl}
             small
@@ -44,9 +47,6 @@ export default function MediaSelectUploadModal(
             onClick={handleSubmit}
           >
             Select photo
-          </TWButton>
-          <TWButton onClick={handleClose} variant="secondary" small>
-            Close
           </TWButton>
         </div>
       </div>
