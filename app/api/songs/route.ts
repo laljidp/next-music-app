@@ -76,53 +76,15 @@ export const POST = async (request: NextRequest) => {
   return nextResponseSuccess({ message: "POST /songs API running." });
 };
 
-export async function PUT(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const {
-      _id,
-      title,
-      source,
-      artists,
-      genre,
-      duration,
-      metadata,
-      lyrics,
-      coverImage,
-    } = body || {};
-    if (!_id) {
-      return nextResponseError("Bad request, payload missing[id]!", 400);
-    }
-    await connectDB();
-    const payload: ISongsDto = {
-      title,
-      source,
-      genre,
-      duration,
-      lyrics,
-      metadata,
-      coverImage,
-      artists,
-    };
-    const { data, error } = await songsFunction.updateSong(_id, payload);
-    if (error) {
-      return nextResponseError(error || ERROR_MSG.UNDER_MAINTENANCE, 500);
-    }
-    return nextResponseSuccess({ song: data });
-  } catch (err) {
-    console.log("Error processing PUT /songs", err);
-    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
-  }
-}
-
 export async function DELETE(request: NextRequest) {
   try {
     const body = await request.json();
-    const id = body.id as string[];
-    if (!id?.length) {
+    const ids = body?.ids as string[];
+
+    if (!ids?.length) {
       return nextResponseError(ERROR_MSG.BAD_REQUEST, 403);
     }
-    const { data, error } = await songsFunction.deleteSongs(id);
+    const { data, error } = await songsFunction.deleteSongs(ids);
     if (error) {
       return nextResponseError(ERROR_MSG.BAD_REQUEST, 503);
     }

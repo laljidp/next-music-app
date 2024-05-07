@@ -61,9 +61,9 @@ class SongsRequest {
 
   async updateSong(_id: string, payload: ISongsDto) {
     try {
-      const resp = await fetch(apiUrls.songs, {
+      const resp = await fetch(`${apiUrls.songs}/${_id}`, {
         method: "PUT",
-        body: JSON.stringify({ _id, ...payload }),
+        body: JSON.stringify({ ...payload }),
       });
       const data = await resp.json();
       return data?.song || null;
@@ -73,11 +73,11 @@ class SongsRequest {
     }
   }
 
-  async deleteSong(id: string[]) {
+  async deleteSong(ids: string[]) {
     try {
       const resp = await fetch(apiUrls.songs, {
         method: "DELETE",
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ ids }),
       });
       const data = await resp.json();
       return data;
