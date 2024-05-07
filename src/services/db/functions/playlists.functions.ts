@@ -9,7 +9,6 @@ export type PlaylistsParamsT = {
 };
 
 export type UpdatePlayListPayload = {
-  _id: string;
   songs: string[];
   name?: string;
   description?: string;
@@ -62,12 +61,10 @@ class PlayListsFunctions {
     }
   };
 
-  updatePlaylist = async ({
-    name,
-    _id,
-    description,
-    songs,
-  }: UpdatePlayListPayload) => {
+  updatePlaylist = async (
+    _id: string,
+    { name, description, songs }: UpdatePlayListPayload,
+  ) => {
     try {
       let updateObj = {
         name,
@@ -109,6 +106,7 @@ class PlayListsFunctions {
         },
         {
           returnDocument: "after",
+          lean: true,
         },
       );
       return { data: playlist };
@@ -118,14 +116,12 @@ class PlayListsFunctions {
     }
   };
 
-  fetchPlaylistSongs = async (playlistID: string) => {
+  fetchPlaylistSongs = async (_id: string) => {
     try {
-      const songs = await Playlists.findOne({ _id: playlistID })
-        .populate("songs")
-        .limit(1);
+      const songs = await Playlists.findOne({ _id }).populate("songs").limit(1);
       return { data: songs };
     } catch (err) {
-      console.log("ERROR executing fetchPlaylistSongs::", playlistID);
+      console.log("ERROR executing fetchPlaylistSongs::", _id);
       return { error: ERROR_MSG.UNDER_MAINTENANCE };
     }
   };
