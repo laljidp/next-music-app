@@ -16,11 +16,8 @@ export async function PUT(
     return nextResponseError(ERROR_MSG.BAD_REQUEST, 501);
   }
 
-  console.log("id ==>", id);
-
   try {
     const songIds = (await req.json()) as string[];
-    console.log("songsIds", songIds);
 
     if (!id) {
       return nextResponseError("Bad request !", 501);

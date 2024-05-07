@@ -12,6 +12,5 @@ export const uploadFileToFireStorage = async (
   );
   const snapshot = await uploadBytes(storageRef, file);
   const fullPath = await getDownloadURL(storageRef);
-  console.log({ snapshot });
   return fullPath;
 };

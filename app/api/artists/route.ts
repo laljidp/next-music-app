@@ -26,7 +26,7 @@ export const GET = async (request: NextRequest, context: any) => {
   try {
     const { data, hasMore } = await artistFunction.getArtists(
       { batch, page, searchTerm },
-      fields
+      fields,
     );
     return nextResponseSuccess({ data, hasMore });
   } catch (err) {
@@ -55,32 +55,6 @@ export const POST = async (request: NextRequest) => {
       return nextResponseError(error || "", 403);
     }
   } catch (err) {
-    return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
-  }
-};
-
-export const PUT = async (request: NextRequest) => {
-  try {
-    const body = await request.json();
-    const _id = body._id;
-    const newPayload: ArtistPayloadT = {
-      name: body?.name,
-      bio: body?.bio,
-      image: body?.image,
-      genre: body?.genre || [],
-    };
-    await connectDB();
-    const { data: artist, error } = await artistFunction.updateArtist(
-      _id,
-      newPayload
-    );
-    if (artist) {
-      return nextResponseSuccess({ artist });
-    } else {
-      return nextResponseError(error || "Artist not updated", 400);
-    }
-  } catch (err) {
-    console.log("Error request PUT /artists", err);
     return nextResponseError(ERROR_MSG.UNDER_MAINTENANCE, 503);
   }
 };

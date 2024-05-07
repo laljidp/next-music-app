@@ -112,15 +112,17 @@ export default function EditViewArtist(props: EditViewArtistProps) {
     } else {
       // manage update artist data
       try {
-        const updatedArtist = await artistRequest.updateArtistRequest({
-          _id: artist?._id || "",
-          name: artistPayload.name,
-          bio: artistPayload.bio,
-          genre: artistPayload.genre,
-          image: artistPayload.image,
-        });
+        const updatedArtist = await artistRequest.updateArtistRequest(
+          artist?._id || "-",
+          {
+            name: artistPayload.name,
+            bio: artistPayload.bio,
+            genre: artistPayload.genre,
+            image: artistPayload.image,
+          },
+        );
         if (updatedArtist.name) {
-          showSnack(`Data saved.`, "success");
+          showSnack(`Artists record updated.`, "success");
           setIsReadOnly(true);
           onArtistAdded();
         }

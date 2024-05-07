@@ -1,6 +1,6 @@
 "use client";
 import { Fetcher } from "swr";
-import { ArtistsDto } from "../types/artists.types";
+import { ArtistPayloadT, ArtistsDto } from "../types/artists.types";
 import { apiUrls } from "@/constants";
 import { configFetchInterceptor, getDefaultHeaders } from ".";
 
@@ -43,9 +43,9 @@ class ArtistRequest {
     }
   };
 
-  updateArtistRequest = async (payload: ArtistsDto) => {
+  updateArtistRequest = async (id: string, payload: ArtistPayloadT) => {
     try {
-      const resp = await fetch(apiUrls.artists, {
+      const resp = await fetch(`${apiUrls.artists}/${id}`, {
         method: "PUT",
         body: JSON.stringify(payload),
         headers: getDefaultHeaders(),

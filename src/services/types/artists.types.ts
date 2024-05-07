@@ -17,6 +17,11 @@ export type ArtistsDto = {
   monthlyListeners?: number;
 };
 
+export type ArtistPayloadT = Pick<
+  ArtistsDto,
+  "name" | "bio" | "genre" | "image" | "albums"
+>;
+
 export type GenreT = typeof GENRES;
 
 export const GENRES = [
